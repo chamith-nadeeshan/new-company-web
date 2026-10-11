@@ -95,21 +95,22 @@ export const faqs = [
   { q: "How do payments work?", a: "Typically 40% upfront, 40% at design or beta sign-off, and 20% on launch." },
 ];
 
-// Cards orbiting in the "Our Works" section. Images are dummy photos from
-// picsum.photos — swap `image` for real screenshots in /public/projects.
+// Cards orbiting in the "Our Works" section. Images in /public/projects are
+// placeholder photos (Unsplash, via picsum.photos) — replace them with real
+// project screenshots, keeping the same file names or updating `image`.
 export const showcase = [
-  { brand: "Northwind", headline: "Freight, tracked in real time", theme: "light", image: "https://picsum.photos/seed/northwind/800/500" },
-  { brand: "Lumen", headline: "Care that comes to you", theme: "dark", image: "https://picsum.photos/seed/lumen/800/500" },
-  { brand: "Atlas", headline: "Money, made simple", theme: "light", image: "https://picsum.photos/seed/atlasfin/800/500" },
-  { brand: "Kite", headline: "Shop the new season", theme: "dark", image: "https://picsum.photos/seed/kiteshop/800/500" },
-  { brand: "Orbit", headline: "Brands with gravity", theme: "light", image: "https://picsum.photos/seed/orbitstudio/800/500" },
-  { brand: "Verde", headline: "Fresh food, delivered", theme: "dark", image: "https://picsum.photos/seed/verdefood/800/500" },
-  { brand: "Harbor", headline: "Stays by the sea", theme: "light", image: "https://picsum.photos/seed/harborstay/800/500" },
-  { brand: "Pulse", headline: "Train smarter every day", theme: "dark", image: "https://picsum.photos/seed/pulsefit/800/500" },
-  { brand: "Summit", headline: "Find your next adventure", theme: "light", image: "https://picsum.photos/seed/summit/800/500" },
-  { brand: "Nova", headline: "Learning without limits", theme: "dark", image: "https://picsum.photos/seed/novalearn/800/500" },
-  { brand: "Drive", headline: "Rentals without the paperwork", theme: "light", image: "https://picsum.photos/seed/driverent/800/500" },
-  { brand: "Bloom", headline: "Flowers for every moment", theme: "dark", image: "https://picsum.photos/seed/bloomshop/800/500" },
-  { brand: "Arc", headline: "Architecture that lasts", theme: "light", image: "https://picsum.photos/seed/arcstudio/800/500" },
-  { brand: "Calm", headline: "Sleep better tonight", theme: "dark", image: "https://picsum.photos/seed/calmapp/800/500" },
+  { brand: "Northwind", headline: "Freight, tracked in real time", theme: "light", image: "/projects/northwind.jpg" },
+  { brand: "Lumen", headline: "Care that comes to you", theme: "dark", image: "/projects/lumen.jpg" },
+  { brand: "Atlas", headline: "Money, made simple", theme: "light", image: "/projects/atlas.jpg" },
+  { brand: "Kite", headline: "Shop the new season", theme: "dark", image: "/projects/kite.jpg" },
+  { brand: "Orbit", headline: "Brands with gravity", theme: "light", image: "/projects/orbit.jpg" },
+  { brand: "Verde", headline: "Fresh food, delivered", theme: "dark", image: "/projects/verde.jpg" },
+  { brand: "Harbor", headline: "Stays by the sea", theme: "light", image: "/projects/harbor.jpg" },
+  { brand: "Pulse", headline: "Train smarter every day", theme: "dark", image: "/projects/pulse.jpg" },
+  { brand: "Summit", headline: "Find your next adventure", theme: "light", image: "/projects/summit.jpg" },
+  { brand: "Nova", headline: "Learning without limits", theme: "dark", image: "/projects/nova.jpg" },
+  { brand: "Drive", headline: "Rentals without the paperwork", theme: "light", image: "/projects/drive.jpg" },
+  { brand: "Bloom", headline: "Flowers for every moment", theme: "dark", image: "/projects/bloom.jpg" },
+  { brand: "Arc", headline: "Architecture that lasts", theme: "light", image: "/projects/arc.jpg" },
+  { brand: "Calm", headline: "Sleep better tonight", theme: "dark", image: "/projects/calm.jpg" },
 ] as const;

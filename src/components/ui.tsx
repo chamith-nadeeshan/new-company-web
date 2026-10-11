@@ -1,12 +1,13 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { siteConfig } from "@/config/site";
+import { asset } from "@/lib/asset";
 
 export function Logo() {
   return (
     <a href="#home" className="flex items-center gap-2" aria-label={`${siteConfig.name} home`}>
       {siteConfig.logo ? (
-        <Image src={siteConfig.logo} alt={siteConfig.name} width={140} height={32} className="h-7 w-auto" priority />
+        <Image src={asset(siteConfig.logo)} alt={siteConfig.name} width={140} height={32} className="h-7 w-auto" priority />
       ) : (
         <>
           <svg width="22" height="20" viewBox="0 0 22 20" fill="currentColor" aria-hidden>

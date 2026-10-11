@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { showcase } from "@/data/content";
+import { asset } from "@/lib/asset";
 import { Button } from "./ui";
 
 type Card = (typeof showcase)[number];
@@ -300,7 +301,7 @@ function ShowcaseCard({ card }: { card: Card }) {
       </p>
       <div className="relative mt-1.5 flex-1 overflow-hidden rounded-md sm:mt-2">
         <Image
-          src={card.image}
+          src={asset(card.image)}
           alt=""
           fill
           sizes="320px"

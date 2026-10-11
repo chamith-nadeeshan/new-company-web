@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build:pages": "GITHUB_PAGES=1 next build && touch out/.nojekyll"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",

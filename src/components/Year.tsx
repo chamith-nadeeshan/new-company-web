@@ -1,8 +1,16 @@
-import { cacheLife } from "next/cache";
+"use client";
 
-// Cached so the page can still be prerendered; refreshed daily.
-export async function Year() {
-  "use cache";
-  cacheLife("days");
-  return <>{new Date().getFullYear()}</>;
+import { useSyncExternalStore } from "react";
+
+const noop = () => () => {};
+
+// The year is read in the browser rather than at build/prerender time, so the
+// footer stays current without a rebuild and works with static export.
+export function Year() {
+  const year = useSyncExternalStore(
+    noop,
+    () => new Date().getFullYear(),
+    () => null,
+  );
+  return <>{year}</>;
 }

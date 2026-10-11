@@ -1,12 +1,21 @@
 import type { NextConfig } from "next";
 
+// `npm run build:pages` sets GITHUB_PAGES=1 to produce a static export served
+// from https://<user>.github.io/new-company-web/.
+const pages = process.env.GITHUB_PAGES === "1";
+const basePath = pages ? "/new-company-web" : "";
+
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // Partial prerendering is not supported with static export.
+  cacheComponents: !pages,
+  partialPrefetching: !pages,
+  ...(pages && { output: "export", basePath, trailingSlash: true }),
   images: {
-    // Dummy project imagery; remove once real screenshots live in /public.
-    remotePatterns: [new URL("https://picsum.photos/**"), new URL("https://fastly.picsum.photos/**")],
+    // Static hosts have no image optimizer.
+    unoptimized: pages,
+  },
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
   },
   turbopack: {
     rules: {
