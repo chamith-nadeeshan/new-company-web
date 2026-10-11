@@ -1,26 +1,470 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Monochrome theme tokens. Dark is the default; light is opt-in via the toggle. */
+:root,
+:root[data-theme="dark"] {
+  --bg: #000;
+  --bg-elevated: #111;
+  --surface: #141414;
+  --surface-2: #181818;
+  --surface-strong: #1f1f1f;
+  --border: #ffffff17;
+  --border-strong: #ffffff29;
+  --text: #fff;
+  --text-strong: #d8d8d8;
+  --text-muted: #9a9a9a;
+  --text-dim: #757575;
+  --nav-bg: #000000b8;
+  --btn-bg: #fff;
+  --btn-ink: #000;
+  --section-shadow: 0 44px 90px -24px #000000f2, 0 18px 44px -18px #000c;
+  --wash: linear-gradient(158deg, #262626, #171717 34%, #0b0b0b 68%, #000);
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --bg: #fff;
+  --bg-elevated: #fafafa;
+  --surface: #f6f6f6;
+  --surface-2: #f1f1f1;
+  --surface-strong: #f0f0f0;
+  --border: #0000001a;
+  --border-strong: #0000002e;
+  --text: #000;
+  --text-strong: #363636;
+  --text-muted: #5a5a5a;
+  --text-dim: #898989;
+  --nav-bg: #fffc;
+  --btn-bg: #000;
+  --btn-ink: #fff;
+  --section-shadow: 0 40px 72px -28px #00000029, 0 14px 32px -18px #0000001a;
+  --wash: linear-gradient(158deg, #fafafa, #f1f1f1 34%, #e6e6e6 68%, #d7d7d7);
+  color-scheme: light;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-elevated: var(--bg-elevated);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-strong: var(--surface-strong);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-fg: var(--text);
+  --color-fg-strong: var(--text-strong);
+  --color-muted: var(--text-muted);
+  --color-dim: var(--text-dim);
+  --color-nav: var(--nav-bg);
+  --color-btn: var(--btn-bg);
+  --color-btn-ink: var(--btn-ink);
+  --color-blue: #09f;
+  --color-blue-300: #7acaff;
+  --color-blue-700: #0068ad;
+  --font-sans: var(--font-geist), "Inter", system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --ease-brand: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --tracking-h1: -0.04em;
+  --tracking-h2: -0.035em;
+  --tracking-h3: -0.03em;
+  --shadow-section: var(--section-shadow);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-geist), "Inter", system-ui, sans-serif;
+  transition: background-color 0.22s cubic-bezier(0.22, 0.61, 0.36, 1), color 0.22s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+::selection {
+  background: #09f;
+  color: #fff;
+}
+
+/* ---------- Hero entrance ---------- */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+}
+@keyframes hero-lift {
+  from {
+    opacity: 0;
+    translate: 0 36px;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+.anim-rise {
+  animation: hero-rise 0.55s var(--ease-brand) backwards;
+}
+.anim-lift {
+  animation: hero-lift 0.7s var(--ease-brand) 0.1s backwards;
+}
+.anim-aurora {
+  animation: fade-in 1.2s var(--ease-brand) backwards;
+}
+
+/* Vertical blue light columns behind the hero. */
+.aurora {
+  background: repeating-linear-gradient(
+    to right,
+    #000 0px,
+    #001b33 40px,
+    #004d85 120px,
+    #001b33 176px,
+    #000 192px
+  );
+  mask-image: linear-gradient(to bottom, transparent 2%, black 55%, black 80%, transparent 100%);
+}
+:root[data-theme="light"] .aurora {
+  background: repeating-linear-gradient(to right, #fff 0px, #e3f3ff 40px, #9fd6ff 120px, #e3f3ff 176px, #fff 192px);
+}
+/* Black stage in the middle of the hero so the headline sits on solid ground. */
+.hero-veil {
+  background: linear-gradient(to bottom, var(--bg) 70%, transparent 100%);
+}
+
+/* Glowing frame around the hero showcase. */
+.blue-frame {
+  border: 3px solid #09f;
+  box-shadow: 0 0 0 1px #7acaff66, 0 -12px 60px -12px #09f, 0 0 140px -40px #09f;
+}
+
+/* ---------- Text roll on hover (buttons/links) ---------- */
+.roll {
+  display: inline-grid;
+  overflow: hidden;
+  line-height: 1.25;
+}
+.roll > span {
+  grid-area: 1 / 1;
+  transition: transform 0.45s var(--ease-brand);
+}
+.roll > span:last-child {
+  transform: translateY(110%);
+}
+.group:hover .roll > span:first-child {
+  transform: translateY(-110%);
+}
+.group:hover .roll > span:last-child {
+  transform: translateY(0);
+}
+
+/* ---------- Marquee ---------- */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--duration, 40s) linear infinite;
+}
+.marquee-reverse {
+  animation-direction: reverse;
+}
+.marquee-wrap:hover .marquee,
+.marquee-wrap:active .marquee {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Gentle vertical float. */
+@keyframes breathe {
+  0%,
+  100% {
+    transform: translateY(-7px);
+  }
+  50% {
+    transform: translateY(7px);
+  }
+}
+.breathe {
+  animation: breathe 6s ease-in-out infinite;
+}
+
+/* Diagonal sheen sweeping across a card on hover. */
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+.shine::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: linear-gradient(115deg, transparent 40%, #ffffff1a 50%, transparent 60%);
+  transform: translateX(-60%);
+  transition: transform 0.9s var(--ease-brand);
+  pointer-events: none;
+}
+.shine:hover::after {
+  transform: translateX(60%);
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  translate: 0 24px;
+  transition: opacity 0.7s var(--ease-brand), translate 0.7s var(--ease-brand);
+}
+.reveal.is-visible {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* Looping micro-animations used in service card illustrations. */
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes dash-march {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+@keyframes bar-grow {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+@keyframes slide-x {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(var(--slide, 40px));
+  }
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    translate: 0 0;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------- Landing hero cubes ---------- */
+:root,
+:root[data-theme="dark"] {
+  --cube-top: #f4f4f4;
+  --cube-front: #c9c9c9;
+  --cube-side: #8f8f8f;
+  --cube-shadow: #ffffff1f;
+}
+:root[data-theme="light"] {
+  --cube-top: #3a3a3d;
+  --cube-front: #161618;
+  --cube-side: #0b0b0c;
+  --cube-shadow: #0000002e;
+}
+:root {
+  --blue-top: #7acaff;
+  --blue-front: #09f;
+  --blue-side: #0068ad;
+}
+.cube {
+  --size: 64px;
+  --half: 32px;
+  width: var(--size);
+  height: var(--size);
+  margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+}
+@media (max-width: 639px) {
+  .cube {
+    --size: 34px;
+    --half: 17px;
+  }
+}
+@keyframes drop-in {
+  from {
+    opacity: 0;
+    translate: 0 -60px;
+  }
+}
+.anim-drop {
+  animation: drop-in 0.9s var(--ease-brand) 0.25s backwards;
+}
+
+/* ---------- Service cards ---------- */
+.svc-card {
+  position: relative;
+  display: grid;
+  aspect-ratio: 1;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  padding: 0 0.75rem;
+  text-align: center;
+  transition: border-color 0.3s var(--ease-brand);
+}
+.svc-card:hover {
+  border-color: transparent;
+}
+
+/* Twinkling dot field (canvas), revealed through a slowly drifting mask. */
+.svc-dots {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  mask-image: linear-gradient(115deg, #000 0%, #0008 25%, #000 45%, #0006 70%, #000 100%);
+  mask-size: 220% 100%;
+  transition: opacity 0.5s var(--ease-brand);
+  animation: svc-drift 13s linear infinite alternate;
+  animation-play-state: paused;
+}
+[data-dots-host]:hover .svc-dots {
+  opacity: 1;
+  animation-play-state: running;
+}
+@keyframes svc-drift {
+  to {
+    mask-position: -60% 0;
+  }
+}
+
+/* Two light beams orbiting the border, half a turn apart. */
+@property --beam {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.svc-beam {
+  --beam-w: 26deg;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  opacity: 0;
+  background: conic-gradient(
+    from calc(var(--beam) - var(--beam-w)),
+    transparent 0deg,
+    #09f calc(var(--beam-w) / 2),
+    #7acaff var(--beam-w),
+    transparent calc(var(--beam-w) * 2),
+    transparent 360deg
+  );
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  transition: opacity 0.35s var(--ease-brand);
+  animation: svc-orbit 2.8s linear infinite;
+  animation-play-state: paused;
+}
+.svc-beam-b {
+  animation-delay: -1.4s;
+}
+.svc-card:hover .svc-beam {
+  opacity: 1;
+  animation-play-state: running;
+}
+@keyframes svc-orbit {
+  to {
+    --beam: 360deg;
+  }
+}
+@media (pointer: coarse) {
+  .svc-beam {
+    display: none;
+  }
+}
+
+/* ---------- Approach bento ---------- */
+.dial-hand {
+  animation: dial-spin linear infinite;
+}
+.dial-sec {
+  animation-timing-function: steps(60);
+}
+@keyframes dial-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes release-scroll {
+  to {
+    transform: translateY(-50%);
+  }
+}
+@keyframes cursor-a {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  35% {
+    translate: -90px 70px;
+  }
+  65% {
+    translate: 40px 110px;
+  }
+}
+@keyframes cursor-b {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  40% {
+    translate: -140px -60px;
+  }
+  70% {
+    translate: -60px 40px;
+  }
+}
+
+/* ---------- Testimonials ---------- */
+.glass-card {
+  border-radius: 12px;
+  border: 1px solid #ffffff33;
+  background: #0000006b;
+  backdrop-filter: blur(24px) saturate(1.3);
+}
+:root[data-theme="light"] .glass-card {
+  border-color: #00000024;
+  background: #ffffff8c;
+}
+@keyframes quote-in {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+  }
 }
