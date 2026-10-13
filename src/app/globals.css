@@ -57,9 +57,11 @@
   --color-nav: var(--nav-bg);
   --color-btn: var(--btn-bg);
   --color-btn-ink: var(--btn-ink);
-  --color-blue: #09f;
-  --color-blue-300: #7acaff;
-  --color-blue-700: #0068ad;
+  /* Brand accent — Felinn logo orange. (Token names kept as `blue` to avoid
+     churn; they render orange everywhere.) */
+  --color-blue: #f2921e;
+  --color-blue-300: #fbb457;
+  --color-blue-700: #c2721a;
   --font-sans: var(--font-geist), "Inter", system-ui, sans-serif;
   --font-serif: var(--font-fraunces), Georgia, serif;
   --ease-brand: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -81,7 +83,7 @@ body {
 }
 
 ::selection {
-  background: #09f;
+  background: #f2921e;
   color: #fff;
 }
 
@@ -113,20 +115,20 @@ body {
   animation: fade-in 1.2s var(--ease-brand) backwards;
 }
 
-/* Vertical blue light columns behind the hero. */
+/* Vertical warm (orange) light columns behind the hero. */
 .aurora {
   background: repeating-linear-gradient(
     to right,
     #000 0px,
-    #001b33 40px,
-    #004d85 120px,
-    #001b33 176px,
+    #2b1702 40px,
+    #9a560f 120px,
+    #2b1702 176px,
     #000 192px
   );
   mask-image: linear-gradient(to bottom, transparent 2%, black 55%, black 80%, transparent 100%);
 }
 :root[data-theme="light"] .aurora {
-  background: repeating-linear-gradient(to right, #fff 0px, #e3f3ff 40px, #9fd6ff 120px, #e3f3ff 176px, #fff 192px);
+  background: repeating-linear-gradient(to right, #fff 0px, #fff0dc 40px, #ffcf94 120px, #fff0dc 176px, #fff 192px);
 }
 /* Black stage in the middle of the hero so the headline sits on solid ground. */
 .hero-veil {
@@ -135,8 +137,152 @@ body {
 
 /* Glowing frame around the hero showcase. */
 .blue-frame {
-  border: 3px solid #09f;
-  box-shadow: 0 0 0 1px #7acaff66, 0 -12px 60px -12px #09f, 0 0 140px -40px #09f;
+  border: 3px solid #f2921e;
+  box-shadow: 0 0 0 1px #fbb45766, 0 -12px 60px -12px #f2921e, 0 0 140px -40px #f2921e;
+}
+
+/* Logo swaps with the theme: white wordmark on dark, dark wordmark on light. */
+.logo-on-light {
+  display: none;
+}
+:root[data-theme="light"] .logo-on-dark {
+  display: none;
+}
+:root[data-theme="light"] .logo-on-light {
+  display: inline-block;
+}
+
+/* ---------- Hero ambient corner glow (visuvate-style aurora) ---------- */
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      62% 55% at 0% 100%,
+      color-mix(in srgb, var(--color-blue) 26%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      62% 55% at 100% 100%,
+      color-mix(in srgb, var(--color-blue) 26%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      90% 40% at 50% 100%,
+      color-mix(in srgb, var(--color-blue) 12%, transparent),
+      transparent 70%
+    );
+}
+
+/* ---------- Slowly drifting background boxes ---------- */
+.bg-box {
+  position: absolute;
+  border-radius: 22px;
+  /* Tinted with the brand accent (logo amber) instead of corelabs' blue. */
+  border: 1.5px solid color-mix(in srgb, var(--color-blue) 26%, transparent);
+  background: linear-gradient(
+    140deg,
+    color-mix(in srgb, var(--color-blue) 10%, transparent),
+    color-mix(in srgb, var(--color-blue) 2%, transparent) 75%
+  );
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--color-blue) 12%, transparent),
+    0 0 60px -6px color-mix(in srgb, var(--color-blue) 22%, transparent);
+  animation: box-drift var(--dur, 24s) ease-in-out var(--delay, 0s) infinite;
+  will-change: transform;
+}
+@keyframes box-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(var(--dx, 24px), var(--dy, -20px))
+      rotate(var(--rot, 4deg));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bg-box {
+    animation: none;
+  }
+}
+
+/* ---------- escolhadigital-style gooey morphing words ---------- */
+.ed-morph {
+  position: relative;
+  display: inline-block;
+  color: var(--text-muted);
+  /* The contrast+blur makes the cross-fading words melt into each other.
+     Eased from the reference's contrast(20) so the muted grey survives on a
+     dark background instead of getting crushed to black. */
+  filter: contrast(12) blur(0.4px);
+}
+.ed-morph > span {
+  display: inline-block;
+  white-space: nowrap;
+  opacity: 0;
+  animation: ed-morph 10.5s infinite var(--ease-brand);
+}
+.ed-morph > span:not(:first-child) {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+@keyframes ed-morph {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  6%,
+  27% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  33%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+}
+/* First word is in normal flow (reserves the line height), so it only shifts Y. */
+.ed-morph > span:first-child {
+  transform: translateY(10px);
+}
+@keyframes ed-morph-first {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  6%,
+  27% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  33%,
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+.ed-morph > span:first-child {
+  animation-name: ed-morph-first;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ed-morph {
+    filter: none;
+  }
+  .ed-morph > span {
+    animation: none;
+  }
+  .ed-morph > span:first-child {
+    opacity: 1;
+    transform: none;
+  }
+  .ed-morph > span:not(:first-child) {
+    display: none;
+  }
 }
 
 /* ---------- Text roll on hover (buttons/links) ---------- */
@@ -297,9 +443,9 @@ details > summary::-webkit-details-marker {
   --cube-shadow: #0000002e;
 }
 :root {
-  --blue-top: #7acaff;
-  --blue-front: #09f;
-  --blue-side: #0068ad;
+  --blue-top: #fbb457;
+  --blue-front: #f2921e;
+  --blue-side: #c2721a;
 }
 .cube {
   --size: 64px;
@@ -379,8 +525,8 @@ details > summary::-webkit-details-marker {
   background: conic-gradient(
     from calc(var(--beam) - var(--beam-w)),
     transparent 0deg,
-    #09f calc(var(--beam-w) / 2),
-    #7acaff var(--beam-w),
+    #f2921e calc(var(--beam-w) / 2),
+    #fbb457 var(--beam-w),
     transparent calc(var(--beam-w) * 2),
     transparent 360deg
   );

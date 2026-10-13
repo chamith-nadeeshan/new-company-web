@@ -70,7 +70,7 @@ function ProductWindow() {
           production · deployed 2m ago
         </div>
         <div className="flex -space-x-2">
-          {["#0068ad", "#3d3d3d"].map((c) => (
+          {["#c2721a", "#3d3d3d"].map((c) => (
             <span key={c} className="size-7 rounded-full border-2 border-bg" style={{ background: c }} />
           ))}
         </div>

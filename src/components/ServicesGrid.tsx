@@ -161,7 +161,7 @@ export function DotField() {
         const twinkle = 0.5 + 0.5 * Math.sin(t * d.speed + d.phase);
         const a = (0.08 + twinkle * twinkle * 0.62) * d.fade;
         ctx.fillStyle = d.blue
-          ? `rgba(${isLight ? "0,104,173" : "77,169,255"},${a.toFixed(3)})`
+          ? `rgba(${isLight ? "194,114,26" : "242,146,30"},${a.toFixed(3)})`
           : `rgba(${isLight ? "0,0,0" : "255,255,255"},${(a * (isLight ? 0.5 : 0.75)).toFixed(3)})`;
         ctx.fillRect(d.x - SIZE / 2, d.y - SIZE / 2, SIZE, SIZE);
       }

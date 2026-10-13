@@ -54,7 +54,7 @@ export function Navbar() {
             : "h-[68px] max-w-[1380px] rounded-none border-transparent px-4 sm:px-8"
         }`}
       >
-        <Logo />
+        <Logo heightClass="h-5" />
 
         <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-7 lg:flex">
           {links.map((item, i) => (

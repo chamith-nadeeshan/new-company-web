@@ -165,7 +165,7 @@ export function WorksOrbit() {
 
       lines.forEach((l, i) => {
         const alpha = light ? 0.18 + (i % 2) * 0.08 : 0.35 + (i % 2) * 0.2;
-        const rgb = light ? "0,104,173" : "40,140,255";
+        const rgb = light ? "194,114,26" : "242,146,30";
         ctx.beginPath();
         for (let x = -20; x <= w + 20; x += 12) {
           const u = x / w;

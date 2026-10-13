@@ -103,11 +103,13 @@ function Starfield() {
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    const PAN = 40; // px of slow side-to-side drift
+    const PAN = 40; // px of slack on each side so drifting stars wrap off-screen
     let w = 0;
     let h = 0;
     let raf = 0;
+    let last = 0;
     let visible = false;
+    let slope = 0; // band slope, so stars travel along it
     let sky: HTMLCanvasElement | null = null;
     let twinklers: {
       x: number;
@@ -116,6 +118,8 @@ function Starfield() {
       phase: number;
       speed: number;
       glow: boolean;
+      vx: number; // continuous drift (px/s) along the band
+      vy: number;
     }[] = [];
 
     const gauss = () =>
@@ -198,26 +202,49 @@ function Starfield() {
       canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       sky = buildSky();
-      twinklers = Array.from({ length: Math.round((w * h) / 2600) }, () => ({
-        x: Math.random() * (w + PAN * 2),
-        y: Math.random() * h,
-        r: 0.5 + Math.random() * 0.8,
-        phase: Math.random() * Math.PI * 2,
-        speed: 0.6 + Math.random() * 2.2,
-        glow: Math.random() < 0.06,
-      }));
+      // Stars drift along the band; deeper (slower) ones give parallax.
+      slope = Math.tan(Math.atan2(-h * 0.55, w + PAN * 2));
+      twinklers = Array.from({ length: Math.round((w * h) / 2100) }, () => {
+        const sp = 5 + Math.random() * 22; // px/s
+        return {
+          x: Math.random() * (w + PAN * 2),
+          y: Math.random() * h,
+          r: 0.5 + Math.random() * 0.8,
+          phase: Math.random() * Math.PI * 2,
+          speed: 0.6 + Math.random() * 2.2,
+          glow: Math.random() < 0.06,
+          vx: -sp,
+          vy: -sp * slope,
+        };
+      });
     };
+
+    const skyW = () => w + PAN * 2;
 
     const draw = (time: number) => {
       const t = time / 1000;
-      // Slow, eased side-to-side pan; the sky layer moves less than the stars (parallax).
-      const pan = Math.sin(t * 0.045) * PAN;
+      const dt = last ? Math.min((time - last) / 1000, 0.05) : 0;
+      last = time;
       ctx.clearRect(0, 0, w, h);
-      if (sky) ctx.drawImage(sky, -PAN + pan * 0.6, 0, w + PAN * 2, h);
 
+      // Dust cloud: one draw, gently oscillating within the PAN slack so its
+      // edges never pull into view — no seam. The moving stars carry the motion.
+      const pan = Math.sin(t * 0.05) * PAN * 0.6;
+      if (sky) ctx.drawImage(sky, -PAN + pan, 0, skyW(), h);
+
+      // Stars travel along the band (parallax by speed) and wrap around.
+      const sw = skyW();
       for (const s of twinklers) {
+        if (dt) {
+          s.x += s.vx * dt;
+          s.y += s.vy * dt;
+          if (s.x < 0) s.x += sw;
+          else if (s.x > sw) s.x -= sw;
+          if (s.y < 0) s.y += h;
+          else if (s.y > h) s.y -= h;
+        }
         const tw = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
-        const x = s.x - PAN + pan;
+        const x = s.x - PAN;
         if (s.glow) {
           const g = ctx.createRadialGradient(x, s.y, 0, x, s.y, 6);
           g.addColorStop(0, `rgba(255,255,255,${(0.9 * tw).toFixed(3)})`);
@@ -238,6 +265,7 @@ function Starfield() {
     const io = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       cancelAnimationFrame(raf);
+      last = 0; // avoid a huge dt jump after being paused off-screen
       if (visible) raf = requestAnimationFrame(draw);
     });
     io.observe(canvas);

@@ -153,7 +153,7 @@ function SitesMarquee() {
 /* ---------- 02 · Floating phones over a glowing horizon ---------- */
 function PlanetArt() {
   return (
-    <div className="absolute inset-x-[-40%] bottom-[-118%] aspect-square rounded-full border-t-2 border-blue-300/80 bg-[radial-gradient(circle_at_50%_0%,#0b2a55,#020814_45%)] shadow-[0_-30px_90px_-10px_#09f]" />
+    <div className="absolute inset-x-[-40%] bottom-[-118%] aspect-square rounded-full border-t-2 border-blue-300/80 bg-[radial-gradient(circle_at_50%_0%,#3a1f05,#0a0600_45%)] shadow-[0_-30px_90px_-10px_#f2921e]" />
   );
 }
 
@@ -226,7 +226,7 @@ function Phone({ light = false }: { light?: boolean }) {
 /* ---------- 03 · Laptop dashboard over a blue light streak ---------- */
 function StreakArt() {
   return (
-    <div className="absolute -right-1/3 -top-1/4 h-[150%] w-[85%] rotate-[28deg] bg-[linear-gradient(90deg,transparent,#0068ad_35%,#09f_48%,#7acaff_50%,#020814_52%,transparent)] opacity-90 blur-[2px]" />
+    <div className="absolute -right-1/3 -top-1/4 h-[150%] w-[85%] rotate-[28deg] bg-[linear-gradient(90deg,transparent,#c2721a_35%,#f2921e_48%,#fbb457_50%,#0a0600_52%,transparent)] opacity-90 blur-[2px]" />
   );
 }
 
@@ -263,14 +263,14 @@ function Laptop() {
                 {[45, 62, 38, 70, 55, 82, 64].map((h, i) => (
                   <div key={i} className="flex h-full flex-1 items-end gap-0.5">
                     <span
-                      className="flex-1 origin-bottom rounded-sm bg-[#0068ad]"
+                      className="flex-1 origin-bottom rounded-sm bg-[#c2721a]"
                       style={{
                         height: `${h}%`,
                         animation: `bar-grow 3.2s ${i * 0.18}s ease-in-out infinite`,
                       }}
                     />
                     <span
-                      className="flex-1 rounded-sm bg-[#7acaff]"
+                      className="flex-1 rounded-sm bg-[#fbb457]"
                       style={{ height: `${h * 0.6}%` }}
                     />
                   </div>
@@ -335,13 +335,13 @@ function Editor() {
         <div className="flex-1 space-y-2.5 p-4">
           {[
             [12, 40, "#c084fc"],
-            [20, 55, "#7acaff"],
+            [20, 55, "#fbb457"],
             [20, 35, "#fff"],
             [28, 60, "#fbbf24"],
-            [20, 45, "#7acaff"],
+            [20, 45, "#fbb457"],
             [12, 25, "#c084fc"],
             [12, 50, "#fff"],
-            [20, 38, "#7acaff"],
+            [20, 38, "#fbb457"],
           ].map(([indent, width, color], i) => (
             <div key={i} className="flex items-center gap-2">
               <span className="w-4 text-right font-mono text-[9px] text-white/25">
@@ -536,10 +536,10 @@ function Dial() {
             y1="18"
             x2="0"
             y2="-86"
-            stroke="#09f"
+            stroke="#f2921e"
             strokeWidth="1.2"
           />
-          <circle r="2.6" fill="#09f" />
+          <circle r="2.6" fill="#f2921e" />
         </g>
         <circle r="1.2" fill="#000" />
       </svg>

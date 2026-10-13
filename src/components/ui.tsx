@@ -3,11 +3,30 @@ import type { ReactNode } from "react";
 import { siteConfig } from "@/config/site";
 import { asset } from "@/lib/asset";
 
-export function Logo() {
+export function Logo({ heightClass = "h-7" }: { heightClass?: string }) {
   return (
     <a href="#home" className="flex items-center gap-2" aria-label={`${siteConfig.name} home`}>
       {siteConfig.logo ? (
-        <Image src={asset(siteConfig.logo)} alt={siteConfig.name} width={140} height={32} className="h-7 w-auto" priority />
+        <>
+          <Image
+            src={asset(siteConfig.logo)}
+            alt={siteConfig.name}
+            width={336}
+            height={100}
+            className={`logo-on-dark ${heightClass} w-auto`}
+            priority
+          />
+          {siteConfig.logoLight && (
+            <Image
+              src={asset(siteConfig.logoLight)}
+              alt={siteConfig.name}
+              width={322}
+              height={100}
+              className={`logo-on-light ${heightClass} w-auto`}
+              priority
+            />
+          )}
+        </>
       ) : (
         <>
           <svg width="22" height="20" viewBox="0 0 22 20" fill="currentColor" aria-hidden>

@@ -1,6 +1,6 @@
 import { ApproachBento } from "@/components/ApproachBento";
 import { Footer } from "@/components/Footer";
-import { LandingHero } from "@/components/LandingHero";
+import { DigitalHero } from "@/components/DigitalHero";
 import { Navbar } from "@/components/Navbar";
 import {
   Blog,
@@ -11,7 +11,9 @@ import {
   TechStack,
 } from "@/components/Sections";
 import { PlatformsGrid } from "@/components/PlatformsGrid";
+import { ProductReveal } from "@/components/ProductReveal";
 import { ServicesGrid } from "@/components/ServicesGrid";
+import { ServicesMarquee } from "@/components/ServicesMarquee";
 import { WorksOrbit } from "@/components/WorksOrbit";
 import { Testimonials } from "@/components/Testimonials";
 
@@ -20,16 +22,19 @@ export default function Home() {
     <>
       <Navbar />
       <main className="flex-1">
-        <LandingHero />
+        <DigitalHero />
+         <ServicesMarquee />
         <TechStack />
         <Intro />
+        {/* <ProductReveal /> */}
         <WorksOrbit />
         <Stats />
+       
         <ServicesGrid />
         <PlatformsGrid />
-        <Pricing />
+        {/* <Pricing /> */}
         <ApproachBento />
-        <Blog />
+        {/* <Blog /> */}
         <Testimonials />
         <Faq />
       </main>
