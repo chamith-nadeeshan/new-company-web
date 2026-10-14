@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { showcase } from "@/data/content";
+import { reelShots } from "@/data/content";
 import { asset } from "@/lib/asset";
 
-type Card = (typeof showcase)[number];
+type Card = (typeof reelShots)[number];
 
 // A faux design-tool window (à la visuvate.com) placed below the hero: fixed
 // editor chrome — top toolbar, a Layers panel, a properties panel, a floating
@@ -46,7 +46,7 @@ export function EditorMockup() {
   const [canvasLight, setCanvasLight] = useState(false);
   const [held, setHeld] = useState<number | null>(null);
 
-  const cards = [...showcase, ...showcase];
+  const cards = [...reelShots, ...reelShots];
 
   const measure = useCallback(() => {
     const track = trackRef.current;
@@ -132,7 +132,7 @@ export function EditorMockup() {
   // Clicking a layer highlights it and jumps the canvas to that preview.
   const selectLayer = (i: number) => {
     setActiveLayer(i);
-    if (stride.current) offset.current = wrap(-stride.current * (i % showcase.length));
+    if (stride.current) offset.current = wrap(-stride.current * (i % reelShots.length));
   };
 
   return (
@@ -362,26 +362,11 @@ function PreviewCard({
       onPointerDown={onHoldStart}
       onPointerUp={onHoldEnd}
       onPointerCancel={onHoldEnd}
-      className={`group/card relative aspect-[16/10] w-[300px] shrink-0 overflow-hidden rounded-xl border shadow-[0_30px_60px_-28px_#000] transition-[transform,opacity,filter] duration-500 ease-brand sm:w-[560px] ${
-        dark ? "border-white/12 bg-[#101010]" : "border-black/10 bg-[#f7f5f0]"
+      className={`reel-frame group/card relative aspect-[16/10] w-[300px] shrink-0 overflow-hidden rounded-xl border shadow-[0_30px_60px_-28px_#000] transition-[transform,opacity,filter] duration-500 ease-brand sm:w-[560px] ${
+        dark ? "bg-[#101010]" : "bg-[#f7f5f0]"
       } ${active ? "z-30 scale-[1.04]" : ""} ${dimmed ? "scale-[0.97] opacity-40 blur-[1px]" : ""}`}
     >
-      <div
-        className={`flex items-center gap-2 px-3 py-2 text-[9px] sm:text-[11px] ${
-          dark ? "text-white/70" : "text-black/60"
-        }`}
-      >
-        <span className="flex gap-1">
-          <span className="size-1.5 rounded-full bg-current opacity-40" />
-          <span className="size-1.5 rounded-full bg-current opacity-40" />
-          <span className="size-1.5 rounded-full bg-current opacity-40" />
-        </span>
-        <span className={`ml-1 truncate rounded px-2 py-0.5 ${dark ? "bg-white/10" : "bg-black/5"}`}>
-          {card.brand.toLowerCase()}.com
-        </span>
-      </div>
-
-      <div className="relative h-[calc(100%-28px)] sm:h-[calc(100%-34px)]">
+      <div className="relative h-full">
         <Image
           src={asset(card.image)}
           alt={`${card.brand} — ${card.headline}`}

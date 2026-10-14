@@ -79,9 +79,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Applies the saved theme before paint to avoid a flash of the wrong theme.
-const themeScript = `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}`;
-
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -90,9 +87,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${geist.variable} ${fraunces.variable} ${montserrat.variable} ${rubikBubbles.variable} ${rubikGlitch.variable} ${rubikIso.variable} ${rubikMaze.variable} ${rubikMoonrocks.variable} ${rubikPuddles.variable} h-full antialiased`}
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
       <body className="min-h-full flex flex-col">
         <SmoothScroll />
         {children}

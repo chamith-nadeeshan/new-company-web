@@ -114,3 +114,12 @@ export const showcase = [
   { brand: "Arc", headline: "Architecture that lasts", theme: "light", image: "/projects/arc.jpg" },
   { brand: "Calm", headline: "Sleep better tonight", theme: "dark", image: "/projects/calm.jpg" },
 ] as const;
+
+// Real project screenshots shown in the editor-mockup marquee (EditorMockup).
+// Files live in /public/projects-reel.
+export const reelShots = [
+  { brand: "Fitly", headline: "Fitness website UI", theme: "light", image: "/projects-reel/fitness-layout.jpg" },
+  { brand: "Fitly", headline: "Weekly streaks & sessions", theme: "dark", image: "/projects-reel/fitness-streak.jpg" },
+  { brand: "Studio", headline: "Product interface", theme: "light", image: "/projects-reel/project-01.png" },
+  { brand: "Studio", headline: "Dashboard concept", theme: "dark", image: "/projects-reel/project-02.png" },
+] as const;

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { siteConfig } from "@/config/site";
-import { ThemeToggle } from "./ThemeToggle";
 import { Button, Logo, Roll } from "./ui";
 
 // top: transparent, full width · glass: full-width frosted bar · compact: floating pill
@@ -72,7 +71,6 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-4">
-          <ThemeToggle />
           <div className="hidden sm:block">
             <Button href="#contact" size="sm">
               Let&apos;s Connect
