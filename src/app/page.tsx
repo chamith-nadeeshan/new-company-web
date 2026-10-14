@@ -23,7 +23,7 @@ export default function Home() {
       <Navbar />
       <main className="flex-1">
         <DigitalHero />
-         <ServicesMarquee />
+        
         <TechStack />
         <Intro />
         {/* <ProductReveal /> */}
@@ -32,6 +32,7 @@ export default function Home() {
        
         <ServicesGrid />
         <PlatformsGrid />
+         <ServicesMarquee />
         {/* <Pricing /> */}
         <ApproachBento />
         {/* <Blog /> */}
