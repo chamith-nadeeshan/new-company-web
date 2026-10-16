@@ -24,6 +24,27 @@ const LAYERS = [
   "Footer",
 ] as const;
 
+const PAGES = ["Home", "About", "Work", "Services", "Contact"] as const;
+
+// Properties shown in the right panel for each layer.
+const LAYER_PROPS: Record<
+  (typeof LAYERS)[number],
+  { width: string; height: string; maxWidth: string; direction: "row" | "column"; distribute: string }
+> = {
+  Hero: { width: "1fr", height: "100vh", maxWidth: "1440", direction: "column", distribute: "Center" },
+  "Tech Stack": { width: "1fr", height: "Auto", maxWidth: "1200", direction: "row", distribute: "Between" },
+  Introduction: { width: "1fr", height: "Auto", maxWidth: "960", direction: "column", distribute: "Start" },
+  "Featured Works": { width: "1fr", height: "Auto", maxWidth: "1200", direction: "row", distribute: "Start" },
+  Services: { width: "1fr", height: "Auto", maxWidth: "1200", direction: "column", distribute: "Start" },
+  Approach: { width: "1fr", height: "Auto", maxWidth: "1200", direction: "column", distribute: "End" },
+  FAQs: { width: "1fr", height: "Auto", maxWidth: "800", direction: "column", distribute: "Start" },
+  CTA: { width: "1fr", height: "480", maxWidth: "1200", direction: "row", distribute: "Center" },
+  Footer: { width: "1fr", height: "Auto", maxWidth: "1440", direction: "row", distribute: "Between" },
+};
+
+const POSITIONS = ["Relative", "Absolute", "Fixed", "Sticky"] as const;
+const DEVICE_WIDTH = { desktop: 1488, mobile: 390 } as const;
+
 const SPEEDS = [0.5, 1, 2] as const;
 const DRAG_THRESHOLD = 6;
 
@@ -43,8 +64,19 @@ export function EditorMockup() {
   const [playing, setPlaying] = useState(true);
   const [speedIdx, setSpeedIdx] = useState(1);
   const [handTool, setHandTool] = useState(false);
-  const [canvasLight, setCanvasLight] = useState(false);
+  const [light, setLight] = useState(false);
+  const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
+  const [activePage, setActivePage] = useState(0);
+  const [activeAsset, setActiveAsset] = useState(0);
+  const [positions, setPositions] = useState<Record<string, (typeof POSITIONS)[number]>>({});
+  const [directions, setDirections] = useState<Record<string, "row" | "column">>({});
   const [held, setHeld] = useState<number | null>(null);
+
+  const layerName = LAYERS[activeLayer];
+  const props = LAYER_PROPS[layerName];
+  const position = positions[layerName] ?? "Relative";
+  const direction = directions[layerName] ?? props.direction;
+  const mobile = device === "mobile";
 
   const cards = [...reelShots, ...reelShots];
 
@@ -132,14 +164,32 @@ export function EditorMockup() {
   // Clicking a layer highlights it and jumps the canvas to that preview.
   const selectLayer = (i: number) => {
     setActiveLayer(i);
+    jumpTo(i);
+  };
+  const jumpTo = (i: number) => {
     if (stride.current) offset.current = wrap(-stride.current * (i % reelShots.length));
   };
+  const selectAsset = (i: number) => {
+    setActiveAsset(i);
+    jumpTo(i);
+  };
+  const cyclePosition = () =>
+    setPositions((p) => ({
+      ...p,
+      [layerName]: POSITIONS[(POSITIONS.indexOf(position) + 1) % POSITIONS.length],
+    }));
+  const setDirection = (d: "row" | "column") => setDirections((p) => ({ ...p, [layerName]: d }));
 
   return (
     <div aria-label="Design preview" role="group" className="mx-auto w-full max-w-[1240px]">
       <div>
         {/* Editor window */}
-        <div className="overflow-hidden rounded-[18px] border border-line bg-[#0a0a0a] shadow-[0_40px_90px_-40px_#000]">
+        <div
+          data-editor-theme={light ? "light" : "dark"}
+          className={`overflow-hidden rounded-[18px] border border-line text-fg shadow-[0_40px_90px_-40px_#000] transition-colors duration-300 ${
+            light ? "bg-white" : "bg-[#0a0a0a]"
+          }`}
+        >
           {/* ---- top toolbar ---- */}
           <div className="flex items-center justify-between gap-3 border-b border-line px-3 py-2.5 sm:px-4">
             <div className="flex items-center gap-2">
@@ -149,17 +199,25 @@ export function EditorMockup() {
               <ChevronRight className="text-dim" />
             </div>
 
-            <div className="hidden items-center gap-3 sm:flex">
-              <div className="flex items-center gap-1 rounded-lg bg-surface p-1">
-                <span className="grid size-7 place-items-center rounded-md bg-surface-strong text-fg">
-                  <DesktopIcon />
-                </span>
-                <span className="grid size-7 place-items-center rounded-md text-dim">
-                  <MobileIcon />
-                </span>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div role="group" aria-label="Preview device" className="flex items-center gap-1 rounded-lg bg-surface p-1">
+                {(["desktop", "mobile"] as const).map((d) => (
+                  <button
+                    key={d}
+                    type="button"
+                    aria-label={d === "desktop" ? "Desktop view" : "Mobile view"}
+                    aria-pressed={device === d}
+                    onClick={() => setDevice(d)}
+                    className={`grid size-7 place-items-center rounded-md transition-colors ${
+                      device === d ? "bg-surface-strong text-fg" : "text-dim hover:text-muted"
+                    }`}
+                  >
+                    {d === "desktop" ? <DesktopIcon /> : <MobileIcon />}
+                  </button>
+                ))}
               </div>
-              <div className="flex items-center gap-2 rounded-lg bg-surface px-3 py-1.5 text-xs text-muted">
-                <span>w 1488px</span>
+              <div className="hidden items-center gap-2 rounded-lg bg-surface px-3 py-1.5 text-xs text-muted sm:flex">
+                <span className="tabular-nums">w {DEVICE_WIDTH[device]}px</span>
                 <span className="text-dim">|</span>
                 <SearchIcon className="size-3" />
                 <span>100%</span>
@@ -167,8 +225,16 @@ export function EditorMockup() {
             </div>
 
             <div className="flex -space-x-2">
-              <span className="size-7 rounded-full border-2 border-[#0a0a0a] bg-gradient-to-br from-blue to-blue-700" />
-              <span className="size-7 rounded-full border-2 border-[#0a0a0a] bg-gradient-to-br from-fg/70 to-fg/30" />
+              <span
+                className={`size-7 rounded-full border-2 bg-gradient-to-br from-blue to-blue-700 ${
+                  light ? "border-white" : "border-[#0a0a0a]"
+                }`}
+              />
+              <span
+                className={`size-7 rounded-full border-2 bg-gradient-to-br from-fg/70 to-fg/30 ${
+                  light ? "border-white" : "border-[#0a0a0a]"
+                }`}
+              />
             </div>
           </div>
 
@@ -191,13 +257,71 @@ export function EditorMockup() {
                 ))}
               </div>
 
-              <div className="mt-3 flex items-center justify-between rounded-lg border border-line px-3 py-2.5 text-sm">
-                <span className="flex items-center gap-2 font-medium">
-                  <HomeIcon className="text-muted" /> Home
-                </span>
-                <ChevronDown className="text-dim" />
-              </div>
+              {tab !== "Assets" && (
+                <div className="mt-3 flex items-center justify-between rounded-lg border border-line px-3 py-2.5 text-sm">
+                  <span className="flex items-center gap-2 font-medium">
+                    <HomeIcon className="text-muted" /> {PAGES[activePage]}
+                  </span>
+                  <ChevronDown className="text-dim" />
+                </div>
+              )}
 
+              {tab === "Pages" && (
+                <ul className="mt-2 flex flex-col gap-0.5">
+                  {PAGES.map((name, i) => {
+                    const active = i === activePage;
+                    return (
+                      <li key={name}>
+                        <button
+                          type="button"
+                          onClick={() => setActivePage(i)}
+                          className={`flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-sm transition-colors ${
+                            active
+                              ? "bg-blue font-medium text-black"
+                              : "text-muted hover:bg-fg/5 hover:text-fg"
+                          }`}
+                        >
+                          <PageIcon className={active ? "text-black" : "text-dim"} />
+                          <span className="truncate">{name}</span>
+                          <span className={`ml-auto text-xs ${active ? "text-black/60" : "text-dim"}`}>
+                            /{i === 0 ? "" : name.toLowerCase()}
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+
+              {tab === "Assets" && (
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  {reelShots.map((shot, i) => (
+                    <button
+                      key={shot.image}
+                      type="button"
+                      onClick={() => selectAsset(i)}
+                      className={`overflow-hidden rounded-lg border text-left transition-colors ${
+                        i === activeAsset ? "border-blue" : "border-line hover:border-line-strong"
+                      }`}
+                    >
+                      <span className="relative block aspect-[4/3] bg-surface">
+                        <Image
+                          src={asset(shot.image)}
+                          alt=""
+                          fill
+                          sizes="100px"
+                          className="object-cover"
+                        />
+                      </span>
+                      <span className="block truncate px-2 py-1.5 text-[11px] text-muted">
+                        {shot.image.split("/").pop()}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {tab === "Layers" && (
               <ul className="mt-2 flex flex-col gap-0.5">
                 {LAYERS.map((name, i) => {
                   const active = i === activeLayer;
@@ -222,25 +346,26 @@ export function EditorMockup() {
                   );
                 })}
               </ul>
+              )}
             </aside>
 
             {/* center: canvas with scrolling website previews + dock */}
             <div
               className={`relative overflow-hidden transition-colors duration-300 ${
-                canvasLight ? "bg-[#ebe9e4]" : "bg-[#0e0e0e]"
+                light ? "bg-[#ebe9e4]" : "bg-[#0e0e0e]"
               }`}
             >
               {/* edge fades */}
               <div
                 aria-hidden
                 className={`pointer-events-none absolute inset-y-0 left-0 z-20 w-10 bg-gradient-to-r sm:w-16 ${
-                  canvasLight ? "from-[#ebe9e4]" : "from-[#0e0e0e]"
+                  light ? "from-[#ebe9e4]" : "from-[#0e0e0e]"
                 } to-transparent`}
               />
               <div
                 aria-hidden
                 className={`pointer-events-none absolute inset-y-0 right-0 z-20 w-10 bg-gradient-to-l sm:w-16 ${
-                  canvasLight ? "from-[#ebe9e4]" : "from-[#0e0e0e]"
+                  light ? "from-[#ebe9e4]" : "from-[#0e0e0e]"
                 } to-transparent`}
               />
 
@@ -263,6 +388,7 @@ export function EditorMockup() {
                     <PreviewCard
                       key={i}
                       card={card}
+                      mobile={mobile}
                       dimmed={held !== null && held !== i}
                       active={held === i}
                       onHoldStart={() => {
@@ -276,7 +402,9 @@ export function EditorMockup() {
 
               {/* floating dock */}
               <div className="absolute bottom-5 left-1/2 z-30 -translate-x-1/2">
-                <div className="flex items-center gap-1 rounded-2xl border border-line bg-[#141414]/90 p-1.5 shadow-[0_20px_50px_-20px_#000] backdrop-blur-md">
+                <div className={`flex items-center gap-1 rounded-2xl border border-line p-1.5 transition-colors duration-300 ${
+                    light ? "bg-white/90" : "bg-[#141414]/90"
+                  } shadow-[0_20px_50px_-20px_#000] backdrop-blur-md`}>
                   <button
                     type="button"
                     onClick={togglePlay}
@@ -302,11 +430,10 @@ export function EditorMockup() {
                     {SPEEDS[speedIdx]}×
                   </button>
                   <DockBtn
-                    label="Canvas theme"
-                    active={canvasLight}
-                    onClick={() => setCanvasLight((l) => !l)}
+                    label={light ? "Switch to dark mode" : "Switch to light mode"}
+                    onClick={() => setLight((l) => !l)}
                   >
-                    <MoonIcon />
+                    {light ? <MoonIcon /> : <SunIcon />}
                   </DockBtn>
                   <DockBtn label="Language"><TranslateIcon /></DockBtn>
                 </div>
@@ -316,23 +443,52 @@ export function EditorMockup() {
             {/* right: properties */}
             <aside className="hidden flex-col gap-5 border-l border-line p-4 text-sm lg:flex">
               <IconRow />
+              <p className="-mb-2 truncate text-xs text-dim">
+                {PAGES[activePage]} / <span className="text-fg">{layerName}</span>
+              </p>
               <PropGroup title="Position">
-                <PropRow label="Type" value="Relative" wide />
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-muted">Type</span>
+                  <button
+                    type="button"
+                    onClick={cyclePosition}
+                    aria-label={`Position type: ${position}. Click to change.`}
+                    className="flex flex-1 items-center justify-end gap-1.5 rounded-md bg-surface px-2.5 py-1.5 text-xs text-fg transition-colors hover:bg-surface-strong"
+                  >
+                    {position} <ChevronDown className="size-3 text-dim" />
+                  </button>
+                </div>
               </PropGroup>
               <PropGroup title="Size" plus>
-                <PropRow label="Width" value="1fr" select="Fill" />
-                <PropRow label="Height" value="Auto" select="Fit" />
-                <PropRow label="Max Width" value="1200" select="Fixed" />
+                <PropRow label="Width" value={props.width} select="Fill" />
+                <PropRow
+                  label="Height"
+                  value={props.height}
+                  select={props.height === "Auto" ? "Fit" : "Fixed"}
+                />
+                <PropRow label="Max Width" value={mobile ? "390" : props.maxWidth} select="Fixed" />
               </PropGroup>
               <PropGroup title="Layout">
                 <div className="flex items-center justify-between">
                   <span className="text-muted">Direction</span>
                   <div className="flex gap-1">
-                    <span className="grid size-8 place-items-center rounded-md bg-surface text-dim">↔</span>
-                    <span className="grid size-8 place-items-center rounded-md bg-surface-strong text-fg">↕</span>
+                    {(["row", "column"] as const).map((d) => (
+                      <button
+                        key={d}
+                        type="button"
+                        aria-label={d === "row" ? "Horizontal" : "Vertical"}
+                        aria-pressed={direction === d}
+                        onClick={() => setDirection(d)}
+                        className={`grid size-8 place-items-center rounded-md transition-colors ${
+                          direction === d ? "bg-surface-strong text-fg" : "bg-surface text-dim hover:text-muted"
+                        }`}
+                      >
+                        {d === "row" ? "↔" : "↕"}
+                      </button>
+                    ))}
                   </div>
                 </div>
-                <PropRow label="Distribute" value="End" wide muted />
+                <PropRow label="Distribute" value={props.distribute} wide muted />
               </PropGroup>
             </aside>
           </div>
@@ -345,12 +501,14 @@ export function EditorMockup() {
 /* ---------------- canvas preview card ---------------- */
 function PreviewCard({
   card,
+  mobile,
   dimmed,
   active,
   onHoldStart,
   onHoldEnd,
 }: {
   card: Card;
+  mobile: boolean;
   dimmed: boolean;
   active: boolean;
   onHoldStart: () => void;
@@ -362,7 +520,11 @@ function PreviewCard({
       onPointerDown={onHoldStart}
       onPointerUp={onHoldEnd}
       onPointerCancel={onHoldEnd}
-      className={`reel-frame group/card relative aspect-[16/10] w-[300px] shrink-0 overflow-hidden rounded-xl border shadow-[0_30px_60px_-28px_#000] transition-[transform,opacity,filter] duration-500 ease-brand sm:w-[560px] ${
+      className={`reel-frame group/card relative shrink-0 overflow-hidden shadow-[0_30px_60px_-28px_#000] transition-[transform,opacity,filter,width] duration-500 ease-brand ${
+        mobile
+          ? "aspect-[9/16] w-[150px] rounded-[22px] border-4 border-[#1c1c1c] sm:w-[220px]"
+          : "aspect-[16/10] w-[300px] rounded-xl border sm:w-[560px]"
+      } ${
         dark ? "bg-[#101010]" : "bg-[#f7f5f0]"
       } ${active ? "z-30 scale-[1.04]" : ""} ${dimmed ? "scale-[0.97] opacity-40 blur-[1px]" : ""}`}
     >
@@ -373,8 +535,14 @@ function PreviewCard({
           fill
           sizes="(max-width: 640px) 300px, 560px"
           draggable={false}
-          className="object-cover"
+          className={`object-cover ${mobile ? "object-top" : ""}`}
         />
+        {mobile && (
+          <span
+            aria-hidden
+            className="absolute left-1/2 top-1.5 z-10 h-1.5 w-12 -translate-x-1/2 rounded-full bg-black/80"
+          />
+        )}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 pt-10">
           <p className="text-sm font-semibold leading-tight text-white sm:text-lg">{card.headline}</p>
         </div>
@@ -498,6 +666,17 @@ function HandIcon() {
 }
 function MoonIcon() {
   return <svg viewBox="0 0 24 24" width="17" height="17" fill={ic} aria-hidden><path d="M20 14.5A8 8 0 019.5 4a7 7 0 108.9 10.5c.4-.1.7.3.6.6-.3.1-.7.3-1 .4z" /><path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z" /></svg>;
+}
+function SunIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke={ic} strokeWidth="2" aria-hidden>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+function PageIcon({ className = "" }: { className?: string }) {
+  return <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke={ic} strokeWidth="2" className={className} aria-hidden><path d="M6 3h8l4 4v14H6z" strokeLinejoin="round" /><path d="M14 3v4h4" strokeLinejoin="round" /></svg>;
 }
 function TranslateIcon() {
   return (

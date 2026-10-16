@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "build:pages": "GITHUB_PAGES=1 next build && touch out/.nojekyll"
+    "build:pages": "cross-env GITHUB_PAGES=1 next build && node -e \"require('fs').writeFileSync('out/.nojekyll', '')\""
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",
@@ -28,6 +28,7 @@
     "@types/react-dom": "^19",
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.4.0",
     "tailwindcss": "^4",

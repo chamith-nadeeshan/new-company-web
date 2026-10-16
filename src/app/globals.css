@@ -2,7 +2,8 @@
 
 /* Monochrome theme tokens. Dark is the default; light is opt-in via the toggle. */
 :root,
-:root[data-theme="dark"] {
+:root[data-theme="dark"],
+[data-editor-theme="dark"] {
   --bg: #000;
   --bg-elevated: #111;
   --surface: #141414;
@@ -22,7 +23,8 @@
   color-scheme: dark;
 }
 
-:root[data-theme="light"] {
+:root[data-theme="light"],
+[data-editor-theme="light"] {
   --bg: #fff;
   --bg-elevated: #fafafa;
   --surface: #f6f6f6;
@@ -492,13 +494,15 @@ details > summary::-webkit-details-marker {
 
 /* ---------- Landing hero cubes ---------- */
 :root,
-:root[data-theme="dark"] {
+:root[data-theme="dark"],
+[data-editor-theme="dark"] {
   --cube-top: #f4f4f4;
   --cube-front: #c9c9c9;
   --cube-side: #8f8f8f;
   --cube-shadow: #ffffff1f;
 }
-:root[data-theme="light"] {
+:root[data-theme="light"],
+[data-editor-theme="light"] {
   --cube-top: #3a3a3d;
   --cube-front: #161618;
   --cube-side: #0b0b0c;
