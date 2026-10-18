@@ -2,16 +2,19 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { showcase } from "@/data/content";
+import { reelShots, type ReelShot } from "@/data/content";
 import { asset } from "@/lib/asset";
 import { Button } from "./ui";
 
-type Card = (typeof showcase)[number];
+type Card = ReelShot;
+
+// Real project screenshots, repeated so the sphere stays evenly filled.
+const cards: Card[] = [...reelShots, ...reelShots];
 
 // Spread cards evenly over a sphere (golden-angle spiral), as lon/lat in degrees.
 // Latitude is squashed so cards stay near the equator band, like a planet ring.
-const placements = showcase.map((_, i) => {
-  const n = showcase.length;
+const placements = cards.map((_, i) => {
+  const n = cards.length;
   const y = 1 - ((i + 0.5) / n) * 2;
   const lat = Math.asin(y) * (180 / Math.PI) * 0.55;
   const lon = (i * 137.508) % 360;
@@ -242,9 +245,9 @@ export function WorksOrbit() {
               ref={sceneRef}
               className="absolute left-0 top-0 [transform-style:preserve-3d] will-change-transform"
             >
-              {showcase.map((card, i) => (
+              {cards.map((card, i) => (
                 <div
-                  key={card.brand}
+                  key={i}
                   ref={(el) => {
                     cardRefs.current[i] = el;
                   }}
@@ -272,43 +275,18 @@ export function WorksOrbit() {
   );
 }
 
-/* A mini website mock: nav bar, headline, hero photo. Visible from both sides like a sheet of glass. */
+/* A real project screenshot. Visible from both sides like a sheet of glass. */
 function ShowcaseCard({ card }: { card: Card }) {
-  const dark = card.theme === "dark";
   return (
-    <div
-      className={`flex size-full flex-col overflow-hidden rounded-xl border p-2 shadow-[0_30px_60px_-20px_#000] sm:p-3 ${
-        dark
-          ? "border-white/15 bg-[#111] text-white"
-          : "border-black/10 bg-[#f7f5f0] text-black"
-      }`}
-    >
-      <div className="flex items-center justify-between text-[6px] sm:text-[8px]">
-        <span className="font-semibold">{card.brand}.</span>
-        <span className="flex gap-2 opacity-60">
-          <span>Home</span>
-          <span>About</span>
-          <span>Contact</span>
-        </span>
-        <span
-          className={`rounded-full px-1.5 py-0.5 ${dark ? "bg-white text-black" : "bg-black text-white"}`}
-        >
-          Book
-        </span>
-      </div>
-      <p className="mt-1.5 text-[10px] font-semibold leading-tight tracking-tight sm:mt-2 sm:text-[15px]">
-        {card.headline}
-      </p>
-      <div className="relative mt-1.5 flex-1 overflow-hidden rounded-md sm:mt-2">
-        <Image
-          src={asset(card.image)}
-          alt=""
-          fill
-          sizes="320px"
-          loading="eager"
-          className="object-cover"
-        />
-      </div>
+    <div className="relative size-full overflow-hidden rounded-xl border border-white/15 bg-[#111] shadow-[0_30px_60px_-20px_#000]">
+      <Image
+        src={asset(card.image)}
+        alt={`${card.brand} — ${card.headline}`}
+        fill
+        sizes="320px"
+        loading="eager"
+        className="object-cover object-top"
+      />
     </div>
   );
 }

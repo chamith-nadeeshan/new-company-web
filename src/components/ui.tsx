@@ -2,8 +2,17 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { siteConfig } from "@/config/site";
 import { asset } from "@/lib/asset";
+import { FelinnLogo } from "./FelinnLogo";
 
-export function Logo({ heightClass = "h-7" }: { heightClass?: string }) {
+// `heightClass` sizes an image logo; `wordmarkClass` sets the font-size the
+// animated wordmark scales from.
+export function Logo({
+  heightClass = "h-7",
+  wordmarkClass = "text-[2rem]",
+}: {
+  heightClass?: string;
+  wordmarkClass?: string;
+}) {
   return (
     <a href="#home" className="flex items-center gap-2" aria-label={`${siteConfig.name} home`}>
       {siteConfig.logo ? (
@@ -28,12 +37,7 @@ export function Logo({ heightClass = "h-7" }: { heightClass?: string }) {
           )}
         </>
       ) : (
-        <>
-          <svg width="22" height="20" viewBox="0 0 22 20" fill="currentColor" aria-hidden>
-            <path d="M11 0l11 20H0L11 0zm0 6.5L5.2 17h11.6L11 6.5z" />
-          </svg>
-          <span className="text-xl font-semibold tracking-[-0.03em]">{siteConfig.name}</span>
-        </>
+        <FelinnLogo className={wordmarkClass} />
       )}
     </a>
   );

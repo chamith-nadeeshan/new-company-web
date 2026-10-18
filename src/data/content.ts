@@ -116,10 +116,22 @@ export const showcase = [
 ] as const;
 
 // Real project screenshots shown in the editor-mockup marquee (EditorMockup).
-// Files live in /public/projects-reel.
-export const reelShots = [
+// Files live in /public/projects-reel. `mobileImage` is a 390px-wide phone
+// capture; only shots that have one appear in the mockup's mobile view.
+export type ReelShot = {
+  brand: string;
+  headline: string;
+  theme: "light" | "dark";
+  image: string;
+  mobileImage?: string;
+};
+
+export const reelShots: ReelShot[] = [
   { brand: "Fitly", headline: "Fitness website UI", theme: "light", image: "/projects-reel/fitness-layout.jpg" },
   { brand: "Fitly", headline: "Weekly streaks & sessions", theme: "dark", image: "/projects-reel/fitness-streak.jpg" },
   { brand: "Studio", headline: "Product interface", theme: "light", image: "/projects-reel/project-01.png" },
   { brand: "Studio", headline: "Dashboard concept", theme: "dark", image: "/projects-reel/project-02.png" },
-] as const;
+  { brand: "Proton", headline: "Sri Lanka–China gateway", theme: "dark", image: "/projects-reel/proton.png", mobileImage: "/projects-reel/proton-mobile.jpg" },
+  { brand: "Nexora", headline: "Premium streetwear store", theme: "dark", image: "/projects-reel/nexora.png", mobileImage: "/projects-reel/nexora-mobile.jpg" },
+  { brand: "Nexora", headline: "3D apparel customizer", theme: "dark", image: "/projects-reel/nexora-customize.png", mobileImage: "/projects-reel/nexora-customize-mobile.jpg" },
+];

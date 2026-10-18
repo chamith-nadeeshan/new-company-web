@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { reelShots } from "@/data/content";
+import { reelShots, type ReelShot } from "@/data/content";
 import { asset } from "@/lib/asset";
 
-type Card = (typeof reelShots)[number];
+type Card = ReelShot;
 
 // A faux design-tool window (à la visuvate.com) placed below the hero: fixed
 // editor chrome — top toolbar, a Layers panel, a properties panel, a floating
@@ -71,6 +71,8 @@ export function EditorMockup() {
   const [positions, setPositions] = useState<Record<string, (typeof POSITIONS)[number]>>({});
   const [directions, setDirections] = useState<Record<string, "row" | "column">>({});
   const [held, setHeld] = useState<number | null>(null);
+  // Below lg the left panel is an off-canvas drawer.
+  const [panelOpen, setPanelOpen] = useState(false);
 
   const layerName = LAYERS[activeLayer];
   const props = LAYER_PROPS[layerName];
@@ -78,7 +80,11 @@ export function EditorMockup() {
   const direction = directions[layerName] ?? props.direction;
   const mobile = device === "mobile";
 
-  const cards = [...reelShots, ...reelShots];
+  // Mobile view only shows shots that have a real phone capture. Short lists are
+  // repeated so one copy of the marquee is still wider than the canvas.
+  const shots = mobile ? reelShots.filter((s) => s.mobileImage) : reelShots;
+  const copy = shots.length < 6 ? [...shots, ...shots] : shots;
+  const cards = [...copy, ...copy];
 
   const measure = useCallback(() => {
     const track = trackRef.current;
@@ -161,17 +167,26 @@ export function EditorMockup() {
     speed.current = SPEEDS[next];
   };
 
+  // The card list changes with the device, so remeasure and restart the loop.
+  useEffect(() => {
+    measure();
+    offset.current = 0;
+  }, [device, measure]);
+
   // Clicking a layer highlights it and jumps the canvas to that preview.
   const selectLayer = (i: number) => {
     setActiveLayer(i);
     jumpTo(i);
+    setPanelOpen(false);
   };
   const jumpTo = (i: number) => {
-    if (stride.current) offset.current = wrap(-stride.current * (i % reelShots.length));
+    if (stride.current) offset.current = wrap(-stride.current * (i % shots.length));
   };
   const selectAsset = (i: number) => {
     setActiveAsset(i);
-    jumpTo(i);
+    const at = shots.indexOf(reelShots[i]);
+    if (at >= 0) jumpTo(at);
+    setPanelOpen(false);
   };
   const cyclePosition = () =>
     setPositions((p) => ({
@@ -196,7 +211,16 @@ export function EditorMockup() {
               <span className="grid size-7 place-items-center rounded-lg bg-blue text-sm font-bold text-black">
                 V
               </span>
-              <ChevronRight className="text-dim" />
+              <button
+                type="button"
+                onClick={() => setPanelOpen((o) => !o)}
+                aria-label={panelOpen ? "Close panel" : "Open pages, layers and assets"}
+                aria-expanded={panelOpen}
+                className="grid size-7 place-items-center rounded-md text-dim transition-colors hover:bg-fg/10 hover:text-fg lg:hidden"
+              >
+                <PanelIcon />
+              </button>
+              <ChevronRight className="hidden text-dim lg:block" />
             </div>
 
             <div className="flex items-center gap-2 sm:gap-3">
@@ -239,9 +263,23 @@ export function EditorMockup() {
           </div>
 
           {/* ---- body: left panel | canvas | right panel ---- */}
-          <div className="grid lg:grid-cols-[232px_1fr_248px]">
-            {/* left: layers */}
-            <aside className="hidden flex-col border-r border-line p-3 lg:flex">
+          <div className="relative grid lg:grid-cols-[232px_1fr_248px]">
+            {/* drawer backdrop (below lg) */}
+            <button
+              type="button"
+              aria-label="Close panel"
+              tabIndex={panelOpen ? 0 : -1}
+              onClick={() => setPanelOpen(false)}
+              className={`absolute inset-0 z-40 bg-black/50 transition-opacity duration-300 lg:hidden ${
+                panelOpen ? "opacity-100" : "pointer-events-none opacity-0"
+              }`}
+            />
+            {/* left: layers — static column on lg, slide-in drawer below */}
+            <aside
+              className={`absolute inset-y-0 left-0 z-50 flex w-[232px] flex-col overflow-y-auto border-r border-line p-3 transition-transform duration-300 ease-brand lg:static lg:z-auto lg:w-auto lg:translate-x-0 lg:overflow-visible ${
+                panelOpen ? "translate-x-0" : "-translate-x-full"
+              } ${light ? "bg-white" : "bg-[#0a0a0a]"} lg:bg-transparent`}
+            >
               <div className="grid grid-cols-3 gap-1 rounded-lg bg-surface p-1 text-xs font-medium">
                 {(["Pages", "Layers", "Assets"] as const).map((t) => (
                   <button
@@ -530,10 +568,10 @@ function PreviewCard({
     >
       <div className="relative h-full">
         <Image
-          src={asset(card.image)}
+          src={asset(mobile && card.mobileImage ? card.mobileImage : card.image)}
           alt={`${card.brand} — ${card.headline}`}
           fill
-          sizes="(max-width: 640px) 300px, 560px"
+          sizes={mobile ? "(max-width: 640px) 150px, 220px" : "(max-width: 640px) 300px, 560px"}
           draggable={false}
           className={`object-cover ${mobile ? "object-top" : ""}`}
         />
@@ -705,6 +743,9 @@ function HomeIcon({ className = "" }: { className?: string }) {
 }
 function LayersIcon({ className = "" }: { className?: string }) {
   return <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke={ic} strokeWidth="2" className={className} aria-hidden><path d="m12 3 9 5-9 5-9-5z" strokeLinejoin="round" /><path d="m3 13 9 5 9-5" strokeLinejoin="round" /></svg>;
+}
+function PanelIcon({ className = "" }: { className?: string }) {
+  return <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke={ic} strokeWidth="2" className={className} aria-hidden><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M9 4v16" /></svg>;
 }
 function ChevronRight({ className = "" }: { className?: string }) {
   return <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke={ic} strokeWidth="2" className={className} aria-hidden><path d="m9 6 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" /></svg>;

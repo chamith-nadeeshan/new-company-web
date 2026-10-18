@@ -4,11 +4,7 @@ import {
   Geist,
   Montserrat,
   Rubik_Bubbles,
-  Rubik_Glitch,
-  Rubik_Iso,
-  Rubik_Maze,
   Rubik_Moonrocks,
-  Rubik_Puddles,
 } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -28,7 +24,8 @@ const fraunces = Fraunces({
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "900"],
+  style: ["normal", "italic"],
 });
 
 // Playful display faces the hero accent word flips through, like escolhadigital.
@@ -37,28 +34,8 @@ const rubikBubbles = Rubik_Bubbles({
   subsets: ["latin"],
   weight: "400",
 });
-const rubikGlitch = Rubik_Glitch({
-  variable: "--font-rubik-glitch",
-  subsets: ["latin"],
-  weight: "400",
-});
-const rubikIso = Rubik_Iso({
-  variable: "--font-rubik-iso",
-  subsets: ["latin"],
-  weight: "400",
-});
-const rubikMaze = Rubik_Maze({
-  variable: "--font-rubik-maze",
-  subsets: ["latin"],
-  weight: "400",
-});
 const rubikMoonrocks = Rubik_Moonrocks({
   variable: "--font-rubik-moonrocks",
-  subsets: ["latin"],
-  weight: "400",
-});
-const rubikPuddles = Rubik_Puddles({
-  variable: "--font-rubik-puddles",
   subsets: ["latin"],
   weight: "400",
 });
@@ -85,7 +62,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       data-theme="dark"
       suppressHydrationWarning
-      className={`${geist.variable} ${fraunces.variable} ${montserrat.variable} ${rubikBubbles.variable} ${rubikGlitch.variable} ${rubikIso.variable} ${rubikMaze.variable} ${rubikMoonrocks.variable} ${rubikPuddles.variable} h-full antialiased`}
+      className={`${geist.variable} ${fraunces.variable} ${montserrat.variable} ${rubikBubbles.variable} ${rubikMoonrocks.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <SmoothScroll />

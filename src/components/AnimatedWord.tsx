@@ -4,14 +4,9 @@ import { useEffect, useState } from "react";
 
 // The hero accent word, à la escolhadigital.com: every couple of seconds it
 // flips on the X axis and swaps to the next playful Rubik display font.
-const FONTS = [
-  "var(--font-rubik-bubbles)",
-  "var(--font-rubik-glitch)",
-  "var(--font-rubik-iso)",
-  "var(--font-rubik-maze)",
-  "var(--font-rubik-moonrocks)",
-  "var(--font-rubik-puddles)",
-];
+// Only faces that stay legible at hero size — Glitch, Iso, Maze and Puddles
+// read as texture rather than letters.
+const FONTS = ["var(--font-rubik-bubbles)", "var(--font-rubik-moonrocks)"];
 
 const HOLD = 2200; // ms a font stays before the next flip
 const FLIP = 360; // ms the flip takes
@@ -51,9 +46,11 @@ export function AnimatedWord({ children }: { children: string }) {
   }, []);
 
   return (
-    <span className="inline-block [perspective:600px]">
+    // Padding + matching negative margin gives tall glyphs room so their tops
+    // aren't clipped by the 3D-flip layer, without shifting the line.
+    <span className="-my-[0.22em] inline-block py-[0.22em] [perspective:600px]">
       <span
-        className="inline-block text-blue"
+        className="inline-block px-[0.04em] text-blue"
         style={{
           fontFamily: FONTS[idx],
           transform: `rotateX(${angle}deg)`,

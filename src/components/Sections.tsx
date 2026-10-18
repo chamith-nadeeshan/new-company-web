@@ -1,4 +1,6 @@
-import { faqs, posts, pricing, projects, stats, techStack } from "@/data/content";
+import Image from "next/image";
+import { faqs, posts, pricing, projects, reelShots, stats, techStack } from "@/data/content";
+import { asset } from "@/lib/asset";
 import {
   siDocker,
   siFigma,
@@ -77,10 +79,10 @@ export function TechStack() {
 }
 
 export function Intro() {
-  const rows = [projects, [...projects].reverse()];
+  const rows = [reelShots, [...reelShots].reverse()];
   return (
     <section id="about" className="relative scroll-mt-24 overflow-hidden py-24">
-      {/* Drifting project tiles */}
+      {/* Drifting real project screenshots */}
       <div aria-hidden className="marquee-wrap flex flex-col gap-3 lg:absolute lg:inset-y-0 lg:left-[34%] lg:right-0 lg:justify-center">
         {rows.map((row, r) => (
           <div key={r} className="overflow-hidden">
@@ -88,8 +90,13 @@ export function Intro() {
               className={`marquee gap-3 pr-3 ${r % 2 ? "marquee-reverse" : ""}`}
               style={{ ["--duration" as string]: `${60 + r * 10}s` }}
             >
-              {[...row, ...row].map((p, i) => (
-                <ProjectShot key={`${p.title}-${i}`} p={p} className="aspect-[4/3] w-[260px] shrink-0 sm:w-[358px]" />
+              {[...row, ...row].map((s, i) => (
+                <div
+                  key={`${s.image}-${i}`}
+                  className="relative aspect-[16/10] w-[260px] shrink-0 overflow-hidden rounded-xl border border-line bg-[#101010] sm:w-[358px]"
+                >
+                  <Image src={asset(s.image)} alt="" fill sizes="(max-width: 640px) 260px, 358px" className="object-cover object-top" />
+                </div>
               ))}
             </div>
           </div>

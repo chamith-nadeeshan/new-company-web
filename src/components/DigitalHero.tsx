@@ -60,7 +60,7 @@ export function DigitalHero() {
 
       {/* Copy */}
       <div className="relative z-10 flex flex-col items-center px-4 pt-[clamp(88px,15vh,172px)] text-center">
-        <h1 className="mx-auto max-w-[18ch] text-[clamp(26px,3.6vw,56px)] font-semibold leading-[1.1] tracking-[-0.05em]">
+        <h1 className="mx-auto max-w-[18ch] text-[clamp(26px,3.6vw,56px)] font-semibold leading-[1.16] tracking-[-0.05em]">
           We create <AnimatedWord>awesome</AnimatedWord> digital experiences!
         </h1>
 

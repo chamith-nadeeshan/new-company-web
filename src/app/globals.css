@@ -154,6 +154,55 @@ body {
   display: inline-block;
 }
 
+/* ---------- Felinn wordmark (FelinnLogo) ---------- */
+.felinn-logo {
+  --fel-top: #ffffff;
+  --fel-mid: #e2e8f0;
+  --fel-shadow: #475569;
+  --fel-stroke: rgba(255, 255, 255, 0.8);
+  --logo-hard-shadow: rgba(0, 0, 0, 0.8);
+  --logo-glow: rgba(251, 146, 60, 0.15);
+  display: inline-flex;
+  font-family: var(--font-montserrat), sans-serif;
+  line-height: 1;
+  user-select: none;
+  filter: drop-shadow(0 0 0.25em var(--logo-glow));
+}
+:root[data-theme="light"] .felinn-logo {
+  --fel-top: #1e293b;
+  --fel-mid: #334155;
+  --fel-shadow: #cbd5e1;
+  --fel-stroke: rgba(15, 23, 42, 0.6);
+  --logo-hard-shadow: rgba(15, 23, 42, 0.25);
+  --logo-glow: rgba(251, 146, 60, 0.1);
+}
+.felinn-text {
+  display: flex;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+.felinn-fel,
+.felinn-inn {
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.felinn-fel {
+  background-image: linear-gradient(180deg, var(--fel-top) 0%, var(--fel-mid) 100%);
+  -webkit-text-stroke: 0.01em var(--fel-stroke);
+  filter: drop-shadow(0.02em 0.02em 0 var(--fel-shadow))
+    drop-shadow(0.04em 0.04em 0 var(--logo-hard-shadow));
+}
+.felinn-inn {
+  margin-left: 0.02em;
+  background-image: linear-gradient(180deg, #fb923c 0%, #f97316 100%);
+  -webkit-text-stroke: 0.01em rgba(255, 237, 213, 0.8);
+  filter: drop-shadow(0.02em 0.02em 0 #7c2d12)
+    drop-shadow(0.04em 0.04em 0 var(--logo-hard-shadow));
+}
+
 /* ---------- Hero ambient corner glow (visuvate-style aurora) ---------- */
 .hero-glow {
   position: absolute;
@@ -177,10 +226,22 @@ body {
     );
 }
 
-/* ---------- Slowly drifting background boxes ---------- */
+/* ---------- Floating, colliding background boxes ---------- */
+/* Motion lives in BackgroundBoxes.tsx (rAF physics + anime.js impact bump). */
+/* Phones get fewer, half-size boxes so they don't crowd the hero copy or
+   collide constantly. */
+.bg-boxes {
+  --box-scale: 1;
+}
+@media (max-width: 639px) {
+  .bg-boxes {
+    --box-scale: 0.5;
+  }
+}
 .bg-box {
   position: absolute;
-  border-radius: 22px;
+  inset: 0;
+  border-radius: min(22px, 15%);
   /* Tinted with the brand accent (logo amber) instead of corelabs' blue. */
   border: 1.5px solid color-mix(in srgb, var(--color-blue) 26%, transparent);
   background: linear-gradient(
@@ -191,23 +252,20 @@ body {
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, var(--color-blue) 12%, transparent),
     0 0 60px -6px color-mix(in srgb, var(--color-blue) 22%, transparent);
-  animation: box-drift var(--dur, 24s) ease-in-out var(--delay, 0s) infinite;
   will-change: transform;
 }
-@keyframes box-drift {
-  0%,
-  100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  50% {
-    transform: translate(var(--dx, 24px), var(--dy, -20px))
-      rotate(var(--rot, 4deg));
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .bg-box {
-    animation: none;
-  }
+/* White impact flash, faded in/out by anime.js on collision. */
+.bg-box-flash {
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  border: 1.5px solid #ffffffd9;
+  background: linear-gradient(140deg, #ffffff33, #ffffff0a 75%);
+  box-shadow:
+    0 0 50px -4px #ffffff66,
+    inset 0 0 24px #ffffff1f;
+  opacity: 0;
+  will-change: opacity;
 }
 
 /* ---------- escolhadigital-style gooey morphing words ---------- */
