@@ -17,6 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { services } from "@/data/content";
 import { Reveal } from "./Reveal";
+import { RobotFollower } from "./RobotFollower";
 import { Button } from "./ui";
 
 // One icon per service, same order as `services`.
@@ -49,6 +50,30 @@ function Icon({ icon }: { icon: IconDefinition }) {
   );
 }
 
+function ServiceCard({
+  s,
+  i,
+}: {
+  s: (typeof services)[number];
+  i: number;
+}) {
+  return (
+    <Reveal delay={(i % 5) * 60}>
+      <a href="#contact" data-dots-host className="svc-card group">
+        <DotField />
+        <span aria-hidden className="svc-beam" />
+        <span aria-hidden className="svc-beam svc-beam-b" />
+        <span className="relative flex flex-col items-center gap-[21px]">
+          <Icon icon={icons[i]} />
+          <span className="whitespace-pre-line text-center text-[16px] leading-[21px] text-dim transition-colors duration-300 ease-brand group-hover:text-fg">
+            {s.label}
+          </span>
+        </span>
+      </a>
+    </Reveal>
+  );
+}
+
 export function ServicesGrid() {
   return (
     <section id="services" className="scroll-mt-24 px-4 pb-5 pt-24 sm:px-8 md:pt-32">
@@ -73,25 +98,43 @@ export function ServicesGrid() {
           </div>
         </Reveal>
 
-        <ul className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        {/* Below xl: the original responsive grid (no room for the robot beside
+            it, so it's omitted here). */}
+        <ul className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:hidden">
           {services.map((s, i) => (
             <li key={s.title}>
-              <Reveal delay={(i % 5) * 60}>
-                <a href="#contact" data-dots-host className="svc-card group">
-                  <DotField />
-                  <span aria-hidden className="svc-beam" />
-                  <span aria-hidden className="svc-beam svc-beam-b" />
-                  <span className="relative flex flex-col items-center gap-[21px]">
-                    <Icon icon={icons[i]} />
-                    <span className="whitespace-pre-line text-center text-[16px] leading-[21px] text-dim transition-colors duration-300 ease-brand group-hover:text-fg">
-                      {s.label}
-                    </span>
-                  </span>
-                </a>
-              </Reveal>
+              <ServiceCard s={s} i={i} />
             </li>
           ))}
         </ul>
+
+        {/* xl+: six cards | robot | four cards. The robot has its own centre
+            column so it never overlaps a card. The 3fr / 2fr weights keep every
+            card the same square size across both groups. */}
+        <div className="mt-12 hidden items-center gap-3 xl:flex">
+          <ul className="grid grid-cols-3 gap-3" style={{ flex: "3 1 0" }}>
+            {services.slice(0, 6).map((s, i) => (
+              <li key={s.title}>
+                <ServiceCard s={s} i={i} />
+              </li>
+            ))}
+          </ul>
+
+          <div
+            aria-hidden
+            className="flex w-[clamp(200px,17vw,280px)] shrink-0 justify-center"
+          >
+            <RobotFollower className="h-[clamp(260px,22vw,380px)] [aspect-ratio:480/853]" />
+          </div>
+
+          <ul className="grid grid-cols-2 gap-3" style={{ flex: "2 1 0" }}>
+            {services.slice(6).map((s, i) => (
+              <li key={s.title}>
+                <ServiceCard s={s} i={i + 6} />
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

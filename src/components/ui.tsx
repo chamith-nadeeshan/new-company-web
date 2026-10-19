@@ -25,15 +25,21 @@ export function Logo({
             className={`logo-on-dark ${heightClass} w-auto`}
             priority
           />
-          {siteConfig.logoLight && (
+          {siteConfig.logoLight ? (
             <Image
               src={asset(siteConfig.logoLight)}
               alt={siteConfig.name}
-              width={322}
+              width={336}
               height={100}
               className={`logo-on-light ${heightClass} w-auto`}
               priority
             />
+          ) : (
+            // No light-theme image: fall back to the theme-aware CSS wordmark so
+            // the logo stays visible (and legible) on the light theme.
+            <span className="logo-on-light">
+              <FelinnLogo className={wordmarkClass} />
+            </span>
           )}
         </>
       ) : (

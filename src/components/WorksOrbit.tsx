@@ -2,14 +2,14 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { reelShots, type ReelShot } from "@/data/content";
+import { worksShots, type ReelShot } from "@/data/content";
 import { asset } from "@/lib/asset";
 import { Button } from "./ui";
 
 type Card = ReelShot;
 
 // Real project screenshots, repeated so the sphere stays evenly filled.
-const cards: Card[] = [...reelShots, ...reelShots];
+const cards: Card[] = [...worksShots, ...worksShots];
 
 // Spread cards evenly over a sphere (golden-angle spiral), as lon/lat in degrees.
 // Latitude is squashed so cards stay near the equator band, like a planet ring.
@@ -278,14 +278,14 @@ export function WorksOrbit() {
 /* A real project screenshot. Visible from both sides like a sheet of glass. */
 function ShowcaseCard({ card }: { card: Card }) {
   return (
-    <div className="relative size-full overflow-hidden rounded-xl border border-white/15 bg-[#111] shadow-[0_30px_60px_-20px_#000]">
+    <div className="relative size-full overflow-hidden rounded-xl bg-[#111] shadow-[0_30px_60px_-20px_#000]">
       <Image
         src={asset(card.image)}
         alt={`${card.brand} — ${card.headline}`}
         fill
         sizes="320px"
         loading="eager"
-        className="object-cover object-top"
+        className="object-cover object-center"
       />
     </div>
   );

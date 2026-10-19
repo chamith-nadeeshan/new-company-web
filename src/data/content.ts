@@ -135,3 +135,42 @@ export const reelShots: ReelShot[] = [
   { brand: "Nexora", headline: "Premium streetwear store", theme: "dark", image: "/projects-reel/nexora.png", mobileImage: "/projects-reel/nexora-mobile.jpg" },
   { brand: "Nexora", headline: "3D apparel customizer", theme: "dark", image: "/projects-reel/nexora-customize.png", mobileImage: "/projects-reel/nexora-customize-mobile.jpg" },
 ];
+
+// Screenshots for the drifting marquee in the Intro section only. Files live in
+// /public/projects-slider/{row-1,row-2}. Kept separate from `reelShots` so
+// EditorMockup and WorksOrbit are unaffected. Top row uses row-1, bottom uses row-2.
+// `w`/`h` are the natural pixel dimensions so cards keep a uniform height while
+// their width follows each image's aspect ratio (no cropping, no letterbox).
+export type SliderShot = { image: string; w: number; h: number };
+
+export const sliderRow1: SliderShot[] = [
+  { image: "/projects-slider/row-1/appalo-brand.jpg", w: 1376, h: 768 },
+  { image: "/projects-slider/row-1/bmw-electric.jpg", w: 1376, h: 768 },
+  { image: "/projects-slider/row-1/coaching.jpg", w: 1376, h: 768 },
+  { image: "/projects-slider/row-1/hand-app.jpg", w: 896, h: 1200 },
+  { image: "/projects-slider/row-1/petal-power.jpg", w: 1376, h: 768 },
+];
+
+// Screenshots shown on the rotating sphere in the "Our Works" section
+// (WorksOrbit). Files live in /public/our-works. All are landscape so they fill
+// the uniform orbit cards without cropping.
+export const worksShots: ReelShot[] = [
+  { brand: "Appalo", headline: "Brand landing page", theme: "dark", image: "/our-works/appalo-brand.jpg" },
+  { brand: "BMW", headline: "Electric car website", theme: "dark", image: "/our-works/bmw-electric.jpg" },
+  { brand: "Coaching", headline: "Coaching landing page", theme: "light", image: "/our-works/coaching.jpg" },
+  { brand: "Fitly", headline: "Fitness website UI", theme: "light", image: "/our-works/fitness-layout.jpg" },
+  { brand: "Fitly", headline: "Weekly streaks & sessions", theme: "dark", image: "/our-works/fitness-streak.jpg" },
+  { brand: "Nexora", headline: "Premium streetwear store", theme: "dark", image: "/our-works/nexora.png" },
+  { brand: "Petal", headline: "Floral brand site", theme: "light", image: "/our-works/petal-power.jpg" },
+  { brand: "Productivity", headline: "Productivity app site", theme: "light", image: "/our-works/productivity-app.jpg" },
+  { brand: "Studio", headline: "Product interface", theme: "light", image: "/our-works/project-01.png" },
+  { brand: "Smart Home", headline: "Smart home landing page", theme: "light", image: "/our-works/smart-home.jpg" },
+  { brand: "Sneaker", headline: "Sneaker store landing", theme: "dark", image: "/our-works/sneaker.jpg" },
+];
+
+export const sliderRow2: SliderShot[] = [
+  { image: "/projects-slider/row-2/portfolio.jpg", w: 896, h: 1200 },
+  { image: "/projects-slider/row-2/productivity-app.jpg", w: 1376, h: 768 },
+  { image: "/projects-slider/row-2/smart-home.jpg", w: 1376, h: 768 },
+  { image: "/projects-slider/row-2/sneaker.jpg", w: 1376, h: 768 },
+];

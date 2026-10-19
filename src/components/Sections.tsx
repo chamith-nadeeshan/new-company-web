@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { faqs, posts, pricing, projects, reelShots, stats, techStack } from "@/data/content";
+import { faqs, posts, pricing, projects, sliderRow1, sliderRow2, stats, techStack } from "@/data/content";
 import { asset } from "@/lib/asset";
 import {
   siDocker,
@@ -79,7 +79,7 @@ export function TechStack() {
 }
 
 export function Intro() {
-  const rows = [reelShots, [...reelShots].reverse()];
+  const rows = [sliderRow1, sliderRow2];
   return (
     <section id="about" className="relative scroll-mt-24 overflow-hidden py-24">
       {/* Drifting real project screenshots */}
@@ -93,9 +93,10 @@ export function Intro() {
               {[...row, ...row].map((s, i) => (
                 <div
                   key={`${s.image}-${i}`}
-                  className="relative aspect-[16/10] w-[260px] shrink-0 overflow-hidden rounded-xl border border-line bg-[#101010] sm:w-[358px]"
+                  className="relative h-[200px] shrink-0 overflow-hidden rounded-xl sm:h-[240px]"
+                  style={{ aspectRatio: `${s.w} / ${s.h}` }}
                 >
-                  <Image src={asset(s.image)} alt="" fill sizes="(max-width: 640px) 260px, 358px" className="object-cover object-top" />
+                  <Image src={asset(s.image)} alt="" fill sizes="(max-width: 640px) 360px, 430px" className="object-cover" />
                 </div>
               ))}
             </div>

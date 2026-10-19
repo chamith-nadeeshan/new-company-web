@@ -7,7 +7,9 @@ export const siteConfig = {
   // Put the logo file in /public (e.g. /public/logo.svg) and set the path here.
   // Leave as null to render the animated Felinn wordmark. `logo` shows on dark
   // backgrounds (white wordmark); `logoLight` shows when the light theme is active.
-  logo: null as string | null,
+  // logo.png is the white/orange wordmark — perfect on dark. No light-theme
+  // variant yet, so the Logo component falls back to the CSS wordmark on light.
+  logo: "/logo.png" as string | null,
   logoLight: null as string | null,
   tagline: "Engineering digital products that last",
   description:
