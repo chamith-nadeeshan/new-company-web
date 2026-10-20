@@ -20,11 +20,9 @@ export const siteConfig = {
   location: "Colombo, Sri Lanka",
   nav: [
     { label: "Home", href: "#home" },
-    { label: "About", href: "#about" },
+    { label: "About", href: "/about" },
     { label: "Works", href: "#works" },
-    { label: "Services", href: "#services" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "Blog", href: "#blog" },
+    { label: "Services", href: "/services" },
     { label: "Contact", href: "#contact" },
   ],
   socials: [

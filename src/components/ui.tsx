@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { ReactNode } from "react";
 import { siteConfig } from "@/config/site";
 import { asset } from "@/lib/asset";
@@ -14,7 +15,7 @@ export function Logo({
   wordmarkClass?: string;
 }) {
   return (
-    <a href="#home" className="flex items-center gap-2" aria-label={`${siteConfig.name} home`}>
+    <Link href="/" className="flex items-center gap-2" aria-label={`${siteConfig.name} home`}>
       {siteConfig.logo ? (
         <>
           <Image
@@ -45,7 +46,7 @@ export function Logo({
       ) : (
         <FelinnLogo className={wordmarkClass} />
       )}
-    </a>
+    </Link>
   );
 }
 

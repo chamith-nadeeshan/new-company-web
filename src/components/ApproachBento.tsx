@@ -1,8 +1,13 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import Image from "next/image";
 import { approach, projects, showcase } from "@/data/content";
+import { asset } from "@/lib/asset";
 import { Reveal } from "./Reveal";
+
+// Real interface screenshots shown behind the step 01 marquee cards.
+const marqueeShots = ["/pp/agency.jpg", "/pp/travel.jpg", "/pp/motion-studio.jpg"];
 
 type Step = (typeof approach)[number];
 
@@ -117,31 +122,14 @@ function SitesMarquee() {
               <span className="size-2 rounded-full bg-[#febc2e]" />
               <span className="size-2 rounded-full bg-[#28c840]" />
             </div>
-            <div
-              className="relative h-[260px] overflow-hidden rounded-t-md sm:h-[330px]"
-              style={{
-                background: `linear-gradient(150deg, ${s.from}, ${s.to})`,
-              }}
-            >
-              <div className="flex items-center justify-between px-6 py-4 text-[10px] text-white/80">
-                <span className="font-semibold">{s.brand}</span>
-                <span className="rounded-full bg-white px-2.5 py-1 font-medium text-black">
-                  Get started
-                </span>
-              </div>
-              <p className="mt-6 max-w-[70%] px-6 text-[1.75rem] font-semibold leading-[1.05] tracking-h2 text-white sm:text-[2.25rem]">
-                {s.headline}
-              </p>
-              <div className="absolute inset-x-6 bottom-0 grid grid-cols-3 gap-3 rounded-t-lg bg-white/10 p-3 backdrop-blur">
-                {["98%", "150+", "24/7"].map((v) => (
-                  <div key={v} className="text-white">
-                    <p className="text-xl font-light">{v}</p>
-                    <p className="text-[8px] uppercase tracking-wider text-white/60">
-                      metric
-                    </p>
-                  </div>
-                ))}
-              </div>
+            <div className="relative h-[260px] overflow-hidden rounded-t-md sm:h-[330px]">
+              <Image
+                src={asset(marqueeShots[i % marqueeShots.length])}
+                alt={`${s.brand} interface`}
+                fill
+                sizes="460px"
+                className="object-contain"
+              />
             </div>
           </div>
         ))}
@@ -150,76 +138,248 @@ function SitesMarquee() {
   );
 }
 
-/* ---------- 02 · Floating phones over a glowing horizon ---------- */
+/* ---------- 02 · Floating phones over a glowing blue planet ---------- */
 function PlanetArt() {
   return (
-    <div className="absolute inset-x-[-40%] bottom-[-118%] aspect-square rounded-full border-t-2 border-blue-300/80 bg-[radial-gradient(circle_at_50%_0%,#3a1f05,#0a0600_45%)] shadow-[0_-30px_90px_-10px_#f2921e]" />
+    <>
+      <div className="absolute inset-0 bg-[radial-gradient(130%_90%_at_50%_125%,#f2921e_0%,#3a1f05_42%,transparent_72%)]" />
+      <div className="absolute inset-x-[-32%] bottom-[-128%] aspect-square rounded-full bg-[radial-gradient(circle_at_50%_12%,#fbb457,#c2721a_38%,#2a1603_72%)] shadow-[0_-45px_130px_-20px_#f2921e]" />
+    </>
   );
 }
 
 function Phones() {
   return (
-    <div className="absolute inset-0 flex items-end justify-center gap-4">
-      <div className="breathe translate-y-10 -rotate-[8deg]">
-        <Phone light />
+    <div className="absolute inset-0 flex items-end justify-center gap-2 sm:gap-4">
+      <div className="breathe translate-y-12 -rotate-[10deg]">
+        <PhoneFrame>
+          <MinimalLightUI />
+        </PhoneFrame>
       </div>
       <div
-        className="breathe -translate-y-2 rotate-[8deg]"
+        className="breathe z-10 -translate-y-1 rotate-[9deg]"
         style={{ animationDelay: "-3s" }}
       >
-        <Phone />
+        <PhoneFrame>
+          <MinimalDarkUI />
+        </PhoneFrame>
       </div>
     </div>
   );
 }
 
-function Phone({ light = false }: { light?: boolean }) {
+function PhoneFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="h-[300px] w-[150px] rounded-[30px] border-[5px] border-[#2a2a2e] bg-[#2a2a2e] shadow-2xl sm:h-[340px] sm:w-[170px]">
-      <div
-        className={`relative h-full overflow-hidden rounded-[25px] p-3 ${light ? "bg-white text-black" : "bg-[#0d0d10] text-white"}`}
-      >
-        <div className="mx-auto mb-3 h-4 w-14 rounded-full bg-black" />
-        {light ? (
-          <>
-            <p className="text-[9px] font-semibold">Pulse</p>
-            <p className="mt-2 text-lg font-semibold leading-tight">
-              Today&apos;s activity
-            </p>
-            <div className="mx-auto mt-4 grid size-24 place-items-center rounded-full border-[10px] border-blue border-r-black/10">
-              <span className="text-sm font-semibold">72%</span>
-            </div>
-            <div className="mt-4 space-y-1.5">
-              {[80, 55, 65].map((w) => (
-                <div key={w} className="h-2 rounded bg-black/10">
-                  <div
-                    className="h-2 rounded bg-black/70"
-                    style={{ width: `${w}%` }}
-                  />
-                </div>
-              ))}
-            </div>
-          </>
-        ) : (
-          <>
-            <p className="text-[9px] font-semibold text-white/70">
-              Nova Studio
-            </p>
-            <p className="mt-3 text-[1.6rem] font-black uppercase leading-[0.95] tracking-tight">
-              Build
-              <br />
-              bold
-              <br />
-              <span className="text-blue">things</span>
-            </p>
-            <div className="mt-4 h-24 rounded-xl bg-gradient-to-br from-[#1e1b4b] to-[#818cf8]" />
-            <span className="mt-3 inline-block rounded-full bg-white px-3 py-1 text-[9px] font-semibold text-black">
-              Get in touch
+    <div className="relative h-[316px] w-[156px] sm:h-[356px] sm:w-[176px]">
+      {/* Titanium frame */}
+      <div className="absolute inset-0 rounded-[34px] bg-[linear-gradient(135deg,#dfe3e8,#8b9199_22%,#f4f6f8_50%,#6c7177_78%,#cdd2d8)] p-[3px] shadow-[0_35px_70px_-22px_rgba(0,0,0,0.75)]">
+        <div className="relative h-full w-full overflow-hidden rounded-[31px] bg-black p-[2.5px]">
+          <div className="relative h-full w-full overflow-hidden rounded-[29px]">
+            {children}
+            {/* Dynamic Island */}
+            <div className="absolute left-1/2 top-[7px] z-20 h-[17px] w-[50px] -translate-x-1/2 rounded-full bg-black" />
+          </div>
+        </div>
+      </div>
+      {/* Side buttons */}
+      <span className="absolute -left-[2px] top-[72px] h-5 w-[2px] rounded-l bg-[#71767c]" />
+      <span className="absolute -left-[2px] top-[104px] h-9 w-[2px] rounded-l bg-[#71767c]" />
+      <span className="absolute -left-[2px] top-[146px] h-9 w-[2px] rounded-l bg-[#71767c]" />
+      <span className="absolute -right-[2px] top-[120px] h-12 w-[2px] rounded-r bg-[#71767c]" />
+    </div>
+  );
+}
+
+function StatusBar({ dark = false }: { dark?: boolean }) {
+  const c = dark ? "bg-white" : "bg-black";
+  return (
+    <div
+      className={`relative z-10 flex items-center justify-between px-5 pt-[7px] text-[8px] font-semibold ${dark ? "text-white" : "text-black"}`}
+    >
+      <span>9:41</span>
+      <span className="flex items-end gap-[3px]">
+        <span className="flex items-end gap-[1.5px]">
+          {[3, 5, 7, 9].map((h) => (
+            <span
+              key={h}
+              className={`w-[2px] rounded-sm ${c}`}
+              style={{ height: `${h}px` }}
+            />
+          ))}
+        </span>
+        <span
+          className={`ml-[1px] h-[8px] w-[11px] rounded-[2px] border ${dark ? "border-white" : "border-black"} p-[1px]`}
+        >
+          <span className={`block h-full w-2/3 rounded-[1px] ${c}`} />
+        </span>
+      </span>
+    </div>
+  );
+}
+
+/* Minimal light UI — clean product landing */
+function MinimalLightUI() {
+  return (
+    <div className="flex h-full flex-col bg-[#fbfbfc] text-[#0b0b0d]">
+      <StatusBar />
+      <div className="mt-[6px] flex items-center justify-between px-[18px]">
+        <span className="flex items-center gap-[5px] text-[11px] font-semibold tracking-tight">
+          <span className="grid size-[15px] place-items-center rounded-[5px] bg-blue text-white">
+            <span className="text-[9px] font-bold leading-none">L</span>
+          </span>
+          Lumen
+        </span>
+        <span className="flex flex-col gap-[3px]">
+          <span className="h-[1.5px] w-[13px] rounded bg-black/70" />
+          <span className="h-[1.5px] w-[13px] rounded bg-black/70" />
+          <span className="h-[1.5px] w-[9px] rounded bg-black/70" />
+        </span>
+      </div>
+
+      <div className="px-[18px] pt-6">
+        <span className="inline-flex items-center gap-[4px] rounded-full bg-blue/10 px-[7px] py-[3px] text-[6.5px] font-medium text-blue">
+          <Star className="size-[7px]" /> 4.9 · 2,340 reviews
+        </span>
+        <p className="mt-[10px] text-[1.3rem] font-semibold leading-[1.06] tracking-tight">
+          Care that comes
+          <br />
+          <span className="text-black/35">to you,</span> today.
+        </p>
+        <p className="mt-[7px] text-[8px] leading-relaxed text-black/45">
+          Personalized interfaces designed for clarity, calm and ease.
+        </p>
+        <div className="mt-[14px] flex items-center gap-[6px]">
+          <span className="inline-flex h-[26px] flex-1 items-center justify-center gap-[5px] whitespace-nowrap rounded-full bg-[#0b0b0d] pl-[12px] pr-[5px] text-[7.5px] font-semibold text-white">
+            Book now
+            <span className="grid size-[17px] place-items-center rounded-full bg-blue text-[#0b0b0d]">
+              <Arrow className="size-[8px]" />
             </span>
-          </>
-        )}
+          </span>
+          <span className="inline-flex h-[26px] items-center justify-center whitespace-nowrap rounded-full border border-black/15 px-[13px] text-[7.5px] font-semibold">
+            Learn more
+          </span>
+        </div>
+      </div>
+
+      <div className="mt-auto p-[10px]">
+        <div className="rounded-xl border border-black/[0.06] bg-white p-[9px] shadow-[0_8px_20px_-12px_rgba(0,0,0,0.25)]">
+          <p className="text-[6.5px] font-semibold uppercase tracking-wider text-black/40">
+            Available now
+          </p>
+          <div className="mt-[7px] flex items-center gap-[7px]">
+            <span className="size-[22px] shrink-0 rounded-full bg-gradient-to-br from-blue-300 to-blue-700" />
+            <span className="min-w-0 flex-1">
+              <span className="block text-[8.5px] font-semibold leading-tight">
+                Jonathan Reed
+              </span>
+              <span className="block text-[6.5px] text-black/45">
+                Product Designer
+              </span>
+            </span>
+            <span className="grid size-[18px] shrink-0 place-items-center rounded-full bg-blue text-white">
+              <Arrow className="size-[7px]" />
+            </span>
+          </div>
+        </div>
       </div>
     </div>
+  );
+}
+
+/* Minimal dark UI — bold typographic portfolio */
+function MinimalDarkUI() {
+  return (
+    <div className="flex h-full flex-col bg-[#0a0a0c] text-white">
+      <StatusBar dark />
+      <div className="mt-[6px] flex items-center justify-between px-[18px]">
+        <span className="text-[12px] font-bold tracking-tight">
+          Show<span className="text-blue">in</span>
+        </span>
+        <span className="flex items-center gap-[6px]">
+          <span className="rounded-md border border-white/25 px-[7px] py-[3px] text-[7px] font-medium">
+            Hire me
+          </span>
+          <span className="flex flex-col gap-[3px]">
+            <span className="h-[1.5px] w-[11px] rounded bg-white/80" />
+            <span className="h-[1.5px] w-[11px] rounded bg-white/80" />
+          </span>
+        </span>
+      </div>
+
+      <div className="px-[18px] pt-[22px]">
+        <p className="text-[6.5px] font-medium uppercase tracking-[0.3em] text-white/40">
+          01 — Introduction
+        </p>
+        <div className="mt-[10px] flex items-start justify-between">
+          <p className="text-[1.5rem] font-black uppercase leading-[0.9] tracking-[-0.02em]">
+            Expert
+            <br />
+            freelance
+            <br />
+            designer
+          </p>
+          <Asterisk className="mt-[3px] size-[26px] shrink-0 text-blue" />
+        </div>
+        <p className="mt-[12px] max-w-[85%] text-[7.5px] leading-relaxed text-white/45">
+          Transforming ideas into reality with bold design and digital
+          creativity.
+        </p>
+      </div>
+
+      <div className="mt-auto flex items-stretch gap-[6px] p-[10px]">
+        <span className="flex w-[52px] shrink-0 flex-col justify-between rounded-lg bg-blue p-[8px] text-[8px] font-black uppercase leading-[0.95] text-white">
+          Hire
+          <br />
+          me
+          <Arrow className="size-[9px] rotate-45" />
+        </span>
+        <span className="flex-1 rounded-lg bg-gradient-to-br from-[#17120c] via-blue-700 to-blue" />
+      </div>
+    </div>
+  );
+}
+
+/* ---- tiny inline icons for the mockups ---- */
+function Star({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z" />
+    </svg>
+  );
+}
+
+function Arrow({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  );
+}
+
+function Asterisk({ className = "" }: { className?: string }) {
+  return (
+    <span
+      className={`grid place-items-center rounded-full bg-blue/15 ${className}`}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        className="size-2/3 text-blue"
+      >
+        <path d="M12 3v18M4.5 7.5l15 9M19.5 7.5l-15 9" />
+      </svg>
+    </span>
   );
 }
 
