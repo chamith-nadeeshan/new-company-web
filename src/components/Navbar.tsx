@@ -1,13 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { Button, Logo, Roll } from "./ui";
+
+// Whether a nav link points at the page currently being viewed. Links that
+// jump to an in-page section (e.g. "/#works") aren't real routes, so they're
+// never marked active — only plain page links ("/", "/about") are.
+function isActive(href: string, pathname: string) {
+  if (href.includes("#")) return false;
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 
 // top: transparent, full width · glass: full-width frosted bar · compact: floating pill
 type NavState = "top" | "glass" | "compact";
 
 export function Navbar() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<NavState>("top");
 
@@ -56,12 +66,14 @@ export function Navbar() {
         <Logo heightClass="h-5" wordmarkClass="text-[1.375rem]" />
 
         <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-7 lg:flex">
-          {links.map((item, i) => (
+          {links.map((item) => (
             <li key={item.href}>
               <a
                 href={item.href}
                 className={`group text-[0.9375rem] transition-colors duration-200 ${
-                  i === 0 ? "font-medium text-fg" : "text-muted hover:text-fg"
+                  isActive(item.href, pathname)
+                    ? "font-medium text-fg"
+                    : "text-muted hover:text-fg"
                 }`}
               >
                 <Roll>{item.label}</Roll>

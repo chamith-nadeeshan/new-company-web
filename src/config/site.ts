@@ -19,9 +19,9 @@ export const siteConfig = {
   phone: "+94 70 000 0000",
   location: "Colombo, Sri Lanka",
   nav: [
-    { label: "Home", href: "#home" },
+    { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-    { label: "Works", href: "#works" },
+    { label: "Works", href: "/#works" },
     { label: "Services", href: "/services" },
     { label: "Contact", href: "#contact" },
   ],
