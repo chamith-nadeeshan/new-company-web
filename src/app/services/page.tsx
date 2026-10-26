@@ -1,32 +1,17 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { AuroraStreaks } from "@/components/AuroraStreaks";
 import { Reveal } from "@/components/Reveal";
+import { ServiceScene } from "@/components/ServiceScenes";
 import { Badge, Section, Serif } from "@/components/ui";
 import { services } from "@/data/content";
-import { asset } from "@/lib/asset";
 
 export const metadata: Metadata = {
   title: "Services",
   description:
     "Design and engineering disciplines we bring to every product — applied only where the work actually needs them.",
 };
-
-// Card image per service, same order as `services`.
-const images = [
-  "/projects/northwind.jpg",
-  "/projects/atlas.jpg",
-  "/projects/pulse.jpg",
-  "/projects/kite.jpg",
-  "/projects/lumen.jpg",
-  "/projects/orbit.jpg",
-  "/projects/harbor.jpg",
-  "/projects/nova.jpg",
-  "/projects/summit.jpg",
-  "/projects/verde.jpg",
-];
 
 export default function ServicesPage() {
   return (
@@ -65,14 +50,14 @@ export default function ServicesPage() {
                   href="#contact"
                   className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-elevated transition-all duration-300 ease-brand hover:-translate-y-1 hover:border-blue/40 hover:shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)]"
                 >
-                  <div className="relative aspect-[16/10] overflow-hidden">
-                    <Image
-                      src={asset(images[i])}
-                      alt={s.title}
-                      fill
-                      sizes="(min-width:1024px) 420px, (min-width:640px) 50vw, 100vw"
-                      className="object-cover transition-transform duration-500 ease-brand group-hover:scale-105"
-                    />
+                  {/* Animated faux-UI scene on a dotted brand-yellow stage
+                      (brand take on visuvate.com/services). One scene per service,
+                      mapped by index in ServiceScenes. */}
+                  <div
+                    className="relative shrink-0 overflow-hidden"
+                    style={{ height: 232 }}
+                  >
+                    <ServiceScene i={i} />
                   </div>
                   <div className="flex flex-1 flex-col p-6">
                     <h2 className="text-xl font-semibold tracking-h3 transition-colors duration-300 group-hover:text-blue sm:text-[1.375rem]">
