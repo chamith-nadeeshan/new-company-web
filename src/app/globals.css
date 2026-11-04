@@ -957,6 +957,85 @@ details > summary::-webkit-details-marker {
   }
 }
 
+/* ---------- Case studies (/works, /works/[slug]) ---------- */
+/* Media reveal: a frame wipes open while the image inside eases from a slight
+   zoom, then a JS-driven parallax layer drifts the image as it scrolls past.
+   Three nested layers keep each transform independent:
+     .cs-frame  — overflow clip + wipe (clip-path, CSS transition on .is-in)
+     .cs-scale  — zoom-out reveal (CSS transition on .is-in)
+     .cs-par    — vertical parallax drift (JS writes --py every frame)          */
+.cs-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1s var(--ease-brand);
+}
+.cs-frame.is-in {
+  clip-path: inset(0 0 0 0);
+}
+.cs-scale {
+  position: absolute;
+  inset: 0;
+  transform: scale(1.18);
+  transition: transform 1.1s var(--ease-brand);
+}
+.cs-frame.is-in .cs-scale {
+  transform: scale(1);
+}
+/* Taller than the frame so the parallax drift never exposes an edge. */
+.cs-par {
+  position: absolute;
+  inset: -8% 0;
+  will-change: transform;
+  transform: translate3d(0, var(--py, 0px), 0);
+}
+.cs-par img {
+  object-fit: cover;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-frame {
+    clip-path: none;
+  }
+  .cs-scale {
+    transform: none;
+  }
+  .cs-par {
+    inset: 0;
+    transform: none;
+  }
+}
+
+/* Line / word mask reveal for headings and body copy. Each word sits in an
+   overflow-clipped wrapper and slides up when its container gets .is-in. */
+.cs-lines .cs-w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+.cs-lines .cs-w > span {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 0.8s var(--ease-brand);
+  transition-delay: var(--d, 0ms);
+}
+.cs-lines.is-in .cs-w > span {
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-lines .cs-w > span {
+    transform: none;
+  }
+}
+
+/* Index grid card: image eases up on hover, title underline wipes in. */
+.cs-card-media img {
+  transition: transform 0.7s var(--ease-brand);
+}
+.cs-card:hover .cs-card-media img {
+  transform: scale(1.05);
+}
+
 /* ---------- Testimonials ---------- */
 .glass-card {
   border-radius: 12px;

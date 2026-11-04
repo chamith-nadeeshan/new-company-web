@@ -174,3 +174,234 @@ export const sliderRow2: SliderShot[] = [
   { image: "/projects-slider/row-2/smart-home.jpg", w: 1376, h: 768 },
   { image: "/projects-slider/row-2/sneaker.jpg", w: 1376, h: 768 },
 ];
+
+// ---------------------------------------------------------------------------
+// Case studies — the /works index grid and /works/[slug] detail pages.
+//
+// Each project's images live in /public/works/<slug>/ as PLACEHOLDERS:
+//   cover.jpg  — index grid card + "More projects" cards
+//   01.jpg, 02.jpg, …  — the stacked gallery, in order
+// To use real images, just overwrite those files (keep the same names) — no code
+// change needed. `ratio` is the frame aspect ratio (width / height); set it close
+// to each screenshot so nothing is cropped oddly ("16/10", "16/9", "4/3", "3/4").
+// ---------------------------------------------------------------------------
+
+// A case study follows the Visuvate detail-page structure: title + overview,
+// a metadata row, a stacked screenshot gallery, Brief/Approach/Outcome notes,
+// an About paragraph, and Pages/Features lists.
+export type CaseStudy = {
+  slug: string;
+  title: string;
+  // Subtitle shown under the title on the index card.
+  category: string;
+  // Filter chips on the /works index. The index builds its filter row from
+  // every tag used across all studies, plus "All".
+  tags: string[];
+  // Cover image: index grid card + "More projects" cards.
+  cover: string;
+
+  // --- Title section ---
+  overview: string; // "Project Overview" paragraph
+
+  // --- Metadata row (Industry / Created / Pages / Platform) ---
+  industry: string;
+  created: string; // year
+  pagesCount: string; // e.g. "7"
+  platform: string; // e.g. "Next.js"
+  liveUrl?: string;
+
+  // --- Gallery: stacked full-width screenshots. `ratio` = width / height. ---
+  gallery: { image: string; ratio?: string }[];
+
+  // --- Narrative ---
+  brief: string;
+  approach: string;
+  outcome: string;
+  about: string;
+
+  // --- Lists ---
+  pages: string[]; // e.g. ["Home", "About", "Services", ...]
+  features: string[]; // e.g. ["Forms", "Blog", "CMS", "Booking", ...]
+};
+
+export const caseStudies: CaseStudy[] = [
+  {
+    slug: "calma",
+    title: "Calma",
+    category: "Dental Studio · Healthcare",
+    tags: ["Healthcare", "Creative"],
+    cover: "/projects/calma/main.png",
+    overview:
+      "Calma Dental Studio is a modern Brooklyn practice built around comfort, clarity and zero pressure. We shaped a calm, trust-first website that makes dentistry feel approachable — gentle art direction up front, transparent treatment and pricing details, and booking that takes seconds. Modern dentistry with a gentle touch.",
+    industry: "Healthcare / Dentistry",
+    created: "2026",
+    pagesCount: "6",
+    platform: "Next.js",
+    liveUrl: "https://calma-olive.vercel.app/",
+    gallery: [
+      { image: "/projects/calma/main.png", ratio: "1820/985" },
+      { image: "/projects/calma/01.png", ratio: "1816/977" },
+      { image: "/projects/calma/02.png", ratio: "1818/981" },
+      { image: "/projects/calma/03.png", ratio: "1816/977" },
+    ],
+    brief:
+      "Take the anxiety out of going to the dentist. Calma needed a site as calm as the care — warm and reassuring, honest about treatments and cost, and quick to turn a nervous first-timer into a booked appointment.",
+    approach:
+      "We led with soft, human imagery and a muted teal palette, then let the content do the reassuring: clear treatment pages, written plans with no upselling, 0% payment options, and specialist profiles that put a face to the care. A live booking flow with the next free slot keeps the first step effortless.",
+    outcome:
+      "The site reads the way the practice wants to feel — unhurried, transparent and expert. Treatments, pricing and the team are all easy to understand before a visit, so patients arrive informed and booking happens without friction.",
+    about:
+      "Calma spans the homepage, Treatments, Specialists, a Studio/About section, a patient Journal and Contact, with live appointment booking throughout. The art direction stays gentle and minimal — calming teal tones, generous space and candid clinical photography — so the care, not the clinic, is the hero.",
+    pages: ["Home", "Treatments", "Specialists", "Studio", "Journal", "Contact"],
+    features: ["Online Booking", "Treatment Pages", "Payment Plans", "Specialist Profiles", "Journal / CMS", "Animation"],
+  },
+  {
+    slug: "nexora",
+    title: "Nexora",
+    category: "Streetwear · 3D Customizer",
+    tags: ["eCommerce", "Creative"],
+    cover: "/projects/nexora/main.png",
+    overview:
+      "Nexora is a premium streetwear label built on form, function and anti-conformity. We shaped an online store for their oversized 240 GSM cotton tees — raw, Japanese-inspired graphics up front, a live 3D customizer at the core, and a checkout that gets out of the way. Wear what matters.",
+    industry: "Fashion / Streetwear",
+    created: "2026",
+    pagesCount: "6",
+    platform: "Next.js",
+    liveUrl: "https://nexorapremier.com/",
+    gallery: [
+      { image: "/projects/nexora/main.png", ratio: "1852/992" },
+      { image: "/projects/nexora/01.png", ratio: "1838/983" },
+      { image: "/projects/nexora/02.png", ratio: "1827/985" },
+      { image: "/projects/nexora/03.png", ratio: "1851/986" },
+    ],
+    brief:
+      "Sell more than t-shirts — sell a mindset. Nexora needed a store that felt as bold as the apparel: oversized black-and-white art direction, limited drops that feel exclusive, and a way for customers to make a piece truly their own.",
+    approach:
+      "We led with a real-time 3D customizer so buyers can watch a tee come to life before they order, then wrapped it in a minimal, high-contrast storefront. Collections, Lookbook and product pages let the graphics breathe, while WhatsApp support and drop sign-ups keep the community close.",
+    outcome:
+      "Designing a piece became the hook, not an afterthought. The 3D preview lifted buyer confidence, the streetwear-native look reinforced the brand, and the whole flow — browse, customize, checkout — now reads as one considered experience.",
+    about:
+      "Nexora spans the storefront, Collections, a live 3D customizer, product detail, Lookbook and a frictionless cart-to-checkout flow, with accounts and email drops for returning fans. The art direction stays deliberately raw and minimal — black, white and bold back-print graphics — so the product and the customization carry the page.",
+    pages: ["Home", "Collections", "Customize", "Lookbook", "About", "Contact"],
+    features: ["3D Customizer", "Cart & Checkout", "Accounts", "WhatsApp Support", "Drop Sign-ups", "Animation"],
+  },
+  {
+    slug: "lumora",
+    title: "Lumora",
+    category: "Lighting · eCommerce",
+    tags: ["eCommerce", "Creative"],
+    cover: "/projects/Lumora/main.png",
+    overview:
+      "Lumora makes hand-crafted table lamps — each shade turned, dyed and assembled by hand, no two quite alike. We built a quiet, warm storefront that sells the feeling of the light as much as the lamp: slow living, considered materials, and a pause at the end of the day.",
+    industry: "Home & Lighting",
+    created: "2026",
+    pagesCount: "6",
+    platform: "Next.js",
+    liveUrl: "https://chamith-nadeeshan.github.io/lumora/",
+    gallery: [
+      { image: "/projects/Lumora/main.png", ratio: "1837/990" },
+      { image: "/projects/Lumora/01.png", ratio: "1837/992" },
+      { image: "/projects/Lumora/02.png", ratio: "1837/993" },
+      { image: "/projects/Lumora/03.png", ratio: "1837/987" },
+    ],
+    brief:
+      "Sell a mood, not a spec sheet. Lumora's lamps are made by hand in small batches, so the store had to feel as warm and deliberate as the product — understated, tactile, and free of clutter.",
+    approach:
+      "We led with intimate imagery and generous space, letting each of the six collections breathe. Warm tones, soft motion and a calm type system carry the slow-living story, while a straightforward shop-to-checkout flow keeps buying effortless.",
+    outcome:
+      "The site reads like the brand feels: quiet, premium and considered. The craft narrative — hand-finishing, natural materials, a five-year warranty — now does the selling, turning browsers into buyers who connect with the story.",
+    about:
+      "Lumora spans the storefront, collections, product detail, an Our Story page and a Journal, with shipping, returns and contact close at hand. The art direction stays warm and minimal — timber, linen and mouth-blown glass photographed in quiet, lived-in moments — so the light itself is the hero.",
+    pages: ["Home", "Shop", "Our Story", "Journal", "Materials", "Contact"],
+    features: ["Cart & Checkout", "Collections", "Journal / CMS", "Shipping & Returns", "Newsletter", "Animation"],
+  },
+  {
+    slug: "appalo",
+    title: "Appalo",
+    category: "Brand & Website",
+    tags: ["Agency", "Creative"],
+    cover: "/works/appalo/cover.jpg",
+    overview:
+      "A bold brand landing page built to make a first impression land. Oversized type, confident motion, and a layout that gets out of the content's way — a site that carries a new brand on its own.",
+    industry: "Agency",
+    created: "2026",
+    pagesCount: "6",
+    platform: "Next.js",
+    liveUrl: "#",
+    gallery: [
+      { image: "/works/appalo/01.jpg", ratio: "16/10" },
+      { image: "/works/appalo/02.jpg", ratio: "16/10" },
+      { image: "/works/appalo/03.jpg", ratio: "16/10" },
+      { image: "/works/appalo/04.jpg", ratio: "16/10" },
+    ],
+    brief:
+      "Launch a brand with nothing but a name and an attitude. The site had to set the tone instantly and feel premium without relying on a product to show.",
+    approach:
+      "Editorial, high-contrast, and quiet where it counts. The design leans on scale and rhythm instead of decoration, with motion reserved for the moments that matter.",
+    outcome:
+      "A launch page that reads as a statement. It gave the brand a confident first impression and a system flexible enough to grow into.",
+    about:
+      "Appalo covers the brand story, services, work and contact across a tight set of pages. The art direction is deliberately restrained so typography and spacing carry the weight.",
+    pages: ["Home", "About", "Services", "Work", "Journal", "Contact"],
+    features: ["Blog", "Forms", "CMS", "Custom Code", "Animation", "SEO"],
+  },
+  {
+    slug: "bmw-electric",
+    title: "BMW Electric",
+    category: "Automotive · Web",
+    tags: ["Corporate", "Creative"],
+    cover: "/works/bmw-electric/cover.jpg",
+    overview:
+      "An electric-car showcase built around scroll-driven cinematics. A product page that feels like a trailer — full-bleed imagery, deliberate pacing, and motion that reveals the car the way you'd want to see it.",
+    industry: "Automotive",
+    created: "2025",
+    pagesCount: "5",
+    platform: "Next.js",
+    liveUrl: "#",
+    gallery: [
+      { image: "/works/bmw-electric/01.jpg", ratio: "16/9" },
+      { image: "/works/bmw-electric/02.jpg", ratio: "16/10" },
+      { image: "/works/bmw-electric/03.jpg", ratio: "16/10" },
+    ],
+    brief:
+      "Launch an electric model online the way it deserves — cinematic, premium, and fast. The page had to sell a feeling, not just a spec sheet.",
+    approach:
+      "Every section is a beat. We used generous whitespace and slow, scroll-driven reveals so each frame has room to breathe, building the car up piece by piece.",
+    outcome:
+      "It doesn't look like a website — it looks like a product film you can scroll. Time-on-page climbed and the configurator saw more completed builds.",
+    about:
+      "The experience spans hero, range, performance, configurator and booking. Motion is the medium: the whole page is choreographed to the scroll.",
+    pages: ["Home", "Range", "Performance", "Configure", "Book a drive"],
+    features: ["Scroll Animation", "Configurator", "Forms", "CMS", "Custom Code", "Performance"],
+  },
+  {
+    slug: "fitly",
+    title: "Fitly",
+    category: "Fitness · Web App",
+    tags: ["Fitness", "SaaS"],
+    cover: "/works/fitly/cover.jpg",
+    overview:
+      "A fitness platform with weekly streaks that keep people coming back. A clean, motivating interface for tracking training that makes progress feel visible and the next session feel inevitable.",
+    industry: "Fitness",
+    created: "2025",
+    pagesCount: "7",
+    platform: "Next.js",
+    liveUrl: "#",
+    gallery: [
+      { image: "/works/fitly/01.jpg", ratio: "16/10" },
+      { image: "/works/fitly/02.jpg", ratio: "16/10" },
+      { image: "/works/fitly/03.jpg", ratio: "16/10" },
+      { image: "/works/fitly/04.jpg", ratio: "16/10" },
+    ],
+    brief:
+      "Help people build a training habit that sticks. The product had to motivate without nagging, and make a week of effort feel like real momentum.",
+    approach:
+      "Streaks, sessions, and gentle nudges — structured so momentum builds on its own. A calm design system keeps the focus on progress, not clutter.",
+    outcome:
+      "Weekly retention improved as streaks gave members a reason to return. The interface turned tracking from a task into a small daily win.",
+    about:
+      "Fitly spans dashboard, programs, session tracking and a coaching layer. The design system is built for density without noise, so data stays legible everywhere.",
+    pages: ["Dashboard", "Programs", "Sessions", "Progress", "Coaching", "Settings"],
+    features: ["Auth", "Dashboard", "Charts", "CMS", "Notifications", "Design System"],
+  },
+];

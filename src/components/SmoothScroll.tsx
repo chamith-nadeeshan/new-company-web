@@ -1,12 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
 // Site-wide smooth (inertial) scrolling. Lenis drives the real scroll position,
 // so the scroll-driven sections (WorksOrbit, Starfield, …) keep working off the
 // native `scroll` event. Disabled entirely when the user prefers reduced motion.
 export function SmoothScroll() {
+  const lenisRef = useRef<Lenis | null>(null);
+  const pathname = usePathname();
+
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -15,6 +19,7 @@ export function SmoothScroll() {
       easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic
       smoothWheel: true,
     });
+    lenisRef.current = lenis;
 
     // Lenis sets its own scroll handling; CSS smooth-scroll fights it.
     document.documentElement.style.scrollBehavior = "auto";
@@ -46,8 +51,20 @@ export function SmoothScroll() {
       document.removeEventListener("click", onClick);
       document.documentElement.style.scrollBehavior = "";
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
+
+  // App Router client navigations swap the page content without remounting this
+  // provider, so Lenis keeps the previous route's scroll limit — on a taller
+  // page that leaves the bottom unreachable. Recompute once the new DOM paints.
+  useEffect(() => {
+    const lenis = lenisRef.current;
+    if (!lenis) return;
+    lenis.scrollTo(0, { immediate: true });
+    const raf = requestAnimationFrame(() => lenis.resize());
+    return () => cancelAnimationFrame(raf);
+  }, [pathname]);
 
   return null;
 }
