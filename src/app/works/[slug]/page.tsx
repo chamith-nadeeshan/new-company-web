@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { CaseStudyView } from "@/components/works/CaseStudyView";
+import { siteConfig } from "@/config/site";
 import { caseStudies } from "@/data/content";
 
 export function generateStaticParams() {
@@ -20,6 +21,14 @@ export async function generateMetadata({
   return {
     title: study.title,
     description: study.overview,
+    alternates: { canonical: `/works/${study.slug}/` },
+    openGraph: {
+      title: `${study.title} | ${siteConfig.name}`,
+      description: study.overview,
+      url: `${siteConfig.url}/works/${study.slug}/`,
+      images: [study.cover],
+      type: "article",
+    },
   };
 }
 

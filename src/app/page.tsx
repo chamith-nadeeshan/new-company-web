@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ApproachBento } from "@/components/ApproachBento";
 import { Footer } from "@/components/Footer";
 import { DigitalHero } from "@/components/DigitalHero";
@@ -16,6 +17,12 @@ import { ServicesGrid } from "@/components/ServicesGrid";
 import { ServicesMarquee } from "@/components/ServicesMarquee";
 import { WorksOrbit } from "@/components/WorksOrbit";
 import { Testimonials } from "@/components/Testimonials";
+
+export const metadata: Metadata = {
+  description:
+    "Felinn Labs designs and builds high-performance websites, web and mobile apps, eCommerce, and Microsoft 365 / Power Platform solutions for ambitious teams.",
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (

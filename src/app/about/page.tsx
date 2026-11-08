@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "About Us",
   description:
     "The people, principles and process behind the products we build.",
+  alternates: { canonical: "/about/" },
 };
 
 const values = [

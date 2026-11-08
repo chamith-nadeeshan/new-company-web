@@ -10,7 +10,8 @@ import { services } from "@/data/content";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Design and engineering disciplines we bring to every product — applied only where the work actually needs them.",
+    "Web, mobile, eCommerce, cloud, AI, and Microsoft 365 / Power Platform services — design and engineering disciplines applied only where the work actually needs them.",
+  alternates: { canonical: "/services/" },
 };
 
 export default function ServicesPage() {

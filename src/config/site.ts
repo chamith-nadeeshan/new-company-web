@@ -11,9 +11,33 @@ export const siteConfig = {
   // variant yet, so the Logo component falls back to the CSS wordmark on light.
   logo: "/logo.png" as string | null,
   logoLight: null as string | null,
-  tagline: "Engineering digital products that last",
+  tagline: "Crafted to Impress. Engineered to Last",
   description:
     "We design and build high-performance websites, web apps, and software products for ambitious teams.",
+  // Legal / registered company name used in structured data (JSON-LD).
+  legalName: "Felinn Labs",
+  // Primary language/locale for metadata and OpenGraph.
+  locale: "en_US",
+  // Search keywords describing the business. Used in page metadata.
+  keywords: [
+    "web development",
+    "web design agency",
+    "custom software development",
+    "web application development",
+    "mobile app development",
+    "eCommerce development",
+    "UI UX design",
+    "Microsoft 365 development",
+    "Power Platform development",
+    "Power Apps",
+    "Power Automate",
+    "SharePoint development",
+    "Dataverse",
+    "Power BI",
+    "software company Sri Lanka",
+    "Felinn",
+    "Felinn Labs",
+  ],
   url: "https://felinnlabs.com",
   email: "info@felinnlabs.com",
   // Business contact / WhatsApp number. `display` is for humans; `number` is
