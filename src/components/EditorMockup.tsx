@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { reelShots, type ReelShot } from "@/data/content";
+import { siteConfig } from "@/config/site";
 import { asset } from "@/lib/asset";
 
 type Card = ReelShot;
@@ -208,9 +209,13 @@ export function EditorMockup() {
           {/* ---- top toolbar ---- */}
           <div className="flex items-center justify-between gap-3 border-b border-line px-3 py-2.5 sm:px-4">
             <div className="flex items-center gap-2">
-              <span className="grid size-7 place-items-center rounded-lg bg-blue text-sm font-bold text-black">
-                V
-              </span>
+              <Image
+                src={asset("/short logo.jpg")}
+                alt={siteConfig.name}
+                width={28}
+                height={28}
+                className="size-7 rounded-lg object-cover"
+              />
               <button
                 type="button"
                 onClick={() => setPanelOpen((o) => !o)}

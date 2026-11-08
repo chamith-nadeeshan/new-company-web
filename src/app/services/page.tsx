@@ -18,9 +18,13 @@ export default function ServicesPage() {
     <>
       <Navbar />
       <main className="relative isolate flex-1 bg-black">
-        {/* Flowing orange light-streak background (brand take on Visuvate).
+        {/* Neutral grey light-streak background (Visuvate-style).
             Fixed + viewport-sized for performance; blurred for the glow. */}
-        <AuroraStreaks className="pointer-events-none fixed inset-0 -z-10 blur-[7px]" />
+        <AuroraStreaks
+          color1="#8b8b8b"
+          color2="#c4c4c4"
+          className="pointer-events-none fixed inset-0 -z-10 blur-[7px]"
+        />
         {/* Hero */}
         <Section className="pt-36 md:pt-44">
           <Reveal>
@@ -28,7 +32,7 @@ export default function ServicesPage() {
           </Reveal>
           <Reveal delay={80}>
             <h1 className="mt-7 max-w-5xl text-5xl font-semibold leading-[0.98] tracking-h1 text-balance sm:text-7xl md:text-[5.25rem]">
-              Ten disciplines, <Serif>one</Serif> studio.
+              Every discipline, <Serif>one</Serif> studio.
             </h1>
           </Reveal>
           <Reveal delay={160}>
@@ -47,7 +51,7 @@ export default function ServicesPage() {
             {services.map((s, i) => (
               <Reveal key={s.title} delay={(i % 3) * 80}>
                 <a
-                  href="#contact"
+                  href={`/services/${s.slug}`}
                   className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-elevated transition-all duration-300 ease-brand hover:-translate-y-1 hover:border-blue/40 hover:shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)]"
                 >
                   {/* Animated faux-UI scene on a dotted brand-yellow stage

@@ -23,17 +23,236 @@ export const stats = [
   { value: "24/7", label: "Support coverage" },
 ];
 
-export const services = [
-  { title: "Custom Websites", label: "Custom\nWebsites", body: "Fast, accessible marketing sites built to rank and convert." },
-  { title: "Web Applications", label: "Web\nApplications", body: "Scalable SaaS and internal tools with clean, maintainable code." },
-  { title: "Mobile Apps", label: "Mobile\nApps", body: "Cross-platform iOS and Android apps from a single codebase." },
-  { title: "eCommerce", label: "eCommerce\nPlatforms", body: "Storefronts with secure checkout, inventory, and analytics." },
-  { title: "UI / UX Design", label: "UI / UX\nDesign", body: "Research-led interfaces that feel effortless to use." },
-  { title: "Cloud & DevOps", label: "Cloud &\nDevOps", body: "CI/CD pipelines, infrastructure as code, and cost-aware hosting." },
-  { title: "API & Integrations", label: "API &\nIntegrations", body: "Payment, CRM, and ERP integrations that just work." },
-  { title: "AI Solutions", label: "AI\nSolutions", body: "LLM-powered features, automation, and data pipelines." },
-  { title: "Performance & SEO", label: "Performance\n& SEO", body: "Core Web Vitals tuning and technical SEO audits." },
-  { title: "Maintenance & Support", label: "Maintenance &\nSupport", body: "Monitoring, updates, and a team on call when you need it." },
+// A service follows a Visuvate-style detail page (/services/[slug]):
+// hero title + tagline, a value-proposition intro, a "What's included" list,
+// recent work, and related services.
+//   title    — card + detail heading
+//   label    — two-line label for the home grid (keep the \n)
+//   body     — one-line summary on the cards
+//   slug     — /services/[slug] route segment
+//   tagline  — hero subheading on the detail page
+//   intro    — value-proposition paragraphs (one string per paragraph)
+//   included — "What's included" bullet list
+export type Service = {
+  title: string;
+  label: string;
+  body: string;
+  slug: string;
+  tagline: string;
+  intro: string[];
+  included: string[];
+};
+
+export const services: Service[] = [
+  {
+    title: "Custom Websites",
+    label: "Custom\nWebsites",
+    body: "Fast, accessible marketing sites built to rank and convert.",
+    slug: "custom-websites",
+    tagline: "Marketing sites that load fast, rank well, and turn visitors into customers.",
+    intro: [
+      "A website is often the first thing a customer judges you on. We design and build custom marketing sites that are fast, accessible, and easy for your team to update — not another slow template that looks like everyone else's.",
+      "We start from your goals and your audience, then design around the actions that matter: enquiries, sign-ups, sales. Every page is built to perform on real devices and real connections.",
+    ],
+    included: [
+      "Discovery and content strategy",
+      "Custom responsive design in your brand",
+      "Accessible, semantic, SEO-ready markup",
+      "CMS setup so your team can edit content",
+      "Core Web Vitals performance tuning",
+      "Analytics and launch support",
+    ],
+  },
+  {
+    title: "Web Applications",
+    label: "Web\nApplications",
+    body: "Scalable SaaS and internal tools with clean, maintainable code.",
+    slug: "web-applications",
+    tagline: "SaaS products and internal tools, engineered to scale and built to last.",
+    intro: [
+      "When an off-the-shelf tool no longer fits, a custom web application gives you exactly the workflow your business needs. We build SaaS products and internal tools with clean, tested, maintainable code.",
+      "From the data model up, we design for growth — so the app stays fast and reliable as your users and your feature set multiply.",
+    ],
+    included: [
+      "Architecture and data-model design",
+      "Secure authentication and roles",
+      "Custom business logic and workflows",
+      "APIs and third-party integrations",
+      "Automated testing and CI/CD",
+      "Monitoring, logging, and handover docs",
+    ],
+  },
+  {
+    title: "Mobile Apps",
+    label: "Mobile\nApps",
+    body: "Cross-platform iOS and Android apps from a single codebase.",
+    slug: "mobile-apps",
+    tagline: "Native-quality iOS and Android apps from a single, maintainable codebase.",
+    intro: [
+      "Reach your users on the devices they carry everywhere. We build cross-platform mobile apps that feel native on both iOS and Android, from one shared codebase that keeps cost and maintenance down.",
+      "We handle the full lifecycle — design, build, store submission, and the updates that keep your app healthy after launch.",
+    ],
+    included: [
+      "Cross-platform build (iOS + Android)",
+      "Native-feeling UI and interactions",
+      "Offline support and push notifications",
+      "Backend and API integration",
+      "App Store and Play Store submission",
+      "Post-launch updates and monitoring",
+    ],
+  },
+  {
+    title: "eCommerce",
+    label: "eCommerce\nPlatforms",
+    body: "Storefronts with secure checkout, inventory, and analytics.",
+    slug: "ecommerce",
+    tagline: "Storefronts built to sell — fast, secure, and easy to run.",
+    intro: [
+      "An online store lives or dies on speed and trust. We build eCommerce experiences with frictionless checkout, reliable inventory, and the analytics you need to grow revenue.",
+      "Whether you're on a platform like Shopify or need something fully custom, we tailor the stack to your catalogue, your margins, and your operations.",
+    ],
+    included: [
+      "Storefront design and product pages",
+      "Secure, optimised checkout",
+      "Inventory and order management",
+      "Payment and shipping integrations",
+      "Analytics and conversion tracking",
+      "Performance and SEO for product pages",
+    ],
+  },
+  {
+    title: "UI / UX Design",
+    label: "UI / UX\nDesign",
+    body: "Research-led interfaces that feel effortless to use.",
+    slug: "ui-ux-design",
+    tagline: "Research-led product design that makes complex things feel simple.",
+    intro: [
+      "Good design is invisible — users just get things done. We research, prototype, and refine interfaces until the next step is always obvious and the product feels effortless.",
+      "We work in clickable prototypes you can test before a line of code is written, so decisions are grounded in real feedback, not guesswork.",
+    ],
+    included: [
+      "User research and journey mapping",
+      "Information architecture",
+      "Wireframes and clickable prototypes",
+      "High-fidelity UI design",
+      "Design system and component library",
+      "Usability testing and iteration",
+    ],
+  },
+  {
+    title: "Cloud & DevOps",
+    label: "Cloud &\nDevOps",
+    body: "CI/CD pipelines, infrastructure as code, and cost-aware hosting.",
+    slug: "cloud-devops",
+    tagline: "Reliable infrastructure, automated delivery, and hosting that scales with you.",
+    intro: [
+      "Shipping should be boring — in the best way. We set up cloud infrastructure and CI/CD pipelines so your team can deploy safely and often, with rollbacks when you need them.",
+      "We treat infrastructure as code, keep costs in check, and put monitoring in place so problems surface before your users notice them.",
+    ],
+    included: [
+      "Infrastructure as code",
+      "CI/CD pipeline setup",
+      "Containerisation and orchestration",
+      "Monitoring, logging, and alerting",
+      "Cost optimisation",
+      "Security and backup strategy",
+    ],
+  },
+  {
+    title: "API & Integrations",
+    label: "API &\nIntegrations",
+    body: "Payment, CRM, and ERP integrations that just work.",
+    slug: "api-integrations",
+    tagline: "Connect your tools and data so systems talk to each other reliably.",
+    intro: [
+      "Your business runs on more than one system. We design and build APIs and integrations that connect payments, CRMs, ERPs, and whatever else you depend on — so data flows without manual copy-paste.",
+      "We build with resilience in mind: retries, error handling, and clear logging, so integrations keep working when the network doesn't.",
+    ],
+    included: [
+      "REST and GraphQL API design",
+      "Payment gateway integration",
+      "CRM and ERP connectivity",
+      "Webhooks and event pipelines",
+      "Data sync and migration",
+      "Error handling and observability",
+    ],
+  },
+  {
+    title: "AI Solutions",
+    label: "AI\nSolutions",
+    body: "LLM-powered features, automation, and data pipelines.",
+    slug: "ai-solutions",
+    tagline: "Practical AI features that save time and create real value.",
+    intro: [
+      "AI is only useful when it solves a real problem. We build LLM-powered features, automations, and data pipelines that fit into your product and your workflow — not demos that never ship.",
+      "We focus on accuracy, cost, and safety, so the features you launch are ones you can actually rely on in production.",
+    ],
+    included: [
+      "Use-case discovery and feasibility",
+      "LLM feature design and prompting",
+      "Retrieval and data pipelines",
+      "Workflow automation",
+      "Evaluation and guardrails",
+      "Production deployment and monitoring",
+    ],
+  },
+  {
+    title: "Performance & SEO",
+    label: "Performance\n& SEO",
+    body: "Core Web Vitals tuning and technical SEO audits.",
+    slug: "performance-seo",
+    tagline: "Faster pages and cleaner technical SEO, measured by real results.",
+    intro: [
+      "Speed is a feature and search visibility is a channel. We audit your site, fix what's slowing it down, and tidy the technical SEO that search engines care about.",
+      "Every change is measured against Core Web Vitals and real-world metrics, so you can see the impact rather than take it on faith.",
+    ],
+    included: [
+      "Performance and Core Web Vitals audit",
+      "Image, asset, and bundle optimisation",
+      "Technical SEO fixes",
+      "Structured data and metadata",
+      "Accessibility improvements",
+      "Before/after reporting",
+    ],
+  },
+  {
+    title: "Maintenance & Support",
+    label: "Maintenance &\nSupport",
+    body: "Monitoring, updates, and a team on call when you need it.",
+    slug: "maintenance-support",
+    tagline: "Keep your product healthy with monitoring, updates, and a team on call.",
+    intro: [
+      "Launch day is the start, not the finish. We keep your product secure, up to date, and fast with ongoing maintenance and a team you can reach when something needs attention.",
+      "Flexible retainers mean you get the right level of support — from routine updates to rapid response — without hiring a full in-house team.",
+    ],
+    included: [
+      "Uptime and performance monitoring",
+      "Security patches and dependency updates",
+      "Bug fixes and small enhancements",
+      "Backups and disaster recovery",
+      "Priority support response",
+      "Monthly health reporting",
+    ],
+  },
+  {
+    title: "Microsoft 365 Development",
+    label: "Microsoft 365\nDevelopment",
+    body: "Power Platform, SharePoint, Dataverse, and custom Microsoft 365 solutions.",
+    slug: "microsoft-365-development",
+    tagline: "Custom solutions across Power Platform, SharePoint, Dataverse, and the wider Microsoft 365 stack.",
+    intro: [
+      "Microsoft 365 is already in your business — we help you get far more out of it. We build custom apps, automations, and portals across Power Platform, SharePoint, and Dataverse that fit the way your teams actually work.",
+      "From Power Apps and Power Automate flows to SharePoint intranets and Dataverse-backed data models, we turn manual, spreadsheet-driven processes into secure, governed solutions on infrastructure you already own.",
+    ],
+    included: [
+      "Power Apps (canvas & model-driven) development",
+      "Power Automate workflow automation",
+      "SharePoint sites, intranets, and document management",
+      "Dataverse data modelling and integration",
+      "Power BI dashboards and reporting",
+      "Microsoft 365 integration, security, and governance",
+    ],
+  },
 ];
 
 export const platforms = [
@@ -80,10 +299,16 @@ export const posts = [
   { title: "Shipping AI features responsibly in production apps", date: "Aug 30, 2026", tag: "Engineering", from: "#042f2e", to: "#14b8a6" },
 ];
 
+// PLACEHOLDER testimonials — the names and companies below are FICTIONAL and
+// invented for layout only. Replace every entry with real client names, roles,
+// companies, and quotes (with their permission) before this site goes live.
+// Publishing invented testimonials as genuine is deceptive advertising.
 export const testimonials = [
-  { quote: "They took our rough idea and shipped a polished platform in eight weeks. Communication was excellent throughout.", name: "Client Name", role: "Founder, Company A" },
-  { quote: "Our new site loads in under a second and inbound leads doubled within the first quarter.", name: "Client Name", role: "Marketing Lead, Company B" },
-  { quote: "A rare team that cares about both design detail and engineering quality. We keep coming back.", name: "Client Name", role: "CTO, Company C" },
+  { quote: "They took our rough idea and shipped a polished platform in eight weeks. Communication was excellent throughout.", name: "Daniel Fernando", role: "Founder, Ceylon Freight Co." },
+  { quote: "Our new site loads in under a second and inbound leads doubled within the first quarter.", name: "Amara Jayawardena", role: "Marketing Lead, Lotus Interiors" },
+  { quote: "A rare team that cares about both design detail and engineering quality. We keep coming back.", name: "Rohan Mendis", role: "CTO, Zephyr Labs" },
+  { quote: "The rebuild cut our checkout drop-off by a third and the handover was clean and well documented.", name: "Sophie Albrecht", role: "Head of Product, Nordfell Retail" },
+  { quote: "Reliable, responsive, and genuinely invested in our outcomes — they feel like part of our own team.", name: "Imran Haq", role: "Operations Director, Harborline Logistics" },
 ];
 
 export const faqs = [

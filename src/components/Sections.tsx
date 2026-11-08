@@ -120,8 +120,8 @@ export function Intro() {
             combine thoughtful design with solid engineering to help you launch faster and grow with confidence.
           </p>
           <div className="mt-8 flex gap-2.5">
-            <Button href="#services">About Us</Button>
-            <Button href="#works" variant="ghost">
+            <Button href="/about">About Us</Button>
+            <Button href="/works" variant="ghost">
               See our work
             </Button>
           </div>

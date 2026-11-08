@@ -86,7 +86,7 @@ export function DigitalHero() {
             <span aria-hidden>→</span>
           </a>
           <a
-            href="#works"
+            href="/works"
             className="inline-flex items-center gap-2 rounded-full border border-line-strong px-6 py-3 text-sm font-medium text-fg transition-colors duration-300 ease-brand hover:bg-fg/5"
           >
             Portfolio

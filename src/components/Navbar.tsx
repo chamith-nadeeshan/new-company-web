@@ -129,7 +129,9 @@ export function Navbar() {
         </ul>
         <div className="mt-auto flex flex-col gap-1 text-sm text-muted">
           <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
-          <span>{siteConfig.phone}</span>
+          <a href={`https://wa.me/${siteConfig.whatsapp.number}`} target="_blank" rel="noopener noreferrer">
+            {siteConfig.whatsapp.display}
+          </a>
         </div>
       </div>
     </header>

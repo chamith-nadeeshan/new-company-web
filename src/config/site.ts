@@ -14,9 +14,14 @@ export const siteConfig = {
   tagline: "Engineering digital products that last",
   description:
     "We design and build high-performance websites, web apps, and software products for ambitious teams.",
-  url: "https://example.com",
-  email: "hello@example.com",
-  phone: "+94 70 000 0000",
+  url: "https://felinnlabs.com",
+  email: "info@felinnlabs.com",
+  // Business contact / WhatsApp number. `display` is for humans; `number` is
+  // digits only (no +, spaces, or dashes) for the https://wa.me/ deep link.
+  whatsapp: {
+    display: "+94 74 206 6193",
+    number: "94742066193",
+  },
   location: "Colombo, Sri Lanka",
   nav: [
     { label: "Home", href: "/" },
@@ -26,9 +31,8 @@ export const siteConfig = {
     { label: "Contact", href: "#contact" },
   ],
   socials: [
-    { label: "LinkedIn", href: "#" },
-    { label: "GitHub", href: "#" },
-    { label: "Dribbble", href: "#" },
-    { label: "Instagram", href: "#" },
+    { label: "Facebook", href: "https://web.facebook.com/felinnlabs/" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/felinn" },
+    { label: "Instagram", href: "https://www.instagram.com/felinnlabs/" },
   ],
 };

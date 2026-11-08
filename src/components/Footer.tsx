@@ -1,7 +1,8 @@
 import { services } from "@/data/content";
 import { siteConfig } from "@/config/site";
+import { ContactForm } from "./ContactForm";
 import { Reveal } from "./Reveal";
-import { Arrow, Logo, Roll, Serif } from "./ui";
+import { Logo, Roll, Serif } from "./ui";
 import { Year } from "./Year";
 
 export function Footer() {
@@ -15,19 +16,13 @@ export function Footer() {
 
       <div className="relative mx-auto max-w-[1376px]">
         <Reveal>
-          <a
-            href={`mailto:${siteConfig.email}`}
-            className="group block rounded-2xl border border-line-strong bg-bg/70 px-6 py-20 text-center shadow-section backdrop-blur-md sm:py-28"
-          >
+          <div className="rounded-2xl border border-line-strong bg-bg/70 px-6 py-20 text-center shadow-section backdrop-blur-md sm:py-28">
             <p className="text-sm text-muted">Have a project in mind?</p>
             <h2 className="mt-5 text-[clamp(3rem,10vw,8rem)] font-semibold leading-[0.95] tracking-h1">
               Let&apos;s <Serif>Connect</Serif>
             </h2>
-            <span className="mt-10 inline-flex items-center gap-2.5 rounded-full bg-btn px-6 py-3 text-[0.9375rem] font-medium text-btn-ink">
-              <Roll>{siteConfig.email}</Roll>
-              <Arrow className="transition-transform duration-300 ease-brand group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </span>
-          </a>
+            <ContactForm />
+          </div>
         </Reveal>
 
         <div className="mt-24 grid gap-12 border-t border-line pt-16 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
@@ -39,6 +34,8 @@ export function Footer() {
                 <a
                   key={s.label}
                   href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="rounded-full border border-line-strong px-3.5 py-1.5 text-xs text-muted transition-colors duration-200 hover:text-fg"
                 >
                   {s.label}
@@ -59,8 +56,13 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href={`tel:${siteConfig.phone.replace(/\s/g, "")}`} className="transition-colors hover:text-fg">
-                  {siteConfig.phone}
+                <a
+                  href={`https://wa.me/${siteConfig.whatsapp.number}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-fg"
+                >
+                  {siteConfig.whatsapp.display}
                 </a>
               </li>
               <li>{siteConfig.location}</li>
@@ -73,10 +75,10 @@ export function Footer() {
             © <Year /> {siteConfig.name}. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <a href="#" className="transition-colors hover:text-fg">
+            <a href="/privacy" className="transition-colors hover:text-fg">
               Privacy Policy
             </a>
-            <a href="#" className="transition-colors hover:text-fg">
+            <a href="/terms" className="transition-colors hover:text-fg">
               Terms
             </a>
           </div>

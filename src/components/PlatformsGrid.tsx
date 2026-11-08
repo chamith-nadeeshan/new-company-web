@@ -47,15 +47,6 @@ export function PlatformsGrid() {
               <span className="text-white">accessible</span> and easy to
               maintain.
             </p>
-            <a
-              href="#works"
-              className="group mt-7 inline-flex items-center rounded-lg bg-white/12 px-4 py-2.5 text-[0.9375rem] font-medium text-white transition-colors duration-200 ease-brand hover:bg-white/20"
-            >
-              <span className="roll">
-                <span>See our work</span>
-                <span aria-hidden>See our work</span>
-              </span>
-            </a>
           </div>
         </Reveal>
 

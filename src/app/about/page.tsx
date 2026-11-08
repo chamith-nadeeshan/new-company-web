@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/Reveal";
-import { Badge, Button, Section, Serif } from "@/components/ui";
+import { Badge, Section, Serif } from "@/components/ui";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -194,33 +194,6 @@ export default function AboutPage() {
                 </li>
               ))}
             </ul>
-          </div>
-        </Section>
-
-        {/* CTA */}
-        <Section>
-          <div className="flex flex-col items-center gap-10 rounded-3xl border border-line bg-[image:var(--wash)] px-6 py-20 text-center sm:py-28">
-            <Reveal>
-              <h2 className="text-5xl font-semibold leading-[0.98] tracking-h1 text-balance sm:text-7xl md:text-[5rem]">
-                Build bold.
-                <br />
-                Ship <Serif>better</Serif>.
-              </h2>
-            </Reveal>
-            <Reveal delay={100}>
-              <p className="max-w-xl text-lg leading-relaxed text-muted">
-                Tell us what you&apos;re trying to build. We&apos;ll tell you how
-                we&apos;d approach it — honestly, and for free.
-              </p>
-            </Reveal>
-            <Reveal delay={160}>
-              <div className="flex flex-wrap items-center justify-center gap-3">
-                <Button href="/#works">See our work</Button>
-                <Button href="#contact" variant="ghost">
-                  Get in touch
-                </Button>
-              </div>
-            </Reveal>
           </div>
         </Section>
       </main>

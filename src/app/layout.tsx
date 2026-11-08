@@ -8,6 +8,7 @@ import {
 } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 import "./globals.css";
 
 const geist = Geist({
@@ -67,6 +68,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <SmoothScroll />
         {children}
+        <WhatsAppButton />
       </body>
     </html>
   );

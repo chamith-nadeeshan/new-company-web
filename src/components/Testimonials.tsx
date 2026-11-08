@@ -109,9 +109,6 @@ export function Testimonials() {
                 key={`a-${index}`}
                 className="flex animate-[quote-in_0.6s_var(--ease-brand)] items-center gap-4"
               >
-                <span className="grid size-12 shrink-0 place-items-center rounded-full border border-line-strong bg-surface-strong font-medium">
-                  {t.name.charAt(0)}
-                </span>
                 <span>
                   <span className="block font-medium uppercase tracking-wide">
                     {t.name}

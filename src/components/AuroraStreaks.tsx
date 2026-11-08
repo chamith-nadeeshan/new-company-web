@@ -9,7 +9,17 @@ import { useEffect, useRef } from "react";
 // scrollable page), rendered at DPR 1, throttled to ~30fps, and uses NO
 // `shadowBlur` (the expensive part). The glow comes from a GPU-cheap CSS
 // `blur()` filter applied to the whole element instead.
-export function AuroraStreaks({ className = "" }: { className?: string }) {
+// `color1`/`color2` override the default brand-orange ribbon colors (e.g. pass
+// greys for a neutral, Visuvate-style canvas).
+export function AuroraStreaks({
+  className = "",
+  color1,
+  color2,
+}: {
+  className?: string;
+  color1?: string;
+  color2?: string;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -19,8 +29,8 @@ export function AuroraStreaks({ className = "" }: { className?: string }) {
     if (!ctx) return;
 
     const root = getComputedStyle(document.documentElement);
-    const c1 = root.getPropertyValue("--color-blue").trim() || "#f2921e";
-    const c2 = root.getPropertyValue("--color-blue-300").trim() || "#fbb457";
+    const c1 = color1 ?? (root.getPropertyValue("--color-blue").trim() || "#f2921e");
+    const c2 = color2 ?? (root.getPropertyValue("--color-blue-300").trim() || "#fbb457");
 
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -118,7 +128,7 @@ export function AuroraStreaks({ className = "" }: { className?: string }) {
       window.removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, []);
+  }, [color1, color2]);
 
   return <canvas ref={canvasRef} aria-hidden className={className} />;
 }
