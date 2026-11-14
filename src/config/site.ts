@@ -46,13 +46,18 @@ export const siteConfig = {
     display: "+94 74 206 6193",
     number: "94742066193",
   },
+  // Phone line for calls. `tel` is the dial string for tel: links.
+  phone: {
+    display: "+94 76 481 7070",
+    tel: "+94764817070",
+  },
   location: "Colombo, Sri Lanka",
   nav: [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
     { label: "Works", href: "/works" },
     { label: "Services", href: "/services" },
-    { label: "Contact", href: "#contact" },
+    { label: "Contact", href: "/contact" },
   ],
   socials: [
     { label: "Facebook", href: "https://web.facebook.com/felinnlabs/" },

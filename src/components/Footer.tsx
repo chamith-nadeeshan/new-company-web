@@ -5,9 +5,11 @@ import { Reveal } from "./Reveal";
 import { Logo, Roll, Serif } from "./ui";
 import { Year } from "./Year";
 
-export function Footer() {
+// `showContact={false}` hides the "Let's Connect" form block — used on /contact,
+// which has its own form.
+export function Footer({ showContact = true }: { showContact?: boolean } = {}) {
   return (
-    <footer id="contact" className="relative scroll-mt-24 overflow-hidden px-4 pt-24 sm:px-8">
+    <footer id={showContact ? "contact" : undefined} className="relative scroll-mt-24 overflow-hidden px-4 pt-24 sm:px-8">
       {/* Blue glow rising behind the CTA */}
       <div
         aria-hidden
@@ -15,6 +17,7 @@ export function Footer() {
       />
 
       <div className="relative mx-auto max-w-[1376px]">
+        {showContact && (
         <Reveal>
           <div className="rounded-2xl border border-line-strong bg-bg/70 px-6 py-20 text-center shadow-section backdrop-blur-md sm:py-28">
             <p className="text-sm text-muted">Have a project in mind?</p>
@@ -24,8 +27,9 @@ export function Footer() {
             <ContactForm />
           </div>
         </Reveal>
+        )}
 
-        <div className="mt-24 grid gap-12 border-t border-line pt-16 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
+        <div className={`${showContact ? "mt-24" : ""} grid gap-12 border-t border-line pt-16 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]`}>
           <div className="flex flex-col gap-5">
             <Logo />
             <p className="max-w-xs text-sm leading-relaxed text-muted">{siteConfig.description}</p>
@@ -63,6 +67,11 @@ export function Footer() {
                   className="transition-colors hover:text-fg"
                 >
                   {siteConfig.whatsapp.display}
+                </a>
+              </li>
+              <li>
+                <a href={`tel:${siteConfig.phone.tel}`} className="transition-colors hover:text-fg">
+                  {siteConfig.phone.display}
                 </a>
               </li>
               <li>{siteConfig.location}</li>

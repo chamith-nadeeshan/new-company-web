@@ -21,6 +21,27 @@ jobs:
       - run: npm ci
       # Plain build: no basePath, site served from the domain root.
       - run: npm run build
+      # SMTP credentials for /api/contact.ashx, from repo secrets. App_Data is not
+      # web-servable on IIS. XML-escape values so special chars can't break the file.
+      - name: Write SMTP config
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          CONTACT_TO: ${{ secrets.CONTACT_TO }}
+        run: |
+          mkdir -p out/App_Data
+          python3 - <<'PY'
+          import os
+          from xml.sax.saxutils import quoteattr as q
+          e = os.environ
+          rows = {"SmtpHost": e.get("SMTP_HOST", ""), "SmtpPort": e.get("SMTP_PORT") or "587",
+                  "SmtpUser": e.get("SMTP_USER", ""), "SmtpPass": e.get("SMTP_PASS", ""),
+                  "ContactTo": e.get("CONTACT_TO") or e.get("SMTP_USER", "")}
+          body = "".join(f"  <add key={q(k)} value={q(v)} />\n" for k, v in rows.items())
+          open("out/App_Data/smtp.config", "w").write(f"<appSettings>\n{body}</appSettings>\n")
+          PY
       - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}

@@ -34,3 +34,27 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Contact form (SMTP)
+
+The site is a static export, so the form on `/contact` (and in the footer) POSTs to
+`public/api/contact.ashx` — an ASP.NET handler that IIS on SmarterASP runs and that
+sends two HTML emails over SMTP: an enquiry notification to `CONTACT_TO`, and a
+confirmation to the visitor (which deliberately does not repeat their message, so the
+form cannot relay arbitrary text). It has a honeypot field and a per-IP limit
+(5 per 10 minutes).
+
+SMTP settings are read from `App_Data/smtp.config` (via `<appSettings file=…>` in
+`public/web.config`). The SmarterASP deploy workflow writes that file from these
+GitHub repository secrets — never commit credentials:
+
+| Secret       | Example                    |
+| ------------ | -------------------------- |
+| `SMTP_HOST`  | `mail5019.site4now.net`    |
+| `SMTP_PORT`  | `587` (default)            |
+| `SMTP_USER`  | `info@felinnlabs.com`      |
+| `SMTP_PASS`  | mailbox password           |
+| `CONTACT_TO` | optional; defaults to `SMTP_USER` |
+
+On `next dev` and GitHub Pages the handler doesn't exist, so the form shows an error
+with a mailto fallback.
