@@ -69,11 +69,6 @@ export function Footer({ showContact = true }: { showContact?: boolean } = {}) {
                   {siteConfig.whatsapp.display}
                 </a>
               </li>
-              <li>
-                <a href={`tel:${siteConfig.phone.tel}`} className="transition-colors hover:text-fg">
-                  {siteConfig.phone.display}
-                </a>
-              </li>
               <li>{siteConfig.location}</li>
             </ul>
           </div>

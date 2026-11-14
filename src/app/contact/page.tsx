@@ -15,7 +15,6 @@ export const metadata: Metadata = {
 
 const channels = [
   { label: "Email", value: siteConfig.email, href: `mailto:${siteConfig.email}` },
-  { label: "Phone", value: siteConfig.phone.display, href: `tel:${siteConfig.phone.tel}` },
   {
     label: "WhatsApp",
     value: siteConfig.whatsapp.display,

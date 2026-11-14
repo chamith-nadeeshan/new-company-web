@@ -64,7 +64,6 @@ public class ContactHandler : IHttpHandler
 
         string brand = ConfigurationManager.AppSettings["BrandName"] ?? "Felinn Labs";
         string site = ConfigurationManager.AppSettings["SiteUrl"] ?? "https://felinnlabs.com";
-        string phoneDisplay = ConfigurationManager.AppSettings["ContactPhone"] ?? "+94 76 481 7070";
         string waDisplay = ConfigurationManager.AppSettings["ContactWhatsApp"] ?? "+94 74 206 6193";
 
         var rows = new StringBuilder();
@@ -90,7 +89,6 @@ public class ContactHandler : IHttpHandler
             "<p style=\"margin:0 0 24px;color:#d4d4d8;line-height:1.7\">In the meantime, feel free to explore our recent work or reach us directly:</p>" +
             "<table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-collapse:collapse\">" +
             "<tr><td style=\"padding:6px 16px 6px 0;color:#71717a;font-size:14px\">Email</td><td style=\"padding:6px 0;font-size:14px\"><a href=\"mailto:" + H(to) + "\" style=\"color:#f97316;text-decoration:none\">" + H(to) + "</a></td></tr>" +
-            "<tr><td style=\"padding:6px 16px 6px 0;color:#71717a;font-size:14px\">Phone</td><td style=\"padding:6px 0;font-size:14px\"><a href=\"tel:" + H(phoneDisplay.Replace(" ", "")) + "\" style=\"color:#f97316;text-decoration:none\">" + H(phoneDisplay) + "</a></td></tr>" +
             "<tr><td style=\"padding:6px 16px 6px 0;color:#71717a;font-size:14px\">WhatsApp</td><td style=\"padding:6px 0;font-size:14px\"><a href=\"https://wa.me/" + H(Regex.Replace(waDisplay, @"\D", "")) + "\" style=\"color:#f97316;text-decoration:none\">" + H(waDisplay) + "</a></td></tr>" +
             "</table>" +
             Button(site + "/works/", "See our work") +
@@ -131,7 +129,7 @@ public class ContactHandler : IHttpHandler
                         msg.Subject = "We've received your message - " + brand;
                         msg.Headers.Add("Auto-Submitted", "auto-replied");
                         SetBodies(msg, customerHtml,
-                            "Hi " + first + ",\n\nThanks for contacting " + brand + ". We've received your message and will get back to you within one business day.\n\nEmail: " + to + "\nPhone: " + phoneDisplay + "\nWhatsApp: " + waDisplay + "\n\nThe " + brand + " team\n" + site);
+                            "Hi " + first + ",\n\nThanks for contacting " + brand + ". We've received your message and will get back to you within one business day.\n\nEmail: " + to + "\nWhatsApp: " + waDisplay + "\n\nThe " + brand + " team\n" + site);
                         smtp.Send(msg);
                     }
                 }
