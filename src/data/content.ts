@@ -630,3 +630,257 @@ export const caseStudies: CaseStudy[] = [
     features: ["Auth", "Dashboard", "Charts", "CMS", "Notifications", "Design System"],
   },
 ];
+
+// ---------------------------------------------------------------------------
+// Blog
+// ---------------------------------------------------------------------------
+// Drives the /blog index (card grid + category filter, mirroring /works) and
+// every /blog/[slug] article page. Covers are rendered as on-brand gradient
+// tiles (see BlogIndex) — `tone` (0–2) just shifts the gradient so adjacent
+// cards differ; no image files are needed. To add a post, append an entry; the
+// index filter row and sitemap pick it up automatically.
+
+// One block of an article body. Keep the set minimal: each variant maps to one
+// clean, typographic element in BlogPostView.
+export type BlogBlock =
+  // Prose
+  | { type: "p"; text: string }
+  | { type: "h2"; text: string }
+  | { type: "quote"; text: string }
+  | { type: "list"; items: string[] } // bulleted
+  // Numbered dashboard section header: badge + title + italic question line.
+  | { type: "section"; num: number; title: string; question: string }
+  // A screenshot / figure with an optional italic caption underneath.
+  | { type: "figure"; image: string; caption?: string }
+  // Highlighted aside (the "Why it matters" box). `label` is the bold lead-in.
+  | { type: "callout"; label?: string; text: string }
+  // Simple two-column reference table.
+  | { type: "table"; head: string[]; rows: string[][] }
+  // Numbered steps with a bold lead-in per item.
+  | { type: "steps"; items: { lead: string; text: string }[] }
+  // Closing call-to-action panel.
+  | {
+      type: "cta";
+      eyebrow: string;
+      title: string;
+      body: string[];
+      buttonLabel: string;
+      buttonHref: string;
+    };
+
+export type BlogPost = {
+  slug: string;
+  title: string;
+  // One-line summary shown on the index card and used as the meta description.
+  excerpt: string;
+  // Filter chips on the /blog index (first tag doubles as the card's category).
+  tags: string[];
+  // Display date (e.g. "27 Oct 2026") + ISO date for sorting / sitemap.
+  date: string;
+  dateISO: string;
+  readTime: string; // e.g. "6 min read"
+  author: string;
+  // Gradient variant for the cover tile: 0–2.
+  tone: 0 | 1 | 2;
+  // Optional cover image (/public path). When set, it replaces the gradient
+  // tile on the index card and the article hero.
+  cover?: string;
+  body: BlogBlock[];
+};
+
+// Newest first — the index renders them in array order.
+export const blogPosts: BlogPost[] = [
+  {
+    slug: "5-dashboards-every-sme-owner-should-have",
+    title: "The 5 dashboards every SME owner should have",
+    excerpt:
+      "Stop running your business on gut feeling. These five simple dashboards show cash, sales, customers, delivery and your team at a glance.",
+    tags: ["SME Guide", "Power BI", "Dashboards"],
+    date: "17 Nov 2026",
+    dateISO: "2026-11-17",
+    readTime: "6 min read",
+    author: "Felinn Team",
+    tone: 0,
+    cover: "/blog/5-dashboards-cover.jpeg",
+    body: [
+      {
+        type: "p",
+        text: "When your business is small, you can keep it all in your head. You know which clients owe you money, which jobs are running late and roughly how the month is going.",
+      },
+      {
+        type: "p",
+        text: "Then you grow. More clients, more staff, more tools. Suddenly the answers are spread across spreadsheets, inboxes, your accounting software and three different apps. By the time you've pieced together how the business is really doing, the moment to act has passed.",
+      },
+      {
+        type: "p",
+        text: "That's what a dashboard fixes. It pulls your key numbers into one screen, updates them automatically and shows you what needs attention today. It isn't a corporate luxury: you just need the right five.",
+      },
+      { type: "h2", text: "The 5 dashboards at a glance" },
+      {
+        type: "table",
+        head: ["Dashboard", "The question it answers", "Check it"],
+        rows: [
+          ["1. Cash flow", "Can I pay everyone next month?", "Weekly"],
+          ["2. Sales pipeline", "Where will next quarter's revenue come from?", "Weekly"],
+          ["3. Customers & marketing", "Which channels bring in customers who pay?", "Monthly"],
+          ["4. Operations & delivery", "Are we delivering on time and on budget?", "Daily"],
+          ["5. Team & capacity", "Do we have the people to take on more work?", "Weekly"],
+        ],
+      },
+      { type: "section", num: 1, title: "The cash flow dashboard", question: "Can I pay everyone next month?" },
+      {
+        type: "p",
+        text: "Profitable businesses still fail when cash runs out. This dashboard is your early-warning system.",
+      },
+      {
+        type: "figure",
+        image: "/blog/dashboards/cash-flow.jpeg",
+        caption: "Example cash flow dashboard: cash today, overdue invoices, a forecast and upcoming payments.",
+      },
+      {
+        type: "list",
+        items: [
+          "Cash in the bank today and the forecast for the next 30, 60 and 90 days",
+          "Unpaid invoices, sorted by how overdue they are",
+          "Upcoming bills, payroll and tax payments",
+          "Monthly burn: how much it costs to run the business",
+        ],
+      },
+      {
+        type: "callout",
+        label: "Why it matters:",
+        text: "you spot a cash gap weeks ahead, while you can still chase payments, delay a purchase or arrange finance calmly.",
+      },
+      { type: "section", num: 2, title: "The sales pipeline dashboard", question: "Where will next quarter's revenue come from?" },
+      {
+        type: "p",
+        text: "This month's revenue was decided by last quarter's sales work. The pipeline dashboard shows whether next quarter will be busy or quiet.",
+      },
+      {
+        type: "figure",
+        image: "/blog/dashboards/sales-pipeline.jpeg",
+        caption: "Example sales pipeline dashboard: pipeline value, win rate, deals by stage and recent deals.",
+      },
+      {
+        type: "list",
+        items: [
+          "Open deals by stage: lead, proposal, negotiation, won",
+          "Total value of the pipeline, and the share you'd expect to win",
+          "Win rate and average deal size",
+          "How long deals take to close",
+        ],
+      },
+      {
+        type: "callout",
+        label: "Why it matters:",
+        text: "when the pipeline thins out, you know to step up marketing now, not when the work has already dried up.",
+      },
+      { type: "section", num: 3, title: "The customers and marketing dashboard", question: "Which channels bring in customers who pay?" },
+      {
+        type: "p",
+        text: "Not all customers, or channels, are worth the same. This dashboard shows where your best customers come from.",
+      },
+      {
+        type: "figure",
+        image: "/blog/dashboards/marketing.jpeg",
+        caption: "Example marketing dashboard: leads by source, website visitors, enquiries and conversion rate.",
+      },
+      {
+        type: "list",
+        items: [
+          "Website visitors, enquiries and the conversion rate between them",
+          "Leads by source: search, social media, referrals, ads",
+          "Cost to win a customer, compared with what a customer is worth over time",
+          "Repeat customers and reviews",
+        ],
+      },
+      {
+        type: "callout",
+        label: "Why it matters:",
+        text: "you put your time and budget into the channels that bring paying customers, not just likes and clicks.",
+      },
+      { type: "section", num: 4, title: "The operations and delivery dashboard", question: "Are we delivering on time and on budget?" },
+      {
+        type: "p",
+        text: "This is the one your team uses every day to keep promises to customers.",
+      },
+      {
+        type: "figure",
+        image: "/blog/dashboards/operations.jpeg",
+        caption: "Example operations dashboard: active jobs, items at risk, on-time delivery and project status.",
+      },
+      {
+        type: "list",
+        items: [
+          "Active jobs, orders or projects and their status",
+          "Anything overdue or at risk, highlighted",
+          "Orders shipped or projects delivered on time",
+          "Stock levels, or hours used against hours budgeted",
+        ],
+      },
+      {
+        type: "callout",
+        label: "Why it matters:",
+        text: "problems show up while they're small, before a customer has to call and ask where their order is.",
+      },
+      { type: "section", num: 5, title: "The team and capacity dashboard", question: "Do we have the people to take on more work?" },
+      {
+        type: "p",
+        text: "Growth depends on whether your people can handle more work without burning out.",
+      },
+      {
+        type: "figure",
+        image: "/blog/dashboards/team-capacity.jpeg",
+        caption: "Example team dashboard: capacity used, incoming work and workload by role.",
+      },
+      {
+        type: "list",
+        items: [
+          "How fully booked each person or team is",
+          "Work coming in compared with the capacity available",
+          "Overtime, leave and sick days",
+          "Revenue per employee",
+        ],
+      },
+      {
+        type: "callout",
+        label: "Why it matters:",
+        text: "you know when to hire, when to say no to a project and when someone is quietly overloaded.",
+      },
+      { type: "h2", text: "How to get started without a big budget" },
+      {
+        type: "p",
+        text: "You don't need all five on day one, and you don't need an expensive system.",
+      },
+      {
+        type: "steps",
+        items: [
+          { lead: "Start with one dashboard.", text: "Pick the question that keeps you up at night. For most owners that's cash flow." },
+          { lead: "Use what you already have.", text: "If your business runs on Microsoft 365, Power BI can connect to Excel, your accounting software and your CRM. Many tools you already use have reporting built in." },
+          { lead: "Keep it to 5–7 numbers per dashboard.", text: "If everything is important, nothing is." },
+          { lead: "Automate the data.", text: "A dashboard someone has to update by hand on Friday afternoon will be out of date by Monday." },
+          { lead: "Make it a habit.", text: "Put the weekly dashboards on the agenda of a short team meeting and act on what they show." },
+        ],
+      },
+      {
+        type: "p",
+        text: "The goal isn't more reports. It's fewer surprises, and decisions based on facts instead of gut feeling.",
+      },
+      {
+        type: "p",
+        text: "Dashboard screens in this article are illustrative examples with sample data.",
+      },
+      {
+        type: "cta",
+        eyebrow: "Free consultation",
+        title: "Want dashboards that build themselves?",
+        body: [
+          "At Felinn, we build custom dashboards and Power BI reports that connect to the tools you already use, update automatically and show exactly the numbers you need. You own everything we build, and you'll see progress in a weekly demo.",
+          "Book a free 30-minute dashboard consultation. Tell us which question you want answered, and we'll show you how to see it on one screen.",
+        ],
+        buttonLabel: "Book your free call",
+        buttonHref: "/contact",
+      },
+    ],
+  },
+];

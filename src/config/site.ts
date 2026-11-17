@@ -52,6 +52,7 @@ export const siteConfig = {
     { label: "About", href: "/about" },
     { label: "Works", href: "/works" },
     { label: "Services", href: "/services" },
+    { label: "Blog", href: "/blog" },
     { label: "Contact", href: "/contact" },
   ],
   socials: [

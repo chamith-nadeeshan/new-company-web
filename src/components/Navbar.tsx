@@ -47,6 +47,7 @@ export function Navbar() {
   const compact = state === "compact" && !open;
 
   return (
+    <>
     <header
       className={`fixed inset-x-0 top-0 z-50 border-b transition-[padding,background-color,border-color,backdrop-filter] duration-500 ease-brand ${
         compact
@@ -106,10 +107,15 @@ export function Navbar() {
           </button>
         </div>
       </nav>
+    </header>
 
-      {/* Mobile menu with numbered items */}
+      {/* Mobile menu — rendered as a SIBLING of <header>, not a child. When open
+          the header gains a backdrop-filter, which makes it the containing block
+          for a fixed child and collapses this panel's height, so its background
+          paints nothing while the items overflow (the "no background" bug). As a
+          sibling it stays fixed to the viewport. */}
       <div
-        className={`fixed inset-0 top-[68px] z-40 flex flex-col bg-bg px-6 pb-10 pt-6 transition-all duration-500 ease-brand lg:hidden ${
+        className={`fixed inset-0 top-[68px] z-40 flex flex-col overflow-y-auto bg-bg px-6 pb-10 pt-6 transition-all duration-500 ease-brand lg:hidden ${
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
@@ -134,6 +140,6 @@ export function Navbar() {
           </a>
         </div>
       </div>
-    </header>
+    </>
   );
 }

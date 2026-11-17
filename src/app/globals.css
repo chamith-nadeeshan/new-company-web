@@ -18,6 +18,11 @@
   --nav-bg: #000000b8;
   --btn-bg: #fff;
   --btn-ink: #000;
+  /* Readable accent for ORANGE TEXT. The raw brand orange (--color-blue) is a
+     fill colour; as text it fails contrast on light backgrounds. This token
+     flips per theme: a lighter orange on dark, a darker one on light, so accent
+     text stays AA-legible everywhere. Use `text-accent`, never `text-blue`. */
+  --accent-text: #fbb457;
   --section-shadow: 0 44px 90px -24px #000000f2, 0 18px 44px -18px #000c;
   --wash: linear-gradient(158deg, #262626, #171717 34%, #0b0b0b 68%, #000);
   color-scheme: dark;
@@ -39,6 +44,8 @@
   --nav-bg: #fffc;
   --btn-bg: #000;
   --btn-ink: #fff;
+  /* Darker orange so accent text stays AA-legible on light backgrounds. */
+  --accent-text: #9a560f;
   --section-shadow: 0 40px 72px -28px #00000029, 0 14px 32px -18px #0000001a;
   --wash: linear-gradient(158deg, #fafafa, #f1f1f1 34%, #e6e6e6 68%, #d7d7d7);
   color-scheme: light;
@@ -64,6 +71,8 @@
   --color-blue: #f2921e;
   --color-blue-300: #fbb457;
   --color-blue-700: #c2721a;
+  /* Theme-aware readable orange for text — resolves via --accent-text. */
+  --color-accent: var(--accent-text);
   --font-sans: var(--font-geist), "Inter", system-ui, sans-serif;
   --font-serif: var(--font-fraunces), Georgia, serif;
   --ease-brand: cubic-bezier(0.22, 0.61, 0.36, 1);
