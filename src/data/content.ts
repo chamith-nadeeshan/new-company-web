@@ -691,6 +691,198 @@ export type BlogPost = {
 // Newest first — the index renders them in array order.
 export const blogPosts: BlogPost[] = [
   {
+    slug: "you-already-pay-for-microsoft-365",
+    title: "You already pay for Microsoft 365. Here's what you're not using.",
+    excerpt:
+      "Most teams use Microsoft 365 for email and documents and never open the rest. Five tools already in your subscription, what they replace, and one quick win for each.",
+    tags: ["Microsoft 365", "Power Platform", "SME Guide"],
+    date: "18 Nov 2026",
+    dateISO: "2026-11-18",
+    readTime: "7 min read",
+    author: "Felinn Team",
+    tone: 1,
+    cover: "/blog/m365-tools-cover.jpg",
+    body: [
+      {
+        type: "p",
+        text: "Most small businesses pay for Microsoft 365 every month and use it for three things: email, documents and spreadsheets. Maybe Teams for chat.",
+      },
+      {
+        type: "p",
+        text: "But depending on your plan, the same subscription can include tools that build apps, automate repetitive tasks, run your company documents, take client bookings and manage projects. Most teams never open them.",
+      },
+      {
+        type: "p",
+        text: "Here are five tools worth a closer look, what they do, and one quick win for each.",
+      },
+      { type: "h2", text: "The 5 tools at a glance" },
+      {
+        type: "table",
+        head: ["Tool", "What it replaces", "Best first use"],
+        rows: [
+          ["Power Apps", "Paper forms and shared spreadsheets", "An inspection or request form"],
+          ["Power Automate", "Copy-paste and manual follow-ups", "Invoice or approval flow"],
+          ["SharePoint", "Files scattered across inboxes and laptops", "A company document hub"],
+          ["Bookings", "Back-and-forth emails to set meetings", "A public booking page"],
+          ["Planner", "Task lists in email threads", "One shared project board"],
+        ],
+      },
+      { type: "section", num: 1, title: "Power Apps", question: "Turn paper forms and spreadsheets into simple apps." },
+      {
+        type: "p",
+        text: "Power Apps lets you build business apps that run on any phone, tablet or browser, without a large development project. Your team fills in a form on site, and the data lands straight where it belongs.",
+      },
+      {
+        type: "figure",
+        image: "/blog/m365-tools/power-apps.jpeg",
+        caption: "Example apps: a site-inspection form and a leave-request approval list.",
+      },
+      {
+        type: "list",
+        items: [
+          "Site inspections and checklists with photos",
+          "Leave, expense and purchase requests",
+          "Stock counts and equipment logs",
+          "Simple customer or job trackers",
+        ],
+      },
+      {
+        type: "callout",
+        label: "Quick win:",
+        text: "pick the one form your team still fills in on paper or in a shared spreadsheet, and turn it into an app first.",
+      },
+      { type: "section", num: 2, title: "Power Automate", question: "Let repetitive tasks run on their own." },
+      {
+        type: "p",
+        text: "Power Automate connects your apps and runs workflows in the background. When something happens, such as an email arriving or a form being submitted, it does the next steps for you.",
+      },
+      {
+        type: "figure",
+        image: "/blog/m365-tools/power-automate.jpeg",
+        caption: "Example flow: an invoice email is filed, approved and announced in Teams automatically.",
+      },
+      {
+        type: "list",
+        items: [
+          "Filing email attachments in the right folder",
+          "Approval requests for invoices, leave or quotes",
+          "Reminders when a task or invoice is overdue",
+          "Copying data between systems",
+        ],
+      },
+      {
+        type: "callout",
+        label: "Quick win:",
+        text: "write down one task someone does by hand every week. If it follows the same steps every time, it can probably be automated.",
+      },
+      { type: "section", num: 3, title: "SharePoint", question: "Every file in one place, always the latest version." },
+      {
+        type: "p",
+        text: "SharePoint gives your business a central home for documents, policies and company news. No more “which version is the right one?” or files stuck on someone's laptop.",
+      },
+      {
+        type: "figure",
+        image: "/blog/m365-tools/sharepoint.jpeg",
+        caption: "Example company hub: news, shared folders and key documents in one place.",
+      },
+      {
+        type: "list",
+        items: [
+          "A company intranet for news and policies",
+          "Shared folders per team or client, with the right permissions",
+          "Templates and price lists everyone can find",
+          "A single source for contracts and invoices",
+        ],
+      },
+      {
+        type: "callout",
+        label: "Quick win:",
+        text: "move one messy shared folder into a SharePoint library and give each team access to only what they need.",
+      },
+      { type: "section", num: 4, title: "Bookings", question: "Let clients book you online, 24/7." },
+      {
+        type: "p",
+        text: "Bookings gives you an online booking page linked to your team's calendars. Clients pick a free slot themselves, and confirmations and reminders go out automatically.",
+      },
+      {
+        type: "figure",
+        image: "/blog/m365-tools/bookings.jpeg",
+        caption: "Example booking page: services, available days and time slots.",
+      },
+      {
+        type: "list",
+        items: [
+          "Free consultation or discovery calls",
+          "Site visits and service appointments",
+          "Client onboarding sessions",
+          "Internal bookings like IT help or HR meetings",
+        ],
+      },
+      {
+        type: "callout",
+        label: "Quick win:",
+        text: "create a “free 30-minute call” booking page and add the link to your website and email signature.",
+      },
+      { type: "section", num: 5, title: "Planner", question: "Projects your whole team can see." },
+      {
+        type: "p",
+        text: "Planner puts tasks, owners and deadlines on one visual board. Everyone can see what is done, what is late and who is working on what.",
+      },
+      {
+        type: "figure",
+        image: "/blog/m365-tools/planner.jpeg",
+        caption: "Example project board: to do, in progress and done.",
+      },
+      {
+        type: "list",
+        items: [
+          "Client projects and launches",
+          "Onboarding new staff",
+          "Marketing campaigns and content calendars",
+          "Recurring office and admin tasks",
+        ],
+      },
+      {
+        type: "callout",
+        label: "Quick win:",
+        text: "move your next project out of email and onto one shared board. Review it in a 10-minute weekly check-in.",
+      },
+      { type: "h2", text: "Before you start: check your plan" },
+      {
+        type: "p",
+        text: "What you get depends on your Microsoft 365 plan. Most business plans include the core versions of these tools, but some features need extra licences, for example premium connectors in Power Apps and Power Automate, or Power BI Pro for sharing reports. Check your plan in the Microsoft 365 admin centre, or ask us to check it for you.",
+      },
+      { type: "h2", text: "How to get started" },
+      {
+        type: "steps",
+        items: [
+          { lead: "List what slows you down.", text: "Paper forms, copy-paste jobs, lost files, booking emails, missed tasks." },
+          { lead: "Pick one quick win.", text: "Choose the task that wastes the most time and is easiest to fix." },
+          { lead: "Build it small, then grow it.", text: "A simple working version in a few weeks beats a perfect plan that never ships." },
+          { lead: "Train your team.", text: "New tools only pay off when people use them every day." },
+        ],
+      },
+      {
+        type: "p",
+        text: "You're already paying for the tools. The only question is whether they're working for you.",
+      },
+      {
+        type: "p",
+        text: "App screens referenced in this article are illustrative examples. Microsoft 365, Power Apps, Power Automate, SharePoint, Bookings, Planner and Power BI are trademarks of Microsoft. Felinn is an independent company and is not affiliated with Microsoft.",
+      },
+      {
+        type: "cta",
+        eyebrow: "Microsoft 365 services",
+        title: "Need any of these? We build them.",
+        body: [
+          "Felinn designs and builds Microsoft 365 solutions for growing businesses. Tell us what slows your team down, and we'll design it, build it and hand it over. You own everything we build.",
+        ],
+        buttonLabel: "Contact us",
+        buttonHref: "/contact",
+      },
+    ],
+  },
+  {
     slug: "5-dashboards-every-sme-owner-should-have",
     title: "The 5 dashboards every SME owner should have",
     excerpt:
