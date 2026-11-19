@@ -30,6 +30,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# SMTP credentials for the contact handler (generated at deploy time)
+smtp.config
+
 # env files (can opt-in for committing if needed)
 .env*
 

@@ -2,10 +2,14 @@
 
 // Contact form endpoint for the static site on SmarterASP (IIS + ASP.NET 4.x).
 // POST /api/contact.ashx (form-encoded or multipart) -> sends an email via SMTP.
-// SMTP settings come from <appSettings file="App_Data\smtp.config"> in web.config;
-// that file is generated at deploy time from GitHub secrets and is never committed.
+// SMTP settings come from App_Data\smtp.config (an <appSettings> file written at
+// deploy time from GitHub secrets, or by hand on the server; never committed).
+// The handler reads that file itself, cached with a file dependency, so edits take
+// effect on the next request without restarting the app. web.config appSettings
+// are only a fallback.
 
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Net;
 using System.Net.Mail;
@@ -13,6 +17,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Caching;
+using System.Xml;
 
 public class ContactHandler : IHttpHandler
 {
@@ -49,22 +54,33 @@ public class ContactHandler : IHttpHandler
         { Reply(ctx, 400, false, "Please provide your name, a valid email, and a message."); return; }
 
         string ip = ctx.Request.UserHostAddress ?? "unknown";
-        if (RateLimited(ctx, ip)) { Reply(ctx, 429, false, "Too many messages. Please try again later."); return; }
+        if (RateLimited(ctx, ip)) { LogLine(ctx, "rate limited: " + ip); Reply(ctx, 429, false, "Too many messages. Please try again later."); return; }
 
-        string host = ConfigurationManager.AppSettings["SmtpHost"];
-        string user = ConfigurationManager.AppSettings["SmtpUser"];
-        string pass = ConfigurationManager.AppSettings["SmtpPass"];
-        string to = ConfigurationManager.AppSettings["ContactTo"] ?? user;
+        var cfg = Settings(ctx);
+        string host = Get(cfg, "SmtpHost");
+        string user = Get(cfg, "SmtpUser");
+        string pass = Get(cfg, "SmtpPass");
+        string to = Get(cfg, "ContactTo") ?? user;
         int port;
-        if (!int.TryParse(ConfigurationManager.AppSettings["SmtpPort"], out port)) port = 587;
-        bool ssl = !"false".Equals(ConfigurationManager.AppSettings["SmtpSsl"], StringComparison.OrdinalIgnoreCase);
+        if (!int.TryParse(Get(cfg, "SmtpPort"), out port)) port = 587;
+        bool ssl = !"false".Equals(Get(cfg, "SmtpSsl"), StringComparison.OrdinalIgnoreCase);
 
         if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
-        { Reply(ctx, 500, false, "Mail is not configured."); return; }
+        {
+            // Names of the missing keys only, never values.
+            var missing = new List<string>();
+            if (string.IsNullOrEmpty(host)) missing.Add("SmtpHost");
+            if (string.IsNullOrEmpty(user)) missing.Add("SmtpUser");
+            if (string.IsNullOrEmpty(pass)) missing.Add("SmtpPass");
+            LogLine(ctx, "mail not configured: empty " + string.Join(", ", missing) +
+                (System.IO.File.Exists(ConfigPath(ctx)) ? "" : " (App_Data/smtp.config not found)"));
+            Reply(ctx, 500, false, "Mail is not configured.");
+            return;
+        }
 
-        string brand = ConfigurationManager.AppSettings["BrandName"] ?? "Felinn Labs";
-        string site = ConfigurationManager.AppSettings["SiteUrl"] ?? "https://felinnlabs.com";
-        string waDisplay = ConfigurationManager.AppSettings["ContactWhatsApp"] ?? "+94 74 206 6193";
+        string brand = Get(cfg, "BrandName") ?? "Felinn Labs";
+        string site = Get(cfg, "SiteUrl") ?? "https://felinnlabs.com";
+        string waDisplay = Get(cfg, "ContactWhatsApp") ?? "+94 74 206 6193";
 
         var rows = new StringBuilder();
         Row(rows, "Name", name);
@@ -144,14 +160,59 @@ public class ContactHandler : IHttpHandler
         }
     }
 
-    // Append failures to App_Data (never served by IIS). Logging must not throw.
+    static string ConfigPath(HttpContext ctx) { return ctx.Server.MapPath("~/App_Data/smtp.config"); }
+
+    // Settings from App_Data\smtp.config, cached until the file changes (or appears).
+    // A missing or malformed file yields an empty set; Get() then falls back to web.config.
+    static Dictionary<string, string> Settings(HttpContext ctx)
+    {
+        const string key = "contact:smtp-settings";
+        var cached = ctx.Cache[key] as Dictionary<string, string>;
+        if (cached != null) return cached;
+
+        string path = ConfigPath(ctx);
+        var d = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        try
+        {
+            if (System.IO.File.Exists(path))
+            {
+                var doc = new XmlDocument { XmlResolver = null };
+                doc.Load(path);
+                foreach (XmlElement el in doc.SelectNodes("//add"))
+                {
+                    string k = el.GetAttribute("key");
+                    if (k.Length > 0) d[k] = el.GetAttribute("value");
+                }
+            }
+        }
+        catch (Exception ex) { LogLine(ctx, "smtp.config unreadable: " + ex.GetType().Name + ": " + ex.Message); }
+        ctx.Cache.Insert(key, d, new CacheDependency(path));
+        return d;
+    }
+
+    static string Get(Dictionary<string, string> cfg, string k)
+    {
+        string v;
+        if (cfg.TryGetValue(k, out v) && !string.IsNullOrEmpty(v)) return v;
+        v = ConfigurationManager.AppSettings[k];
+        return string.IsNullOrEmpty(v) ? null : v;
+    }
+
+    // Append to App_Data (never served by IIS). Logging must not throw.
     static void Log(HttpContext ctx, string what, Exception ex)
+    {
+        LogLine(ctx, what + ": " + ex.GetType().Name + ": " + ex.Message +
+                     (ex.InnerException != null ? " | " + ex.InnerException.Message : ""));
+    }
+
+    static void LogLine(HttpContext ctx, string text)
     {
         try
         {
-            string line = DateTime.UtcNow.ToString("u") + " " + what + ": " + ex.GetType().Name + ": " + ex.Message +
-                          (ex.InnerException != null ? " | " + ex.InnerException.Message : "") + Environment.NewLine;
-            System.IO.File.AppendAllText(ctx.Server.MapPath("~/App_Data/contact-errors.log"), line);
+            string dir = ctx.Server.MapPath("~/App_Data");
+            System.IO.Directory.CreateDirectory(dir);
+            System.IO.File.AppendAllText(System.IO.Path.Combine(dir, "contact-errors.log"),
+                DateTime.UtcNow.ToString("u") + " " + text + Environment.NewLine);
         }
         catch (Exception) { }
     }

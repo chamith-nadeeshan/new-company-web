@@ -44,14 +44,19 @@ confirmation to the visitor (which deliberately does not repeat their message, s
 form cannot relay arbitrary text). It has a honeypot field and a per-IP limit
 (5 per 10 minutes).
 
-SMTP settings are read from `App_Data/smtp.config` (via `<appSettings file=…>` in
-`public/web.config`). The SmarterASP deploy workflow writes that file from these
-GitHub repository secrets — never commit credentials:
+SMTP settings are read from `App_Data/smtp.config`, an `<appSettings>` file. The
+handler reads it directly (cached until the file changes), so editing it on the server
+takes effect on the next request with no restart. Failures, missing settings and
+rate-limit hits are logged to `App_Data/contact-errors.log` (never the password).
+The SmarterASP deploy workflow writes that file from these GitHub repository
+secrets, and skips it if `SMTP_HOST`/`SMTP_USER`/`SMTP_PASS` are missing — never
+commit credentials:
 
 | Secret       | Example                    |
 | ------------ | -------------------------- |
 | `SMTP_HOST`  | `mail5019.site4now.net`    |
 | `SMTP_PORT`  | `587` (default)            |
+| `SMTP_SSL`   | `true` (default); `false` for port 25/8889 |
 | `SMTP_USER`  | `info@felinnlabs.com`      |
 | `SMTP_PASS`  | mailbox password           |
 | `CONTACT_TO` | optional; defaults to `SMTP_USER` |

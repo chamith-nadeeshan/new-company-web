@@ -23,21 +23,30 @@ jobs:
       - run: npm run build
       # SMTP credentials for /api/contact.ashx, from repo secrets. App_Data is not
       # web-servable on IIS. XML-escape values so special chars can't break the file.
+      # Skipped when SMTP_HOST/SMTP_USER/SMTP_PASS are missing, so a deploy without
+      # secrets never overwrites a working smtp.config on the server.
       - name: Write SMTP config
         env:
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_SSL: ${{ secrets.SMTP_SSL }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           CONTACT_TO: ${{ secrets.CONTACT_TO }}
         run: |
           mkdir -p out/App_Data
           python3 - <<'PY'
-          import os
+          import os, sys
           from xml.sax.saxutils import quoteattr as q
           e = os.environ
-          rows = {"SmtpHost": e.get("SMTP_HOST", ""), "SmtpPort": e.get("SMTP_PORT") or "587",
-                  "SmtpUser": e.get("SMTP_USER", ""), "SmtpPass": e.get("SMTP_PASS", ""),
+          missing = [k for k in ("SMTP_HOST", "SMTP_USER", "SMTP_PASS") if not e.get(k)]
+          if missing:
+              print("::warning::Not writing App_Data/smtp.config; missing secrets: " + ", ".join(missing))
+              os.rmdir("out/App_Data")
+              sys.exit(0)
+          rows = {"SmtpHost": e["SMTP_HOST"], "SmtpPort": e.get("SMTP_PORT") or "587",
+                  "SmtpSsl": e.get("SMTP_SSL") or "true",
+                  "SmtpUser": e["SMTP_USER"], "SmtpPass": e["SMTP_PASS"],
                   "ContactTo": e.get("CONTACT_TO") or e.get("SMTP_USER", "")}
           body = "".join(f"  <add key={q(k)} value={q(v)} />\n" for k, v in rows.items())
           open("out/App_Data/smtp.config", "w").write(f"<appSettings>\n{body}</appSettings>\n")
@@ -49,4 +58,11 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           local-dir: ./out/
+          # Must be the site folder (www\FelinnLab on the server), with a trailing slash.
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          # Never touch server-side App_Data files that aren't in the build (the error log).
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            App_Data/contact-errors.log
