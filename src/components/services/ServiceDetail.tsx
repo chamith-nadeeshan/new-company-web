@@ -82,7 +82,7 @@ export function ServiceDetail({
                 ))}
               </ul>
               <a
-                href="#contact"
+                href="/contact"
                 className="mt-9 flex w-full items-center justify-center rounded-full bg-btn px-6 py-4 text-[0.95rem] font-medium text-btn-ink transition-opacity duration-200 hover:opacity-90"
               >
                 Start a project

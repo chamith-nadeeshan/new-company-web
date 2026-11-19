@@ -1,35 +1,19 @@
 import { services } from "@/data/content";
 import { siteConfig } from "@/config/site";
-import { ContactForm } from "./ContactForm";
-import { Reveal } from "./Reveal";
-import { Logo, Roll, Serif } from "./ui";
+import { Logo, Roll } from "./ui";
 import { Year } from "./Year";
 
-// `showContact={false}` hides the "Let's Connect" form block — used on /contact,
-// which has its own form.
-export function Footer({ showContact = true }: { showContact?: boolean } = {}) {
+export function Footer() {
   return (
-    <footer id={showContact ? "contact" : undefined} className="relative scroll-mt-24 overflow-hidden px-4 pt-24 sm:px-8">
-      {/* Blue glow rising behind the CTA */}
+    <footer className="relative overflow-hidden px-4 pt-24 sm:px-8">
+      {/* Blue glow behind the footer */}
       <div
         aria-hidden
         className="aurora pointer-events-none absolute inset-x-0 top-0 h-[620px] opacity-70 [mask-image:linear-gradient(to_top,transparent,black_40%,transparent)]"
       />
 
       <div className="relative mx-auto max-w-[1376px]">
-        {showContact && (
-        <Reveal>
-          <div className="rounded-2xl border border-line-strong bg-bg/70 px-6 py-20 text-center shadow-section backdrop-blur-md sm:py-28">
-            <p className="text-sm text-muted">Have a project in mind?</p>
-            <h2 className="mt-5 text-[clamp(3rem,10vw,8rem)] font-semibold leading-[0.95] tracking-h1">
-              Let&apos;s <Serif>Connect</Serif>
-            </h2>
-            <ContactForm />
-          </div>
-        </Reveal>
-        )}
-
-        <div className={`${showContact ? "mt-24" : ""} grid gap-12 border-t border-line pt-16 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]`}>
+        <div className="grid gap-12 border-t border-line pt-16 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div className="flex flex-col gap-5">
             <Logo />
             <p className="max-w-xs text-sm leading-relaxed text-muted">{siteConfig.description}</p>

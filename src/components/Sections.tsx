@@ -163,7 +163,7 @@ export function Works() {
           />
         </Reveal>
         <Reveal delay={100}>
-          <Button href="#contact" variant="ghost">
+          <Button href="/contact" variant="ghost">
             Start a project
           </Button>
         </Reveal>
@@ -172,7 +172,7 @@ export function Works() {
       <div className="mt-14 grid gap-x-6 gap-y-12 md:grid-cols-2">
         {projects.slice(0, 4).map((p, i) => (
           <Reveal key={p.title} delay={(i % 2) * 120}>
-            <a href="#contact" className="group block">
+            <a href="/contact" className="group block">
               <div className="rounded-2xl border border-line bg-surface p-3 transition-colors duration-200 group-hover:border-line-strong">
                 <ProjectShot p={p} className="aspect-[16/11] transition-transform duration-700 ease-brand group-hover:scale-[0.985]" />
               </div>
@@ -237,7 +237,7 @@ export function Pricing() {
                 ))}
               </ul>
               <div className="mt-auto pt-10">
-                <Button href="#contact" variant={plan.featured ? "primary" : "ghost"}>
+                <Button href="/contact" variant={plan.featured ? "primary" : "ghost"}>
                   Get started
                 </Button>
               </div>
