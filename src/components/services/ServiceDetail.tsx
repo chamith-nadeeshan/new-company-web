@@ -25,7 +25,7 @@ export function ServiceDetail({
       <Section className="pt-32 md:pt-36">
         <Reveal>
           <a
-            href="/services"
+            href="/services/"
             className="group inline-flex items-center gap-2 rounded-full border border-line-strong bg-bg/50 py-2 pl-3 pr-4 text-sm font-medium backdrop-blur transition-colors hover:border-fg/40"
           >
             <svg
@@ -82,7 +82,7 @@ export function ServiceDetail({
                 ))}
               </ul>
               <a
-                href="/contact"
+                href="/contact/"
                 className="mt-9 flex w-full items-center justify-center rounded-full bg-btn px-6 py-4 text-[0.95rem] font-medium text-btn-ink transition-opacity duration-200 hover:opacity-90"
               >
                 Start a project
@@ -103,7 +103,7 @@ export function ServiceDetail({
               {recentWork.map((study, i) => (
                 <Reveal key={study.slug} delay={(i % 3) * 80}>
                   <a
-                    href={`/works/${study.slug}`}
+                    href={`/works/${study.slug}/`}
                     className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-elevated transition-all duration-300 ease-brand hover:-translate-y-1 hover:border-blue/40"
                   >
                     <span className="relative block aspect-[16/11] overflow-hidden bg-surface">
@@ -140,7 +140,7 @@ export function ServiceDetail({
               <Reveal key={r.slug} delay={(i % 3) * 60}>
                 <li>
                   <a
-                    href={`/services/${r.slug}`}
+                    href={`/services/${r.slug}/`}
                     className="group flex items-center justify-between gap-6 py-5 transition-colors"
                   >
                     <span>

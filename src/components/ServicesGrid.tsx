@@ -61,7 +61,7 @@ function ServiceCard({
 }) {
   return (
     <Reveal delay={(i % 5) * 60}>
-      <a href={`/services/${s.slug}`} data-dots-host className="svc-card group">
+      <a href={`/services/${s.slug}/`} data-dots-host className="svc-card group">
         <DotField />
         <span aria-hidden className="svc-beam" />
         <span aria-hidden className="svc-beam svc-beam-b" />
@@ -87,9 +87,9 @@ export function ServicesGrid() {
             moves you forward.
           </h2>
           <div className="flex shrink-0 gap-3">
-            <Button href="/services">View all services</Button>
+            <Button href="/services/">View all services</Button>
             <a
-              href="/contact"
+              href="/contact/"
               className="group inline-flex items-center justify-center rounded-full bg-surface-strong px-5 py-2.5 text-[0.9375rem] font-medium text-fg transition-colors duration-200 ease-brand hover:bg-line-strong"
             >
               <span className="roll">

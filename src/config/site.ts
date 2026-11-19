@@ -49,11 +49,11 @@ export const siteConfig = {
   location: "Colombo, Sri Lanka",
   nav: [
     { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Works", href: "/works" },
-    { label: "Services", href: "/services" },
-    { label: "Blog", href: "/blog" },
-    { label: "Contact", href: "/contact" },
+    { label: "About", href: "/about/" },
+    { label: "Works", href: "/works/" },
+    { label: "Services", href: "/services/" },
+    { label: "Blog", href: "/blog/" },
+    { label: "Contact", href: "/contact/" },
   ],
   socials: [
     { label: "Facebook", href: "https://web.facebook.com/felinnlabs/" },

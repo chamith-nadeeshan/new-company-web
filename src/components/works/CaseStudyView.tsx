@@ -21,7 +21,7 @@ export function CaseStudyView({
       {/* ---------- 1. Title + Project Overview ---------- */}
       <section className="mx-auto max-w-[1376px] px-4 sm:px-8">
         <Link
-          href="/works"
+          href="/works/"
           className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg"
         >
           <Arrow className="rotate-[225deg]" />
@@ -47,7 +47,7 @@ export function CaseStudyView({
             stagger={14}
           />
           <div className="flex shrink-0 flex-wrap gap-3">
-            <PillLink href="/works">See all work</PillLink>
+            <PillLink href="/works/">See all work</PillLink>
             {study.liveUrl && (
               <PillLink href={study.liveUrl} primary external>
                 Preview site
@@ -116,7 +116,7 @@ export function CaseStudyView({
             {related.map((r) => (
               <Link
                 key={r.slug}
-                href={`/works/${r.slug}`}
+                href={`/works/${r.slug}/`}
                 className="cs-card group block"
               >
                 <div className="cs-card-media relative aspect-[4/3] overflow-hidden rounded-2xl border border-line bg-elevated">

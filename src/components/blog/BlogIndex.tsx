@@ -69,7 +69,7 @@ export function BlogIndex({ posts }: { posts: BlogPost[] }) {
         {shown.map((post, i) => (
           <Link
             key={post.slug}
-            href={`/blog/${post.slug}`}
+            href={`/blog/${post.slug}/`}
             className="cs-card group block [animation:hero-rise_0.6s_var(--ease-brand)_backwards]"
             style={{ animationDelay: `${i * 80}ms` }}
           >

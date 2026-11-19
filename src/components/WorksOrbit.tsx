@@ -268,7 +268,7 @@ export function WorksOrbit() {
         </div>
 
         <div className="absolute inset-x-0 bottom-10 flex justify-center">
-          <Button href="/contact">Start your project</Button>
+          <Button href="/contact/">Start your project</Button>
         </div>
       </div>
     </section>

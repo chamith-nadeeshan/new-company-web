@@ -24,7 +24,7 @@ export function BlogPostView({
       {/* ---------- Header ---------- */}
       <header className="mx-auto max-w-3xl px-4 sm:px-8">
         <Link
-          href="/blog"
+          href="/blog/"
           className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg"
         >
           <Arrow className="rotate-[225deg]" />
@@ -84,7 +84,7 @@ export function BlogPostView({
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
             {related.map((r) => (
-              <Link key={r.slug} href={`/blog/${r.slug}`} className="cs-card group block">
+              <Link key={r.slug} href={`/blog/${r.slug}/`} className="cs-card group block">
                 <div className="cs-card-media shine relative aspect-[4/3] overflow-hidden rounded-2xl border border-line">
                   {r.cover ? (
                     <Image

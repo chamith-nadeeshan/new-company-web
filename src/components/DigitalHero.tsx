@@ -79,14 +79,14 @@ export function DigitalHero() {
 
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4 sm:mt-11">
           <a
-            href="/contact"
+            href="/contact/"
             className="inline-flex items-center gap-2 rounded-full bg-btn px-6 py-3 text-sm font-medium text-btn-ink transition-transform duration-300 ease-brand hover:-translate-y-0.5"
           >
             Contact Us
             <span aria-hidden>→</span>
           </a>
           <a
-            href="/works"
+            href="/works/"
             className="inline-flex items-center gap-2 rounded-full border border-line-strong px-6 py-3 text-sm font-medium text-fg transition-colors duration-300 ease-brand hover:bg-fg/5"
           >
             Portfolio

@@ -33,7 +33,7 @@ export function Hero() {
         </p>
 
         <div className="anim-rise mt-8 flex flex-wrap justify-center gap-2.5" style={{ animationDelay: "180ms" }}>
-          <Button href="/contact">Get in touch</Button>
+          <Button href="/contact/">Get in touch</Button>
           <Button href="#works" variant="ghost">
             See our work
           </Button>

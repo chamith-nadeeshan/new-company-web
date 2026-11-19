@@ -10,7 +10,12 @@ import { Button, Logo, Roll } from "./ui";
 // never marked active — only plain page links ("/", "/about") are.
 function isActive(href: string, pathname: string) {
   if (href.includes("#")) return false;
-  return pathname === href || pathname.startsWith(`${href}/`);
+  // Compare without trailing slashes (links end in "/" for the static host).
+  const strip = (p: string) => (p.length > 1 ? p.replace(/\/+$/, "") : p);
+  const h = strip(href);
+  const p = strip(pathname);
+  if (h === "/") return p === "/";
+  return p === h || p.startsWith(`${h}/`);
 }
 
 // top: transparent, full width · glass: full-width frosted bar · compact: floating pill
@@ -85,7 +90,7 @@ export function Navbar() {
 
         <div className="flex items-center gap-4">
           <div className="hidden sm:block">
-            <Button href="/contact" size="sm">
+            <Button href="/contact/" size="sm">
               Let&apos;s Connect
             </Button>
           </div>

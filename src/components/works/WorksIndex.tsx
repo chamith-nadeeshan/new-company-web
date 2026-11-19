@@ -60,7 +60,7 @@ export function WorksIndex({ studies }: { studies: CaseStudy[] }) {
         {shown.map((study, i) => (
           <Link
             key={study.slug}
-            href={`/works/${study.slug}`}
+            href={`/works/${study.slug}/`}
             className="cs-card group block [animation:hero-rise_0.6s_var(--ease-brand)_backwards]"
             style={{ animationDelay: `${i * 80}ms` }}
           >

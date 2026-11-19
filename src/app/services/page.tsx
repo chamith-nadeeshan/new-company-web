@@ -52,7 +52,7 @@ export default function ServicesPage() {
             {services.map((s, i) => (
               <Reveal key={s.title} delay={(i % 3) * 80}>
                 <a
-                  href={`/services/${s.slug}`}
+                  href={`/services/${s.slug}/`}
                   className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-elevated transition-all duration-300 ease-brand hover:-translate-y-1 hover:border-blue/40 hover:shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)]"
                 >
                   {/* Animated faux-UI scene on a dotted brand-yellow stage
